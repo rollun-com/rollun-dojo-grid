@@ -1,0 +1,16 @@
+{
+  "name": "rollun-ts-grid",
+  "version": "1.0.0",
+  "dependencies": {
+    "@dojo/framework": "^4.0.0",
+    "rollun-ts-datastore": "^0.2.2",
+    "rollun-ts-rql": "^0.2.2",
+    "tslib": "~1.8.1"
+  },
+  "devDependencies": {
+    "@dojo/cli-build-app": "^4.0.0",
+    "@dojo/cli-test-intern": "^4.0.0",
+    "@types/node": "~9.6.5",
+    "typescript": "~2.6.1"
+  }
+}
