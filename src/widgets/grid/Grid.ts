@@ -1,13 +1,13 @@
 import WidgetBase from "@dojo/framework/widget-core/WidgetBase";
-import {Column, Item} from '../interfaces';
+import {Column} from './interfaces';
 import {v, w} from '@dojo/framework/widget-core/d';
 import ColumnHeaders from './ColumnHeaders';
-import * as css from '../../styles/grid.m.css';
+import * as css from '../../styles/grid/grid.m.css';
 import Body from "./Body";
 
 export interface GridProps {
     columns: Column[],
-    items: Item[]
+    items: {}[]
 }
 
 export default class Grid extends WidgetBase<GridProps> {

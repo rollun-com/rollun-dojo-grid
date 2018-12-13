@@ -1,0 +1,6 @@
+.searchBar {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid grey;
+    padding: 4px 8px;
+}

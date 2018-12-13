@@ -1,12 +1,12 @@
 import Query from "rollun-ts-rql/dist/Query";
 import AbstractNode from 'rollun-ts-rql/dist/nodes/AbstractNode';
 import {Map} from "@dojo/framework/shim/main";
-import {deepAssign} from "@dojo/framework/core/util";
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import Select from 'rollun-ts-rql/dist/nodes/Select';
 import Sort from 'rollun-ts-rql/dist/nodes/Sort';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import And from 'rollun-ts-rql/dist/nodes/logicalNodes/And';
+import * as _ from 'lodash';
 
 export default class RqlQueryManager {
     private nodeCache: Map<string, AbstractNode>;
@@ -21,15 +21,15 @@ export default class RqlQueryManager {
             this.query = new Query({});
         }
         this.nodeCache = new Map();
-        this.defaultQuery = deepAssign(new Query({}), this.query);
+        this.defaultQuery = _.cloneDeep(this.query);
     }
 
     setQuery(query: Query) {
-        this.query = deepAssign(new Query({}), query)
+        this.query = _.cloneDeep(query)
     }
 
     getQuery() {
-        return deepAssign(new Query({}), this.query);
+        return _.cloneDeep(this.query);
     }
 
     appendQuery(node: AbstractNode) {

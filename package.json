@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "@dojo/framework": "^4.0.0",
+    "@dojo/widgets": "^4.0.1",
+    "lodash": "^4.17.11",
     "rollun-ts-datastore": "^0.2.2",
     "rollun-ts-rql": "^0.2.2",
     "tslib": "~1.8.1"

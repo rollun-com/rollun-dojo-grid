@@ -1,0 +1,14 @@
+.pagination {
+    border: 1px solid darkgrey;
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: row;
+}
+
+.controls {
+
+}
+
+.info {
+
+}

@@ -3,7 +3,3 @@ export interface Column {
     label?: string;
 }
 
-export interface Item<T = any> {
-    id: string;
-    data: T;
-}
