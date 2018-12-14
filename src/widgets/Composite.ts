@@ -94,7 +94,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
     }
     private setFilterNode(node: AbstractQueryNode) {
         return new Promise((resolve, reject) => {
-            this.queryManager.appendQuery(node);
+            this.queryManager.setQueryQuery(node);
             this.updateGridData().then(() => {
                 resolve();
             })

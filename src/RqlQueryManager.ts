@@ -40,6 +40,16 @@ export default class RqlQueryManager {
         }
     }
 
+    setQueryQuery(node: AbstractQueryNode) {
+        const oldQuery = this.getQuery();
+        this.setQuery(new Query({
+            select: oldQuery.selectNode,
+            sort: oldQuery.sortNode,
+            limit: oldQuery.limitNode,
+            query: node
+        }));
+    }
+
     private addQueryNodeToQuery(node: AbstractQueryNode) {
         const oldQuery = this.getQuery();
         let newQueryQueryNode: AbstractQueryNode;
@@ -72,8 +82,10 @@ export default class RqlQueryManager {
             }
 
             case (node instanceof Sort): {
-                const castedSortNode = <Sort>node;
-                newQuery = new Query({
+                const
+                castedSortNode = <Sort>node;
+                newQuery = new
+                Query({
                     select: currentQuery.selectNode,
                     sort: castedSortNode,
                     limit: currentQuery.limitNode,
