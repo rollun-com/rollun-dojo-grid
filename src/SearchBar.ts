@@ -1,12 +1,13 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import * as css from '../styles/searchBar.m.css';
+import * as css from './searchBar.m.css';
 import {v, w} from '@dojo/framework/widget-core/d';
 import TextInput from '@dojo/widgets/text-input';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
-import {Column} from "./grid/interfaces";
+import {Column} from "./gridComponents/interfaces";
 import Alike from 'rollun-ts-rql/dist/nodes/scalarNodes/Alike';
 import Like from 'rollun-ts-rql/dist/nodes/scalarNodes/Like';
 import Or from 'rollun-ts-rql/dist/nodes/logicalNodes/Or';
+import {VNode} from "@dojo/framework/widget-core/interfaces";
 
 
 export interface SearchBarProps {
@@ -18,7 +19,7 @@ export interface SearchBarProps {
 export default class SearchBar extends WidgetBase<SearchBarProps> {
     private value: string;
 
-    protected render() {
+    protected render(): VNode {
         return v('div', {classes: css.searchBar}, [
             w(TextInput, {
                 placeholder: 'search in grid',

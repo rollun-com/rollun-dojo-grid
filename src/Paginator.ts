@@ -1,8 +1,9 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import {v, w} from '@dojo/framework/widget-core/d';
-import * as css from '../styles/paginator.m.css';
+import * as css from './paginator.m.css';
 import Select from '@dojo/widgets/Select';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
+import {VNode} from '@dojo/framework/widget-core/interfaces';
 
 export interface PaginatorProps {
     setLimitNode(node: Limit): Promise<any>,
@@ -18,7 +19,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
     private pageNumber: number = 1;
 
 
-    protected render() {
+    protected render(): VNode {
         return v('div', {classes: css.pagination}, [
             v('div', {classes: css.controls}, [
                 v('button', {

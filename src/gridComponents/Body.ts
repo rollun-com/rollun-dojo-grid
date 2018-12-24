@@ -1,8 +1,9 @@
 import WidgetBase from "@dojo/framework/widget-core/WidgetBase";
 import {Column} from './interfaces';
-import * as css from "../../styles/grid/body.m.css";
+import * as css from "./body.m.css";
 import {v, w} from '@dojo/framework/widget-core/d';
 import Row from './Row';
+import {VNode} from "@dojo/framework/widget-core/interfaces";
 
 export interface BodyProps {
     columns: Column[],
@@ -10,7 +11,7 @@ export interface BodyProps {
 }
 
 export default class Body extends WidgetBase<BodyProps> {
-    protected render() {
+    protected render():VNode {
         const {columns, items} = this.properties;
         return v('div', {classes: css.body}, items.map((item: {}) => {
                 return w(Row, {columns, item})

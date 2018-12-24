@@ -1,14 +1,15 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import {v, w} from '@dojo/framework/widget-core/d';
-import Grid from './grid/Grid';
+import Grid from './Grid';
 import Paginator from "./Paginator";
 import Query from 'rollun-ts-rql/dist/Query';
 import {DataStoreInterface} from 'rollun-ts-datastore/dist/interfaces';
-import RqlQueryManager from "../RqlQueryManager";
-import {Column} from './grid/interfaces'
+import RqlQueryManager from "./RqlQueryManager";
+import {Column} from './gridComponents/interfaces'
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import SearchBar from "./SearchBar";
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
+import {VNode} from '@dojo/framework/widget-core/interfaces';
 
 export interface CompositeProps {
     store: DataStoreInterface,
@@ -37,7 +38,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 
     private isStarted = false;
 
-    render() {
+    protected render(): VNode {
         if (!this.store) {
             this.store = this.properties.store
         }
