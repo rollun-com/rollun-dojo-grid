@@ -17,6 +17,7 @@
     "typescript": "~2.6.1"
   },
   "files": [
-    "_build/*"
+    "_build/*",
+    "styles/*"
   ]
 }

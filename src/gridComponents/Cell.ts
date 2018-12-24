@@ -1,7 +1,7 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import {DNode} from "@dojo/framework/widget-core/interfaces";
 import {v} from '@dojo/framework/widget-core/d';
-import * as css from "./cell.m.css"
+import * as css from "../../styles/cell.m.css"
 import {Column} from "./interfaces";
 
 export interface CellProps {

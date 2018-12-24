@@ -1,5 +1,5 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import * as css from './searchBar.m.css';
+import * as css from '../styles/searchBar.m.css';
 import {v, w} from '@dojo/framework/widget-core/d';
 import TextInput from '@dojo/widgets/text-input';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';

@@ -2,7 +2,7 @@ import WidgetBase from "@dojo/framework/widget-core/WidgetBase";
 import {Column} from './gridComponents/interfaces';
 import {v, w} from '@dojo/framework/widget-core/d';
 import ColumnHeaders from './gridComponents/ColumnHeaders';
-import * as css from './gridComponents/grid.m.css';
+import * as css from '../styles/grid.m.css';
 import Body from "./gridComponents/Body";
 import {VNode} from "@dojo/framework/widget-core/interfaces";
 

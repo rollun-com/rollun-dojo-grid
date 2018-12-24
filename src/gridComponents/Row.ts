@@ -1,5 +1,5 @@
 import WidgetBase from "@dojo/framework/widget-core/WidgetBase";
-import * as css from './row.m.css';
+import * as css from '../../styles/row.m.css';
 import {v, w} from '@dojo/framework/widget-core/d';
 import {Column} from "./interfaces";
 import {DNode, VNode} from '@dojo/framework/widget-core/interfaces';
