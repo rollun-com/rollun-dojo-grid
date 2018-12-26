@@ -4,7 +4,6 @@ import Grid from '../grid/widgets/Grid';
 import Paginator from '../paginator/Paginator';
 import Query from 'rollun-ts-rql/dist/Query';
 import { DataStoreInterface } from 'rollun-ts-datastore/dist/interfaces';
-import RqlQueryManager from '../query-manager/RqlQueryManager';
 import { Column } from '../grid/widgets/interfaces';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import SearchBar from '../search-bar/SearchBar';
@@ -27,8 +26,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 
 	private store: DataStoreInterface;
 
-	private queryManager: RqlQueryManager = new RqlQueryManager();
-
+	private query = new Query({limit: new Limit(20, 0)});
 	private state: CompositeState = {
 		gridData: [],
 		gridColumns: [],
@@ -43,7 +41,6 @@ export default class Composite extends WidgetBase<CompositeProps> {
 			this.store = this.properties.store;
 		}
 		if (!this.isStarted) {
-			this.queryManager.setQuery(new Query({limit: new Limit(20, 0)}));
 			this.updateGridData();
 			this.isStarted = true;
 		}
@@ -64,7 +61,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 	private updateGridData(): Promise<any> {
 		return new Promise((resolve, reject) => {
 			Promise.all([
-				this.store.query(this.queryManager.getQuery()),
+				this.store.query(this.query),
 				this.store.count()
 			]).then((results) => {
 				const [data, totalItems] = results;
@@ -87,7 +84,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 
 	private setLimitNode(node: Limit) {
 		return new Promise((resolve, reject) => {
-			this.queryManager.appendQuery(node);
+			this.query.limitNode = node;
 			this.updateGridData().then(() => {
 				resolve();
 			});
@@ -96,7 +93,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 
 	private setFilterNode(node: AbstractQueryNode) {
 		return new Promise((resolve, reject) => {
-			this.queryManager.setQueryQuery(node);
+			this.query.queryNode = node;
 			this.updateGridData().then(() => {
 				resolve();
 			});
