@@ -25,5 +25,7 @@
   "files": [
     "dist"
   ],
-  "scripts": {}
+  "scripts": {
+    "build": "grunt dist"
+  }
 }
