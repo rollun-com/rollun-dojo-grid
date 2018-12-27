@@ -84,7 +84,12 @@ export default class Composite extends WidgetBase<CompositeProps> {
 
 	private setLimitNode(node: Limit) {
 		return new Promise((resolve, reject) => {
-			this.query.limitNode = node;
+			this.query = new Query({
+				select: this.query.selectNode,
+				sort: this.query.sortNode,
+				limit: node,
+				query: this.query.queryNode,
+			});
 			this.updateGridData().then(() => {
 				resolve();
 			});
@@ -93,7 +98,12 @@ export default class Composite extends WidgetBase<CompositeProps> {
 
 	private setFilterNode(node: AbstractQueryNode) {
 		return new Promise((resolve, reject) => {
-			this.query.queryNode = node;
+			this.query = new Query({
+				select: this.query.selectNode,
+				sort: this.query.sortNode,
+				limit: this.query.limitNode,
+				query: node,
+			});
 			this.updateGridData().then(() => {
 				resolve();
 			});
