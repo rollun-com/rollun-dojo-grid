@@ -88,7 +88,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 				select: this.query.selectNode,
 				sort: this.query.sortNode,
 				limit: node,
-				query: this.query.queryNode,
+				query: this.query.queryNode
 			});
 			this.updateGridData().then(() => {
 				resolve();
@@ -102,7 +102,7 @@ export default class Composite extends WidgetBase<CompositeProps> {
 				select: this.query.selectNode,
 				sort: this.query.sortNode,
 				limit: this.query.limitNode,
-				query: node,
+				query: node
 			});
 			this.updateGridData().then(() => {
 				resolve();
