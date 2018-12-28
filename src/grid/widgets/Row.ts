@@ -4,15 +4,44 @@ import { v, w } from '@dojo/framework/widget-core/d';
 import { Column } from './interfaces';
 import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
 import Cell from './Cell';
+import RowEditor from './editors/RowEditor';
 
-export default class Row extends WidgetBase<{ columns: Column[], item: {} }> {
+export interface RowProps {
+	columns: Column[];
+	item: {};
+
+	onItemUpdate(item: {}): void;
+}
+
+export default class Row extends WidgetBase<RowProps> {
+	private isEdited = false;
+
 	protected render(): VNode {
 		const {columns, item} = this.properties;
-		return v('div', {classes: css.row}, columns.map((column: Column): DNode => {
-				const value: any = item[column.field];
-				const content: string = String(value);
-				return w(Cell, {content, column, value});
-			}
-		));
+		const onItemUpdate = (item: {}) => {
+			this.properties.onItemUpdate(item);
+			this.isEdited = false;
+			this.invalidate();
+		};
+		if (this.isEdited) {
+			return v('div', {
+				classes: css.row
+			}, [
+				w(RowEditor, {columns, item, onItemUpdate})
+			]);
+		}
+		return v('div', {
+				classes: css.row,
+				ondblclick: () => {
+					this.isEdited = true;
+					this.invalidate();
+				}
+			},
+			columns.map((column: Column): DNode => {
+					const value: any = item[column.field];
+					const content: string = String(value);
+					return w(Cell, {content, column, value});
+				}
+			));
 	}
 }

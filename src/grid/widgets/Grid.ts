@@ -9,14 +9,19 @@ import { VNode } from '@dojo/framework/widget-core/interfaces';
 export interface GridProps {
 	columns: Column[];
 	items: {}[];
+
+	onItemUpdate?(item: {}): void;
 }
 
 export default class Grid extends WidgetBase<GridProps> {
 	protected render(): VNode {
 		const {columns, items} = this.properties;
+		const onItemUpdate = this.properties.onItemUpdate
+			? this.properties.onItemUpdate
+			: () => {};
 		return v('div', {classes: css.grid}, [
 			w(ColumnHeaders, {columns}),
-			w(Body, {columns, items})
+			w(Body, {columns, items, onItemUpdate})
 		]);
 	}
 }

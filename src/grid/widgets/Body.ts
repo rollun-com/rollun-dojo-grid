@@ -8,13 +8,15 @@ import { VNode } from '@dojo/framework/widget-core/interfaces';
 export interface BodyProps {
 	columns: Column[];
 	items: {}[];
+
+	onItemUpdate(item: {}): void;
 }
 
 export default class Body extends WidgetBase<BodyProps> {
 	protected render(): VNode {
-		const {columns, items} = this.properties;
+		const {columns, items, onItemUpdate} = this.properties;
 		return v('div', {classes: css.body}, items.map((item: {}) => {
-				return w(Row, {columns, item});
+				return w(Row, {columns, item, onItemUpdate});
 			}
 		));
 	}
