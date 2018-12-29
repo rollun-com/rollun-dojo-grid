@@ -11,13 +11,14 @@ export interface RowProps {
 	item: {};
 
 	onItemUpdate(item: {}): void;
+	editorRenderer?(column: Column, value: string, state: {}): DNode;
 }
 
 export default class Row extends WidgetBase<RowProps> {
 	private isEdited = false;
 
 	protected render(): VNode {
-		const {columns, item} = this.properties;
+		const {columns, item, editorRenderer} = this.properties;
 		const onItemUpdate = (item: {}) => {
 			this.properties.onItemUpdate(item);
 			this.isEdited = false;
@@ -27,7 +28,7 @@ export default class Row extends WidgetBase<RowProps> {
 			return v('div', {
 				classes: css.row
 			}, [
-				w(RowEditor, {columns, item, onItemUpdate})
+				w(RowEditor, {columns, item, onItemUpdate, editorRenderer})
 			]);
 		}
 		return v('div', {
