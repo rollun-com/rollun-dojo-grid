@@ -1,6 +1,6 @@
 {
   "name": "rollun-ts-grid",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "dependencies": {
     "@dojo/framework": "^4.0.0",
     "@dojo/themes": "^4.0.1",
