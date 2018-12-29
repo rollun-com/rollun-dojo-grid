@@ -10,7 +10,7 @@ export interface RowEditorProps {
 	columns: Column[];
 	item: {};
 
-	editorRenderer?(column: Column, value: string, state: {}): DNode
+	editorRenderer?(column: Column, value: string, state: {}): DNode;
 
 	onItemUpdate(item: {}): void;
 }
