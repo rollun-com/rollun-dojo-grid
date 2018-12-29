@@ -21,10 +21,10 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		const {columns, item} = this.properties;
 		if (!this.isStarted) {
 			this.state = item;
+			if (document.onkeyup) {// FIXME: implement open editor managing
+				document.onkeyup(new KeyboardEvent('keyup', {code: 'Enter'}));
+			}
 			this.isStarted = true;
-		}
-		if (document.onkeyup) {// FIXME: implement open editor managing
-			document.onkeyup(new KeyboardEvent('keyup', {code: 'Enter'}));
 		}
 		document.onkeyup = (event: KeyboardEvent) => {
 			if (event.code === 'Enter') {
