@@ -1,7 +1,7 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v, w } from '@dojo/framework/widget-core/d';
 import * as css from '../styles/paginator.m.css';
-import Select from '@dojo/widgets/Select';
+import Select from '@dojo/widgets/select';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 
