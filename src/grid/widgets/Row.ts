@@ -11,6 +11,7 @@ export interface RowProps {
 	item: {};
 
 	onItemUpdate(item: {}): void;
+
 	editorRenderer?(column: Column, value: string, state: {}): DNode;
 }
 
@@ -24,11 +25,15 @@ export default class Row extends WidgetBase<RowProps> {
 			this.isEdited = false;
 			this.invalidate();
 		};
+		const onUpdateCancel = () => {
+			this.isEdited = false;
+			this.invalidate();
+		};
 		if (this.isEdited) {
 			return v('div', {
-				classes: css.row
+				classes: css.editedRow
 			}, [
-				w(RowEditor, {columns, item, onItemUpdate, editorRenderer})
+				w(RowEditor, {columns, item, onItemUpdate, editorRenderer, onUpdateCancel})
 			]);
 		}
 		return v('div', {
