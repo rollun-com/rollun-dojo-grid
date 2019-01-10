@@ -13,6 +13,12 @@ export interface PaginatorProps {
 	numberOfItemsInGrid: number;
 }
 
+interface OptionData {
+	disabled: boolean;
+	label: string;
+	value: string;
+};
+
 export default class Paginator extends WidgetBase<PaginatorProps> {
 
 	private currentPageSize = '20';
@@ -21,25 +27,56 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 	protected render(): VNode {
 		return v('div', {classes: css.pagination}, [
 			v('div', {classes: css.controls}, [
-				v('button', {
-					onclick: () => {
-						this.goToPage(this.pageNumber - 1);
-					}
-				}, [' previous ']),
-				v('span', {}, [` ${this.pageNumber} `]),
-				v('button', {
-					onclick: () => {
-						this.goToPage(this.pageNumber + 1);
-					}
-				}, [' next ']),
-				w(Select, {
-					label: 'Select page size',
-					options: this.properties.pageSizeOptions,
-					value: this.currentPageSize,
-					onChange: (option: string) => {
-						this.changePageSize(option);
-					}
-				})
+				v('div',
+					{classes: css.buttonGroup},
+					[
+						v('button', {
+							classes: 'btn btn-sm btn-light border' + css.controlButton,
+							onclick: () => {
+								this.goToPage(this.pageNumber - 1);
+							}
+						}, [
+							v('i', {classes: 'fas fa-arrow-left'})
+						]),
+						v('div', {
+								classes: css.pageNumber
+							},
+							[` ${this.pageNumber} `]),
+						v('button', {
+								classes: 'btn btn-sm btn-light border' + css.controlButton,
+								onclick: () => {
+									this.goToPage(this.pageNumber + 1);
+								}
+							},
+							[
+								v('i', {classes: 'fas fa-arrow-right'})
+							]
+						)
+					]),
+				v('div',
+					{classes: css.pageSizeGroup},
+					[
+						v('div', {classes: css.pageSizeLabel}, ['Page size']),
+						w(Select, {
+								extraClasses: {
+									'input': 'custom-select',
+								},
+								getOptionDisabled: (option: OptionData) => option.disabled,
+								getOptionLabel: (option: OptionData) => option.label,
+								getOptionValue: (option: OptionData) => option.value,
+								getOptionSelected: (option: OptionData) => !!value && option.value === value,
+								useNativeElement: true,
+								options: this.properties.pageSizeOptions.map((value: string) => {
+									return {disabled: false, value, label: value};
+								}),
+								value: this.currentPageSize,
+								onChange: (option: string) => {
+									this.changePageSize(option);
+								}
+							}
+						)
+					]
+				)
 			]),
 			v('div', {classes: css.info}, [
 				this.getInfo()
@@ -72,5 +109,4 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 		const endItemNumber = startItemNumber + this.properties.numberOfItemsInGrid - 1;
 		return `Showing items ${startItemNumber}-${endItemNumber} of ${this.properties.totalNumberOfItems}`;
 	}
-
 }

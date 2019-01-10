@@ -3,12 +3,45 @@
     padding: 4px 8px;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
+.controlButton {
+    margin: 0 4px;
+}
+
+.pageNumber {
+    padding: 2px 4px;
+    margin: 0 4px;
 }
 
 .info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 4px;
+}
 
+.buttonGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 36px;
+}
+
+.pageSizeGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 36px;
+}
+
+.pageSizeLabel {
+    margin: 0 4px;
 }

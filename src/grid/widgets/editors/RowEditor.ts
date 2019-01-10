@@ -48,7 +48,9 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 						this.finishEditing();
 					}
 				},
-				['OK']
+				[
+					v('i', {classes: 'fas fa-check'})
+				]
 			),
 			v('button',
 				{
@@ -57,7 +59,9 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 						this.cancelEditing();
 					}
 				},
-				[' X ']
+				[
+					v('i', {classes: 'fas fa-ban'})
+				]
 			),
 			...columns.map((column) => {
 				return this.renderEditor(column, this.state[column.field]);

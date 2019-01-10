@@ -21,17 +21,20 @@ export default class SearchBar extends WidgetBase<SearchBarProps> {
 	protected render(): VNode {
 		return v('div', {classes: css.searchBar}, [
 			w(TextInput, {
-				placeholder: 'search in grid',
+				placeholder: 'search in table',
 				value: this.value,
 				onInput: (value) => {
 					this.value = value;
 				}
 			}),
 			v('button', {
+				classes: 'btn btn-sm btn-light',
 				onclick: () => {
 					this.search(this.value);
 				}
-			}, [' Search '])
+			}, [
+				v('i', {classes: 'fas fa-search'})
+			])
 		]);
 	}
 
