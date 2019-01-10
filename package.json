@@ -11,6 +11,7 @@
     "tslib": "~1.8.1"
   },
   "devDependencies": {
+    "@dojo/cli": "^4.0.0",
     "@dojo/cli-test-intern": "^4.0.0",
     "@types/grunt": "0.4.*",
     "@types/node": "~9.6.5",
@@ -27,8 +28,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "grunt dist",
-    "test": "dojo test -a",
-    "publish patch": "npm version patch && npm publish"
+    "analyse": "node_modules/.bin/tslint --project ./tslint.json",
+    "build": "node_modules/.bin/grunt dist",
+    "test": "node_modules/.bin/dojo test -a"
   }
 }
