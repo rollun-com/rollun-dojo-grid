@@ -1,7 +1,6 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { v, w } from '@dojo/framework/widget-core/d';
+import { v } from '@dojo/framework/widget-core/d';
 import * as css from '../styles/paginator.m.css';
-import Select from '@dojo/widgets/select';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 
@@ -12,12 +11,6 @@ export interface PaginatorProps {
 	totalNumberOfItems: number;
 	numberOfItemsInGrid: number;
 }
-
-interface OptionData {
-	disabled: boolean;
-	label: string;
-	value: string;
-};
 
 export default class Paginator extends WidgetBase<PaginatorProps> {
 
@@ -57,23 +50,16 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 					{classes: css.pageSizeGroup},
 					[
 						v('div', {classes: css.pageSizeLabel}, ['Page size']),
-						w(Select, {
-								extraClasses: {
-									'input': 'custom-select',
-								},
-								getOptionDisabled: (option: OptionData) => option.disabled,
-								getOptionLabel: (option: OptionData) => option.label,
-								getOptionValue: (option: OptionData) => option.value,
-								getOptionSelected: (option: OptionData) => !!value && option.value === value,
-								useNativeElement: true,
-								options: this.properties.pageSizeOptions.map((value: string) => {
-									return {disabled: false, value, label: value};
-								}),
-								value: this.currentPageSize,
-								onChange: (option: string) => {
-									this.changePageSize(option);
+						v('select',
+							{
+								classes: 'custom-select',
+								onChange: (event: Event) => {
+									// @ts-ignore
+									this.changePageSize(event.target.value);
 								}
-							}
+							},
+							this.properties.pageSizeOptions.map(
+								(pageSize) => v('option', {value: pageSize}, [pageSize]))
 						)
 					]
 				)

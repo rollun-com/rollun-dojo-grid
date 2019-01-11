@@ -1,7 +1,6 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import * as css from '../styles/searchBar.m.css';
-import { v, w } from '@dojo/framework/widget-core/d';
-import TextInput from '@dojo/widgets/text-input';
+import { v } from '@dojo/framework/widget-core/d';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import { Column } from '../grid/widgets/interfaces';
 import Alike from 'rollun-ts-rql/dist/nodes/scalarNodes/Alike';
@@ -16,21 +15,23 @@ export interface SearchBarProps {
 }
 
 export default class SearchBar extends WidgetBase<SearchBarProps> {
-	private value: string;
+	private searchValue = '';
 
 	protected render(): VNode {
 		return v('div', {classes: css.searchBar}, [
-			w(TextInput, {
-				placeholder: 'search in table',
-				value: this.value,
+			v('input', {
+				type: 'text',
+				classes: 'form-control',
+				placeholder: 'Search in table',
+				value: this.searchValue,
 				onInput: (value) => {
-					this.value = value;
+					this.searchValue = value;
 				}
 			}),
 			v('button', {
 				classes: 'btn btn-sm btn-light',
 				onclick: () => {
-					this.search(this.value);
+					this.search(this.searchValue);
 				}
 			}, [
 				v('i', {classes: 'fas fa-search'})

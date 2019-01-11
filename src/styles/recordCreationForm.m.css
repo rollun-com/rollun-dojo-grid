@@ -6,13 +6,15 @@
 .editorsContainer {
     display: flex;
     flex-direction: column;
+    margin-bottom: 24px;
 }
 
 .fieldEditorGroup {
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
 }
 
 .fieldLabel {
-
+    margin-bottom: 2px;
 }

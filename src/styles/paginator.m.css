@@ -1,6 +1,5 @@
 .pagination {
-    border: 1px solid darkgrey;
-    padding: 4px 8px;
+    padding: 0 4px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -44,4 +43,5 @@
 
 .pageSizeLabel {
     margin: 0 4px;
+    min-width: fit-content;
 }

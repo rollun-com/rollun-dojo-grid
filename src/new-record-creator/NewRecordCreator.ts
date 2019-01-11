@@ -16,14 +16,14 @@ export default class NewRecordCreator extends WidgetBase<RecordCreatorProps> {
 	private openDialog = false;
 
 	protected render(): DNode {
-		return v('div', {}, [
+		return v('div', {classes: 'mx-2'}, [
 			v('button', {
 					classes: 'btn btn-primary btn-block', onclick: () => {
 						this.openDialog = true;
 						this.invalidate();
 					}
 				},
-				['Add new Item']),
+				['Add new item']),
 			w(Dialog, {
 					theme,
 					title: 'Add new item',

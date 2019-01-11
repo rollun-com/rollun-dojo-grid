@@ -1,10 +1,8 @@
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { v, w } from '@dojo/framework/widget-core/d';
+import { v } from '@dojo/framework/widget-core/d';
 import * as css from '../styles/recordCreationForm.m.css';
-import TextInput from '@dojo/widgets/text-input';
 import { RecordCreatorProps } from './NewRecordCreator';
-import theme from '@dojo/themes/dojo';
 
 export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 	private state = {};
@@ -18,14 +16,17 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 						v('div', {
 							classes: css.fieldLabel
 						}, [column.label || column.field]),
-						w(TextInput, {
-							theme,
-							value: this.state[column.field],
-							onChange: (value: string) => {
-								this.state[column.field] = value;
-								this.invalidate();
+						v('input',
+							{
+								type: 'text',
+								classes: 'form-control',
+								value: this.state[column.field],
+								onChange: (value: string) => {
+									this.state[column.field] = value;
+									this.invalidate();
+								}
 							}
-						})
+						)
 					]);
 				})),
 				v('button',
