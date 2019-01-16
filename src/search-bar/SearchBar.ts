@@ -24,12 +24,14 @@ export default class SearchBar extends WidgetBase<SearchBarProps> {
 				classes: 'form-control',
 				placeholder: 'Search in table',
 				value: this.searchValue,
-				onInput: (value) => {
-					this.searchValue = value;
+				onchange: (event: Event) => {
+					// @ts-ignore
+					this.searchValue = event.target.value;
+					this.invalidate();
 				}
 			}),
 			v('button', {
-				classes: 'btn btn-sm btn-light',
+				classes: 'btn btn-sm btn-primary',
 				onclick: () => {
 					this.search(this.searchValue);
 				}
