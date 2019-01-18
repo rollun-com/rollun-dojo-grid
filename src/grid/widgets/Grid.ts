@@ -5,6 +5,7 @@ import ColumnHeaders from './ColumnHeaders';
 import * as css from '../../styles/grid.m.css';
 import Body from './Body';
 import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
+import NoData from './NoData';
 
 export interface GridProps {
 	columns: Column[];
@@ -20,10 +21,16 @@ export default class Grid extends WidgetBase<GridProps> {
 		const {columns, items, editorRenderer} = this.properties;
 		const onItemUpdate = this.properties.onItemUpdate
 			? this.properties.onItemUpdate
-			: () => {};
-		return v('div', {classes: css.grid}, [
-			w(ColumnHeaders, {columns}),
-			w(Body, {columns, items, onItemUpdate, editorRenderer})
-		]);
+			: () => {
+			};
+		const gridComponents: DNode[] = [
+			w(ColumnHeaders, {columns})
+		];
+		if (items && items.length > 0) {
+			gridComponents.push(w(Body, {columns, items, onItemUpdate, editorRenderer}));
+		} else {
+			gridComponents.push(w(NoData, {}));
+		}
+		return v('div', {classes: css.grid}, gridComponents);
 	}
 }

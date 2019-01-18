@@ -91,7 +91,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 
 	private getInfo(): string {
 		const currentPageSize = parseInt(this.currentPageSize, 10);
-		const startItemNumber = currentPageSize * (this.pageNumber - 1) + 1;
+		const startItemNumber = currentPageSize * (this.pageNumber - 1) + 1;// FIXME: wrong item count when grid is showing 'No data'
 		const endItemNumber = startItemNumber + this.properties.numberOfItemsInGrid - 1;
 		return `Showing items ${startItemNumber}-${endItemNumber} of ${this.properties.totalNumberOfItems}`;
 	}

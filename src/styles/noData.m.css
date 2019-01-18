@@ -1,0 +1,14 @@
+.root {
+    width: 100%;
+    min-height: 300px;
+}
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.label {
+
+}
