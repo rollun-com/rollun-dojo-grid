@@ -1,18 +1,18 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import * as css from '../../styles/row.m.css';
 import { v, w } from '@dojo/framework/widget-core/d';
-import { Column } from './interfaces';
+import { ColumnInfo } from '../../common/interfaces';
 import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
 import Cell from './Cell';
 import RowEditor from './editors/RowEditor';
 
 export interface RowProps {
-	columns: Column[];
+	columns: ColumnInfo[];
 	item: {};
 
 	onItemUpdate(item: {}): void;
 
-	editorRenderer?(column: Column, value: string, state: {}): DNode;
+	editorRenderer?(column: ColumnInfo, value: string, state: {}): DNode;
 }
 
 export default class Row extends WidgetBase<RowProps> {
@@ -43,7 +43,7 @@ export default class Row extends WidgetBase<RowProps> {
 					this.invalidate();
 				}
 			},
-			columns.map((column: Column): DNode => {
+			columns.map((column: ColumnInfo): DNode => {
 					const value: any = item[column.field];
 					const content: string = String(value);
 					return w(Cell, {content, column, value});

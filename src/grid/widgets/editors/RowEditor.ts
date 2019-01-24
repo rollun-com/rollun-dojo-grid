@@ -1,5 +1,5 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { Column } from '../interfaces';
+import { ColumnInfo } from '../../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import * as css from '../../../styles/rowEditor.m.css';
@@ -7,10 +7,10 @@ import TextInput from '@dojo/widgets/text-input';
 import theme from '@dojo/themes/dojo';
 
 export interface RowEditorProps {
-	columns: Column[];
+	columns: ColumnInfo[];
 	item: {};
 
-	editorRenderer?(column: Column, value: string, state: {}): DNode;
+	editorRenderer?(column: ColumnInfo, value: string, state: {}): DNode;
 
 	onItemUpdate(item: {}): void;
 
@@ -82,7 +82,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		};
 	}
 
-	private renderEditor(column: Column, value: string): DNode {
+	private renderEditor(column: ColumnInfo, value: string): DNode {
 		if (this.properties.editorRenderer) {
 			return this.properties.editorRenderer(column, value, this.state);
 		}

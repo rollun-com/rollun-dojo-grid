@@ -1,28 +1,14 @@
 import Query from 'rollun-ts-rql/dist/Query';
+import * as _ from 'lodash';
 import AbstractNode from 'rollun-ts-rql/dist/nodes/AbstractNode';
-import { Map } from '@dojo/framework/shim/main';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import Select from 'rollun-ts-rql/dist/nodes/Select';
+import And from 'rollun-ts-rql/dist/nodes/logicalNodes/And';
 import Sort from 'rollun-ts-rql/dist/nodes/Sort';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
-import And from 'rollun-ts-rql/dist/nodes/logicalNodes/And';
-import * as _ from 'lodash';
 
-export default class RqlQueryManager {
-	private nodeCache: Map<string, AbstractNode>;
+export default class QueryManager {
 	private query: Query;
-	private defaultQuery: Query;
-
-	constructor(initialQuery?: Query) {
-		if (initialQuery) {
-			this.query = initialQuery;
-		}
-		else {
-			this.query = new Query({});
-		}
-		this.nodeCache = new Map();
-		this.defaultQuery = _.cloneDeep(this.query);
-	}
 
 	setQuery(query: Query) {
 		this.query = _.cloneDeep(query);
@@ -70,7 +56,7 @@ export default class RqlQueryManager {
 		const currentQuery = this.getQuery();
 		let newQuery: Query;
 		switch (true) {
-			case node instanceof Select: {
+			case node instanceof Select:
 				const castedSelectNode = <Select> node;
 				newQuery = new Query({
 					select: castedSelectNode,
@@ -79,9 +65,8 @@ export default class RqlQueryManager {
 					query: currentQuery.queryNode
 				});
 				break;
-			}
 
-			case (node instanceof Sort): {
+			case (node instanceof Sort):
 				const castedSortNode = <Sort> node;
 				newQuery = new Query({
 					select: currentQuery.selectNode,
@@ -90,9 +75,8 @@ export default class RqlQueryManager {
 					query: currentQuery.queryNode
 				});
 				break;
-			}
 
-			case node instanceof Limit: {
+			case node instanceof Limit:
 				const castedLimitNode = <Limit> node;
 				newQuery = new Query({
 					select: currentQuery.selectNode,
@@ -101,26 +85,10 @@ export default class RqlQueryManager {
 					query: currentQuery.queryNode
 				});
 				break;
-			}
-			default: {
+
+			default:
 				newQuery = currentQuery;
-			}
 		}
 		this.setQuery(newQuery);
-	}
-
-	addToCache(id: string, node: AbstractNode) {
-		this.nodeCache.set(id, node);
-	}
-
-	removeFromCache(id: string) {
-		this.nodeCache.delete(id);
-	}
-
-	setQueryFromCache() {
-		this.setQuery(this.defaultQuery);
-		this.nodeCache.forEach((node) => {
-			this.appendQuery(node);
-		});
 	}
 }

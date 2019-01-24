@@ -3,13 +3,12 @@ import { v } from '@dojo/framework/widget-core/d';
 import * as css from '../styles/paginator.m.css';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
+import { DataStoreResponseDependent } from '../common/interfaces';
 
-export interface PaginatorProps {
+export interface PaginatorProps extends DataStoreResponseDependent {
 	setLimitNode(node: Limit): Promise<any>;
 
 	pageSizeOptions: string[];
-	totalNumberOfItems: number;
-	numberOfItemsInGrid: number;
 }
 
 export default class Paginator extends WidgetBase<PaginatorProps> {
@@ -24,7 +23,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 					{classes: css.buttonGroup},
 					[
 						v('button', {
-							classes: 'btn btn-sm btn-light border' + css.controlButton,
+							classes: 'btn btn-sm btn-light border ' + css.controlButton,
 							onclick: () => {
 								this.goToPage(this.pageNumber - 1);
 							}
@@ -36,7 +35,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 							},
 							[` ${this.pageNumber} `]),
 						v('button', {
-								classes: 'btn btn-sm btn-light border' + css.controlButton,
+								classes: 'btn btn-sm btn-light border ' + css.controlButton,
 								onclick: () => {
 									this.goToPage(this.pageNumber + 1);
 								}
@@ -90,9 +89,10 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 	}
 
 	private getInfo(): string {
+		const {currentCount, totalCount} = this.properties.responseInfo;
 		const currentPageSize = parseInt(this.currentPageSize, 10);
-		const startItemNumber = currentPageSize * (this.pageNumber - 1) + 1;// FIXME: wrong item count when grid is showing 'No data'
-		const endItemNumber = startItemNumber + this.properties.numberOfItemsInGrid - 1;
-		return `Showing items ${startItemNumber}-${endItemNumber} of ${this.properties.totalNumberOfItems}`;
+		const startItemNumber = currentPageSize * (this.pageNumber - 1) + 1; // FIXME: wrong item count when grid is showing 'No data'
+		const endItemNumber = startItemNumber + currentCount - 1;
+		return `Showing items ${startItemNumber}-${endItemNumber} of ${totalCount}`;
 	}
 }

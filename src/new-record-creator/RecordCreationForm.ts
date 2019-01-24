@@ -8,21 +8,22 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 	private state = {};
 
 	protected render(): DNode {
+		const {fieldsInfo} = this.properties.responseInfo;
 		return v('div',
 			{classes: css.root},
 			[
-				v('div', {classes: css.editorsContainer}, this.properties.columns.map((column) => {
+				v('div', {classes: css.editorsContainer}, fieldsInfo.map((fieldInfo) => {
 					return v('div', {classes: css.fieldEditorGroup}, [
 						v('div', {
 							classes: css.fieldLabel
-						}, [column.label || column.field]),
+						}, [fieldInfo.label || fieldInfo.field]),
 						v('input',
 							{
 								type: 'text',
 								classes: 'form-control',
-								value: this.state[column.field],
+								value: this.state[fieldInfo.field],
 								onChange: (value: string) => {
-									this.state[column.field] = value;
+									this.state[fieldInfo.field] = value;
 									this.invalidate();
 								}
 							}

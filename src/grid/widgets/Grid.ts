@@ -1,5 +1,5 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { Column } from './interfaces';
+import { ColumnInfo } from '../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import ColumnHeaders from './ColumnHeaders';
 import * as css from '../../styles/grid.m.css';
@@ -8,12 +8,12 @@ import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
 import NoData from './NoData';
 
 export interface GridProps {
-	columns: Column[];
+	columns: ColumnInfo[];
 	items: {}[];
 
 	onItemUpdate?(item: {}): void;
 
-	editorRenderer?(column: Column, value: string, state: {}): DNode;
+	editorRenderer?(column: ColumnInfo, value: string, state: {}): DNode;
 }
 
 export default class Grid extends WidgetBase<GridProps> {

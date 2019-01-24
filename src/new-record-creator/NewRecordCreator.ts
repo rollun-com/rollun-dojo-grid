@@ -1,13 +1,12 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { Column } from '../grid/widgets/interfaces';
+import { DataStoreResponseDependent } from '../common/interfaces';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import Dialog from '@dojo/widgets/dialog';
 import { w, v } from '@dojo/framework/widget-core/d';
 import theme from '@dojo/themes/dojo';
 import RecordCreationForm from './RecordCreationForm';
 
-export interface RecordCreatorProps {
-	columns: Column[];
+export interface RecordCreatorProps extends DataStoreResponseDependent {
 
 	onNewItemCreation(item: {}): void;
 }
@@ -40,9 +39,9 @@ export default class NewRecordCreator extends WidgetBase<RecordCreatorProps> {
 	}
 
 	private getCreationForm(): DNode {
-		const {columns, onNewItemCreation} = this.properties;
+		const {responseInfo, onNewItemCreation} = this.properties;
 		return w(RecordCreationForm, {
-			columns,
+			responseInfo,
 			onNewItemCreation: (item: {}) => {
 				onNewItemCreation(item);
 				this.openDialog = false;

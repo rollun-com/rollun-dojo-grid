@@ -1,17 +1,17 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { Column } from './interfaces';
+import { ColumnInfo } from '../../common/interfaces';
 import * as css from '../../styles/body.m.css';
 import { v, w } from '@dojo/framework/widget-core/d';
 import Row from './Row';
 import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
 
 export interface BodyProps {
-	columns: Column[];
+	columns: ColumnInfo[];
 	items: {}[];
 
 	onItemUpdate(item: {}): void;
 
-	editorRenderer?(column: Column, value: string, state: {}): DNode;
+	editorRenderer?(column: ColumnInfo, value: string, state: {}): DNode;
 }
 
 export default class Body extends WidgetBase<BodyProps> {
