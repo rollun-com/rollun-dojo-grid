@@ -11,6 +11,7 @@ export interface DataStoreResponseInfo {
 	totalCount: number;
 	currentCount: number;
 	fieldsInfo: FieldInfo[];
+	data: {}[];
 }
 
 export interface DataStoreResponseDependent {
