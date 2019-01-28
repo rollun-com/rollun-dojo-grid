@@ -3,6 +3,6 @@
     border-left: 1px solid #d6dde2;
     justify-content: space-between;
     padding: 2px 4px;
-    flex: 1 100%;
+    flex: 1 0;
     display: flex;
 }

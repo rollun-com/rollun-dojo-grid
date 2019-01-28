@@ -6,15 +6,13 @@
     align-items: center;
     background-color: #f4f6f7;
     display: flex;
-    flex: 1 100%;
-    min-width: 100px;
+    flex: 1 0;
     padding: 8px 4px;
     text-align: left;
     overflow: hidden;
     vertical-align: top;
     border: 1px solid #d6dde2;
     border-top-style: none;
-    box-sizing: border-box;
 }
 
 .columnHeaders {

@@ -13,9 +13,12 @@ export default class ColumnHeaders extends WidgetBase<ColumnHeadersProps> {
 	protected render(): VNode {
 		const {columns} = this.properties;
 		return v('div', {}, [
-			v('tr', {classes: css.columnHeaders}, columns.map((column: ColumnInfo) => {
-				return w(ColumnHeaderCell, {column});
-			}))
+			v('div',
+				{classes: css.columnHeaders},
+				columns.map((columnInfo: ColumnInfo) => {
+					return w(ColumnHeaderCell, {columnInfo});
+				})
+			)
 		]);
 	}
 }
