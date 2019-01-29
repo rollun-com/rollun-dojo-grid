@@ -9,7 +9,7 @@ import Or from 'rollun-ts-rql/dist/nodes/logicalNodes/Or';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 
 export interface SearchBarProps extends DataStoreResponseDependent {
-	setFilterNode(node: AbstractQueryNode): Promise<any>;
+	setFilterNode(node: AbstractQueryNode): void;
 	cancelSearch(): void;
 }
 
@@ -59,10 +59,8 @@ export default class SearchBar extends WidgetBase<SearchBarProps> {
 			// searchNodesArray.push(new Alike(fieldInfo.field, value))//FIXME: like or alike for search?
 			searchNodesArray.push(new Like(fieldInfo.field, value));
 		});
-		this.properties.setFilterNode(new Or(searchNodesArray)).then(() => {
-			this.searchIsApplied = true;
-			this.invalidate();
-		});
+		this.searchIsApplied = true;
+		this.properties.setFilterNode(new Or(searchNodesArray));
 	}
 
 	private cancelSearch(): void {

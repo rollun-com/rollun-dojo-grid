@@ -6,7 +6,7 @@ import { VNode } from '@dojo/framework/widget-core/interfaces';
 import { DataStoreResponseDependent } from '../common/interfaces';
 
 export interface PaginatorProps extends DataStoreResponseDependent {
-	setLimitNode(node: Limit): Promise<any>;
+	setLimitNode(node: Limit): void;
 
 	pageSizeOptions: string[];
 }
@@ -74,13 +74,9 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 			return;
 		}
 		this.pageNumber = pageNumber;
-
 		const currentPageSize = parseInt(this.currentPageSize, 10);
 		const offset = currentPageSize * (this.pageNumber - 1);
-
-		this.properties.setLimitNode(new Limit(currentPageSize, offset)).then(() => {
-			this.invalidate();
-		});
+		this.properties.setLimitNode(new Limit(currentPageSize, offset));
 	}
 
 	private changePageSize(pageSize: string) {
