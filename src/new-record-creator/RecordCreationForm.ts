@@ -22,8 +22,9 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 								type: 'text',
 								classes: 'form-control',
 								value: this.state[fieldInfo.field],
-								onChange: (value: string) => {
-									this.state[fieldInfo.field] = value;
+								onchange: (event: Event) => {
+									// @ts-ignore
+									this.state[fieldInfo.field] = event.target.value;
 									this.invalidate();
 								}
 							}
