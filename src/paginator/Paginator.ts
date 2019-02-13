@@ -52,7 +52,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 						v('select',
 							{
 								classes: 'custom-select',
-								onChange: (event: Event) => {
+								onchange: (event: Event) => {
 									// @ts-ignore
 									this.changePageSize(event.target.value);
 								}
