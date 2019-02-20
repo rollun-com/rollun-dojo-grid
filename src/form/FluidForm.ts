@@ -1,7 +1,6 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { Constructor, DNode } from '@dojo/framework/widget-core/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
-import * as css from '../styles/recordCreationForm.m.css';
 import TextInput from '@dojo/widgets/text-input';
 import theme from '@dojo/themes/dojo';
 
@@ -31,14 +30,14 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 
 	protected render(): DNode {
 		return v('div',
-			{classes: css.root},
+			{classes: 'd-flex flex-column'},
 			[
 				v('div',
-					{classes: css.editorsContainer},
+					{classes: 'd-flex flex-column'},
 					this.properties.formConfig.map((formField) => {
-						return v('div', {classes: css.fieldEditorGroup}, [
+						return v('div', {classes: 'd-flex flex-column'}, [
 							v('div', {
-								classes: css.fieldLabel
+								classes: ''
 							}, [formField.label || formField.field]),
 							this.getEditorForFormField(formField)
 						]);

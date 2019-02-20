@@ -1,5 +1,4 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import * as css from '../../styles/row.m.css';
 import { v, w } from '@dojo/framework/widget-core/d';
 import { ColumnInfo } from '../../common/interfaces';
 import { DNode, VNodeProperties } from '@dojo/framework/widget-core/interfaces';
@@ -41,7 +40,11 @@ export default class Row extends WidgetBase<RowProps> {
 
 		if (this.isEdited) {
 			return v('div', {
-				classes: css.editedRow
+				classes: `d-flex flex-row border-bottom`,
+				styles: {
+					backgroundColor: 'darkgrey',
+					marginLeft: '-70px'
+				}
 			}, [
 				w(RowEditor, {columns, item, onItemUpdate, editorRenderer, onUpdateCancel})
 			]);
@@ -52,7 +55,7 @@ export default class Row extends WidgetBase<RowProps> {
 			columns.map((columnInfo: ColumnInfo): DNode => {
 					const value: any = item[columnInfo.field];
 					const content: string = String(value);
-					return w(Cell, {content, columnInfo, value});
+					return w(Cell, {content, columnInfo});
 				}
 			)
 		);
@@ -65,7 +68,7 @@ export default class Row extends WidgetBase<RowProps> {
 			columns.map((columnInfo: ColumnInfo): DNode => {
 					const value: any = item[columnInfo.field];
 					const content: string = String(value);
-					return w(Cell, {content, columnInfo, value});
+					return w(Cell, {content, columnInfo});
 				}
 			)
 		);
@@ -73,7 +76,7 @@ export default class Row extends WidgetBase<RowProps> {
 
 	private getRowNodeProperties(): VNodeProperties {
 		const properties: VNodeProperties = {
-			classes: css.row,
+			classes: 'd-flex flex-row border-bottom',
 			styles: {}
 		};
 		if (this.properties.onItemUpdate) {

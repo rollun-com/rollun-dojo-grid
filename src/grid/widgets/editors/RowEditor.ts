@@ -2,7 +2,6 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { ColumnInfo } from '../../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
-import * as css from '../../../styles/rowEditor.m.css';
 import TextInput from '@dojo/widgets/text-input';
 import theme from '@dojo/themes/dojo';
 
@@ -43,7 +42,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		return [
 			v('button',
 				{
-					classes: css.okButton + ' btn btn-success btn-sm float-left',
+					classes: 'btn btn-success btn-sm position-relative float-left',
 					onclick: () => {
 						this.finishEditing();
 					}
@@ -54,7 +53,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 			),
 			v('button',
 				{
-					classes: css.cancelButton + ' btn btn-danger btn-sm float-left',
+					classes: 'btn btn-danger btn-sm position-relative float-left',
 					onclick: () => {
 						this.cancelEditing();
 					}
@@ -87,7 +86,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 			return this.properties.editorRenderer(column, value, this.state);
 		}
 		return v('div',
-			{classes: css.cellEditor},
+			{classes: 'd-flex p-1 flex-grow-1'},
 			[
 				w(TextInput, {
 					theme,

@@ -1,7 +1,6 @@
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
-import * as css from '../styles/recordCreationForm.m.css';
 import { RecordCreatorProps } from './NewRecordCreator';
 
 export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
@@ -10,12 +9,12 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 	protected render(): DNode {
 		const {fieldsInfo} = this.properties.responseInfo;
 		return v('div',
-			{classes: css.root},
+			{classes: 'd-flex flex-column'},
 			[
-				v('div', {classes: css.editorsContainer}, fieldsInfo.map((fieldInfo) => {
-					return v('div', {classes: css.fieldEditorGroup}, [
-						v('div', {
-							classes: css.fieldLabel
+				v('div', {classes: 'd-flex flex-column mb-4'}, fieldsInfo.map((fieldInfo) => {
+					return v('div', {classes: 'd-flex flex-column mb-1'}, [
+						v('h5', {
+							classes: ''
 						}, [fieldInfo.label || fieldInfo.field]),
 						v('input',
 							{

@@ -1,6 +1,5 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
-import * as css from '../styles/paginator.m.css';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 import { DataStoreResponseDependent } from '../common/interfaces';
@@ -17,13 +16,13 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 	private pageNumber = 1;
 
 	protected render(): VNode {
-		return v('div', {classes: css.pagination}, [
-			v('div', {classes: css.controls}, [
+		return v('div', {classes: 'd-flex flex-row align-items-center p-1'}, [
+			v('div', {classes: 'd-flex flex-row align-items-center'}, [
 				v('div',
-					{classes: css.buttonGroup},
+					{classes: 'd-flex flex-row align-items-center mr-4'},
 					[
 						v('button', {
-							classes: 'btn btn-sm btn-light border ' + css.controlButton,
+							classes: 'btn btn-sm btn-light border mx-1',
 							onclick: () => {
 								this.goToPage(this.pageNumber - 1);
 							}
@@ -31,11 +30,11 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 							v('i', {classes: 'fas fa-arrow-left'})
 						]),
 						v('div', {
-								classes: css.pageNumber
+								classes: 'px-1 mx-1'
 							},
 							[` ${this.pageNumber} `]),
 						v('button', {
-								classes: 'btn btn-sm btn-light border ' + css.controlButton,
+								classes: 'btn btn-sm btn-light border mx-1',
 								onclick: () => {
 									this.goToPage(this.pageNumber + 1);
 								}
@@ -46,9 +45,16 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 						)
 					]),
 				v('div',
-					{classes: css.pageSizeGroup},
+					{classes: 'd-flex flex-row align-items-center mr-4'},
 					[
-						v('div', {classes: css.pageSizeLabel}, ['Page size']),
+						v('div',
+							{
+								classes: `mx-1`,
+								styles: {
+									minWidth: 'fit-content'
+								}
+							},
+							['Page size']),
 						v('select',
 							{
 								classes: 'custom-select',
@@ -63,18 +69,18 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 					]
 				)
 			]),
-			v('div', {classes: css.info}, [
+			v('div', {classes: 'd-flex flex-row align-items-center mx-1'}, [
 				this.getInfo()
 			])
 		]);
 	}
 
 	private goToPage(pageNumber: number) {
-		if (pageNumber < 1) {
+		const currentPageSize = parseInt(this.currentPageSize, 10);
+		if (pageNumber < 1 || this.properties.responseInfo.currentCount <= currentPageSize) {
 			return;
 		}
 		this.pageNumber = pageNumber;
-		const currentPageSize = parseInt(this.currentPageSize, 10);
 		const offset = currentPageSize * (this.pageNumber - 1);
 		this.properties.setLimitNode(new Limit(currentPageSize, offset));
 	}

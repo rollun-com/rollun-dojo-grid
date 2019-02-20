@@ -1,19 +1,14 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
-import * as css from '../../styles/noData.m.css';
 
 export default class NoData extends WidgetBase {
 	protected render(): DNode {
 		return v('div',
-			{
-				classes: css.root
-			},
+			{classes: 'd-flex flex-grow-1 justify-content-center align-items-center'},
 			[
-				v('div', {classes: css.labelContainer}, [
-					v('div', {classes: css.label}, [
-						'No data for this request'
-					])
+				v('div', {classes: ''}, [
+					'No data for this request'
 				])
 			]
 		);

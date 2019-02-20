@@ -1,10 +1,8 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import * as css from '../styles/searchBar.m.css';
 import { v } from '@dojo/framework/widget-core/d';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
-import { DataStoreResponseDependent } from '../common/interfaces';
+import { DataStoreResponseDependent, FieldInfo } from '../common/interfaces';
 import Alike from 'rollun-ts-rql/dist/nodes/scalarNodes/Alike';
-import Like from 'rollun-ts-rql/dist/nodes/scalarNodes/Like';
 import Or from 'rollun-ts-rql/dist/nodes/logicalNodes/Or';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 
@@ -16,9 +14,14 @@ export interface SearchBarProps extends DataStoreResponseDependent {
 export default class SearchBar extends WidgetBase<SearchBarProps> {
 	private searchValue = '';
 	private searchIsApplied = false;
+	private fieldsInfo: FieldInfo[] = [];
 
 	protected render(): VNode {
-		return v('div', {classes: css.searchBar}, [
+		const newFieldsInfo = this.properties.responseInfo.fieldsInfo;
+		if (newFieldsInfo.length > this.fieldsInfo.length) {
+			this.fieldsInfo = newFieldsInfo;
+		}
+		return v('div', {classes: 'd-flex flex-row mx-1'}, [
 			v('input', {
 				type: 'text',
 				classes: 'form-control',
@@ -53,11 +56,9 @@ export default class SearchBar extends WidgetBase<SearchBarProps> {
 	}
 
 	private search(value: string) {
-		const {fieldsInfo} = this.properties.responseInfo;
 		const searchNodesArray: Alike[] = [];
-		fieldsInfo.forEach((fieldInfo) => {
-			// searchNodesArray.push(new Alike(fieldInfo.field, value))//FIXME: like or alike for search?
-			searchNodesArray.push(new Like(fieldInfo.field, value));
+		this.fieldsInfo.forEach((fieldInfo) => {
+			searchNodesArray.push(new Alike(fieldInfo.field, value));
 		});
 		this.searchIsApplied = true;
 		this.properties.setFilterNode(new Or(searchNodesArray));

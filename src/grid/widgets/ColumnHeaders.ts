@@ -1,7 +1,6 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { ColumnInfo } from '../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
-import * as css from '../../styles/header.m.css';
 import ColumnHeaderCell from './ColumnHeaderCell';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 
@@ -14,9 +13,15 @@ export default class ColumnHeaders extends WidgetBase<ColumnHeadersProps> {
 		const {columns} = this.properties;
 		return v('div', {}, [
 			v('div',
-				{classes: css.columnHeaders},
+				{
+					classes: 'd-flex flex-row border',
+					styles: {
+						backgroundColor: '#f4f6f7'
+					}
+				},
 				columns.map((columnInfo: ColumnInfo) => {
-					return w(ColumnHeaderCell, {columnInfo});
+					const content = columnInfo.label || columnInfo.field;
+					return w(ColumnHeaderCell, {columnInfo, content});
 				})
 			)
 		]);
