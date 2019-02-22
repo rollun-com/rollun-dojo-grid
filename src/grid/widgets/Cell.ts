@@ -2,6 +2,7 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { DNode, VNodeProperties } from '@dojo/framework/widget-core/interfaces';
 import { v } from '@dojo/framework/widget-core/d';
 import { ColumnInfo } from '../../common/interfaces';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 
 export interface CellProps {
 	content: string;
@@ -18,7 +19,7 @@ export default class Cell extends WidgetBase<CellProps> {
 
 	private getCellNodeProperties(): VNodeProperties {
 		const cellNodeProps: VNodeProperties = {
-			classes: `d-flex p-1 align-items-center border-left`,
+			classes: `${bootstrap.dFlex} ${bootstrap.p1}  ${bootstrap.alignItemsCenter} ${bootstrap.borderLeft}`,
 			styles: {
 				flex: '1 0',
 			}

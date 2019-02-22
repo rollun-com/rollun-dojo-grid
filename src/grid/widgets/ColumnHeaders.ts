@@ -3,6 +3,7 @@ import { ColumnInfo } from '../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import ColumnHeaderCell from './ColumnHeaderCell';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 
 export interface ColumnHeadersProps {
 	columns: ColumnInfo[];
@@ -14,7 +15,7 @@ export default class ColumnHeaders extends WidgetBase<ColumnHeadersProps> {
 		return v('div', {}, [
 			v('div',
 				{
-					classes: 'd-flex flex-row border',
+					classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.border}`,
 					styles: {
 						backgroundColor: '#f4f6f7'
 					}

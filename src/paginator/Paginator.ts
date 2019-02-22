@@ -3,6 +3,10 @@ import { v } from '@dojo/framework/widget-core/d';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 import { DataStoreResponseDependent } from '../common/interfaces';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
+import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
+import * as faSolid from 'rollun-common/dist/css/solid.m.css';
+import * as ownCss from './paginator.m.css';
 
 export interface PaginatorProps extends DataStoreResponseDependent {
 	setLimitNode(node: Limit): void;
@@ -16,48 +20,45 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 	private pageNumber = 1;
 
 	protected render(): VNode {
-		return v('div', {classes: 'd-flex flex-row align-items-center p-1'}, [
-			v('div', {classes: 'd-flex flex-row align-items-center'}, [
+		return v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter}  ${bootstrap.p1} `}, [
+			v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter} `}, [
 				v('div',
-					{classes: 'd-flex flex-row align-items-center mr-4'},
+					{classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter}  ${bootstrap.mr4} `},
 					[
 						v('button', {
-							classes: 'btn btn-sm btn-light border mx-1',
+							classes: `${bootstrap.btn}  ${bootstrap.btnSm} ${bootstrap.btnLight} ${bootstrap.border}  ${bootstrap.mx1}`,
 							onclick: () => {
 								this.goToPage(this.pageNumber - 1);
 							}
 						}, [
-							v('i', {classes: 'fas fa-arrow-left'})
+							v('i', {classes: `${faSolid.fas} ${fa.faArrowLeft} `})
 						]),
 						v('div', {
-								classes: 'px-1 mx-1'
+								classes: `${bootstrap.px1}  ${bootstrap.mx1}`
 							},
 							[` ${this.pageNumber} `]),
 						v('button', {
-								classes: 'btn btn-sm btn-light border mx-1',
+								classes: `${bootstrap.btn}  ${bootstrap.btnSm} ${bootstrap.btnLight} ${bootstrap.border}  ${bootstrap.mx1}`,
 								onclick: () => {
 									this.goToPage(this.pageNumber + 1);
 								}
 							},
 							[
-								v('i', {classes: 'fas fa-arrow-right'})
+								v('i', {classes: `${faSolid.fas} ${fa.faArrowRight} `})
 							]
 						)
 					]),
 				v('div',
-					{classes: 'd-flex flex-row align-items-center mr-4'},
+					{classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter}  ${bootstrap.mr4} `},
 					[
 						v('div',
 							{
-								classes: `mx-1`,
-								styles: {
-									minWidth: 'fit-content'
-								}
+								classes: `${bootstrap.mx1} ${ownCss.pageSizeLabel}`,
 							},
 							['Page size']),
 						v('select',
 							{
-								classes: 'custom-select',
+								classes: `${bootstrap.customSelect}`,
 								onchange: (event: Event) => {
 									// @ts-ignore
 									this.changePageSize(event.target.value);
@@ -69,7 +70,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 					]
 				)
 			]),
-			v('div', {classes: 'd-flex flex-row align-items-center mx-1'}, [
+			v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter}  ${bootstrap.mx1}`}, [
 				this.getInfo()
 			])
 		]);

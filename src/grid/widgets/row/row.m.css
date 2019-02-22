@@ -1,0 +1,9 @@
+.row {
+
+}
+
+.editedRow {
+    composes: row;
+    background-color: darkgrey;
+    margin-left: -70px;
+}

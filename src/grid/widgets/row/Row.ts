@@ -1,9 +1,11 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v, w } from '@dojo/framework/widget-core/d';
-import { ColumnInfo } from '../../common/interfaces';
+import { ColumnInfo } from '../../../common/interfaces';
 import { DNode, VNodeProperties } from '@dojo/framework/widget-core/interfaces';
-import Cell from './Cell';
-import RowEditor from './editors/RowEditor';
+import Cell from '../Cell';
+import RowEditor from '../editors/RowEditor';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
+import * as ownCss from './row.m.css';
 
 export interface RowProps {
 	columns: ColumnInfo[];
@@ -40,11 +42,7 @@ export default class Row extends WidgetBase<RowProps> {
 
 		if (this.isEdited) {
 			return v('div', {
-				classes: `d-flex flex-row border-bottom`,
-				styles: {
-					backgroundColor: 'darkgrey',
-					marginLeft: '-70px'
-				}
+				classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.borderBottom} ${ownCss.editedRow}`,
 			}, [
 				w(RowEditor, {columns, item, onItemUpdate, editorRenderer, onUpdateCancel})
 			]);
@@ -76,8 +74,7 @@ export default class Row extends WidgetBase<RowProps> {
 
 	private getRowNodeProperties(): VNodeProperties {
 		const properties: VNodeProperties = {
-			classes: 'd-flex flex-row border-bottom',
-			styles: {}
+			classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.borderBottom}`,
 		};
 		if (this.properties.onItemUpdate) {
 			properties.ondblclick = () => {

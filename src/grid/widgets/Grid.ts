@@ -5,6 +5,7 @@ import ColumnHeaders from './ColumnHeaders';
 import Body from './Body';
 import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
 import NoData from './NoData';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 
 export interface GridProps extends DataStoreResponseDependent {
 	columns: ColumnInfo[];
@@ -30,7 +31,7 @@ export default class Grid extends WidgetBase<GridProps> {
 			gridComponents.push(w(NoData, {}));
 		}
 		return v('div', {
-			classes: `d-flex flex-column border`,
+			classes: `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.border} `,
 			styles: {
 				minHeight: '450px'
 			}

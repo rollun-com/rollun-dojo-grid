@@ -2,6 +2,7 @@ import { DNode } from '@dojo/framework/widget-core/interfaces';
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
 import { RecordCreatorProps } from './NewRecordCreator';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 
 export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 	private state = {};
@@ -9,17 +10,17 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 	protected render(): DNode {
 		const {fieldsInfo} = this.properties.responseInfo;
 		return v('div',
-			{classes: 'd-flex flex-column'},
+			{classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`},
 			[
-				v('div', {classes: 'd-flex flex-column mb-4'}, fieldsInfo.map((fieldInfo) => {
-					return v('div', {classes: 'd-flex flex-column mb-1'}, [
+				v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.mb4}`}, fieldsInfo.map((fieldInfo) => {
+					return v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.mb1}`}, [
 						v('h5', {
 							classes: ''
 						}, [fieldInfo.label || fieldInfo.field]),
 						v('input',
 							{
 								type: 'text',
-								classes: 'form-control',
+								classes: `${bootstrap.formControl}`,
 								value: this.state[fieldInfo.field],
 								onchange: (event: Event) => {
 									// @ts-ignore
@@ -32,7 +33,7 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 				})),
 				v('button',
 					{
-						classes: 'btn btn-primary btn-block',
+						classes: `${bootstrap.btn}  ${bootstrap.btnPrimary} ${bootstrap.btnBlock}`,
 						onclick: () => {
 							this.properties.onNewItemCreation(Object.assign({}, this.state));
 							this.state = {};

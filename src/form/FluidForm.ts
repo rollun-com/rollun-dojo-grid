@@ -2,7 +2,7 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { Constructor, DNode } from '@dojo/framework/widget-core/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import TextInput from '@dojo/widgets/text-input';
-import theme from '@dojo/themes/dojo';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 
 export interface EditorProps {
 	value: string;
@@ -30,23 +30,25 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 
 	protected render(): DNode {
 		return v('div',
-			{classes: 'd-flex flex-column'},
+			{classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`},
 			[
 				v('div',
-					{classes: 'd-flex flex-column'},
+					{classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`},
 					this.properties.formConfig.map((formField) => {
-						return v('div', {classes: 'd-flex flex-column'}, [
-							v('div', {
-								classes: ''
-							}, [formField.label || formField.field]),
-							this.getEditorForFormField(formField)
-						]);
-
+						return v('div',
+							{
+								classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`
+							}, [
+								v('div', {
+								}, [formField.label || formField.field]),
+								this.getEditorForFormField(formField)
+							]
+						);
 					})
 				),
 				v('button',
 					{
-						classes: 'btn btn-primary btn-block',
+						classes: `${bootstrap.btn}  ${bootstrap.btnPrimary} ${bootstrap.btnBlock}`,
 						onclick: () => {
 							this.properties.onFormSubmit(Object.assign({}, this.data));
 							this.data = {};
@@ -73,7 +75,9 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 			});
 		} else {
 			return w(TextInput, {
-				theme,
+				extraClasses: {
+					input: `${bootstrap.formControl}`
+				},
 				invalid: this.validRegisrty[formField.field],
 				value: this.data[formField.field],
 				onChange: (value: string) => {

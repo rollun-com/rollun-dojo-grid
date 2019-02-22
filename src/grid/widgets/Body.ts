@@ -1,7 +1,7 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { ColumnInfo } from '../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
-import Row from './Row';
+import Row from './row';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 
 export interface BodyProps {

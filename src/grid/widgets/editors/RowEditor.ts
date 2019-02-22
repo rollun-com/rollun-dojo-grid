@@ -3,7 +3,9 @@ import { ColumnInfo } from '../../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import TextInput from '@dojo/widgets/text-input';
-import theme from '@dojo/themes/dojo';
+import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
+import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
+import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 
 export interface RowEditorProps {
 	columns: ColumnInfo[];
@@ -42,24 +44,24 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		return [
 			v('button',
 				{
-					classes: 'btn btn-success btn-sm position-relative float-left',
+					classes: `${bootstrap.btn}  ${bootstrap.btnSuccess} ${bootstrap.btnSm} ${bootstrap.positionRelative}  ${bootstrap.floatLeft} `,
 					onclick: () => {
 						this.finishEditing();
 					}
 				},
 				[
-					v('i', {classes: 'fas fa-check'})
+					v('i', {classes: `${faSolid.fas} ${fa.faCheck} `})
 				]
 			),
 			v('button',
 				{
-					classes: 'btn btn-danger btn-sm position-relative float-left',
+					classes: `${bootstrap.btn} ${bootstrap.btnDanger} ${bootstrap.btnSm} ${bootstrap.positionRelative}  ${bootstrap.floatLeft} `,
 					onclick: () => {
 						this.cancelEditing();
 					}
 				},
 				[
-					v('i', {classes: 'fas fa-ban'})
+					v('i', {classes: `${faSolid.fas} ${fa.faBan}`})
 				]
 			),
 			...columns.map((column) => {
@@ -86,12 +88,11 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 			return this.properties.editorRenderer(column, value, this.state);
 		}
 		return v('div',
-			{classes: 'd-flex p-1 flex-grow-1'},
+			{classes: `${bootstrap.dFlex} ${bootstrap.p1}  ${bootstrap.flexGrow1}`},
 			[
 				w(TextInput, {
-					theme,
 					extraClasses: {
-						root: ''
+						input: `${bootstrap.formControl}`
 					},
 					value,
 					onInput: (value: string): void => {
