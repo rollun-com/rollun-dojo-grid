@@ -6,6 +6,7 @@ import TextInput from '@dojo/widgets/text-input';
 import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
+import * as ownCss from './rowEditor.m.css';
 
 export interface RowEditorProps {
 	columns: ColumnInfo[];
@@ -44,7 +45,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		return [
 			v('button',
 				{
-					classes: `${bootstrap.btn}  ${bootstrap.btnSuccess} ${bootstrap.btnSm} ${bootstrap.positionRelative}  ${bootstrap.floatLeft} `,
+					classes: `${bootstrap.btn}  ${bootstrap.btnSuccess} ${bootstrap.btnSm} ${bootstrap.positionRelative}  ${bootstrap.floatLeft} ${ownCss.controlBtn}`,
 					onclick: () => {
 						this.finishEditing();
 					}
@@ -55,7 +56,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 			),
 			v('button',
 				{
-					classes: `${bootstrap.btn} ${bootstrap.btnDanger} ${bootstrap.btnSm} ${bootstrap.positionRelative}  ${bootstrap.floatLeft} `,
+					classes: `${bootstrap.btn} ${bootstrap.btnDanger} ${bootstrap.btnSm} ${bootstrap.positionRelative}  ${bootstrap.floatLeft} ${ownCss.controlBtn}`,
 					onclick: () => {
 						this.cancelEditing();
 					}
@@ -92,7 +93,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 			[
 				w(TextInput, {
 					extraClasses: {
-						input: `${bootstrap.formControl}`
+						input: ``
 					},
 					value,
 					onInput: (value: string): void => {
