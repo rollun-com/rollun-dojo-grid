@@ -29,6 +29,9 @@ export default class NewRecordCreator extends WidgetBase<RecordCreatorProps> {
 					onClose: () => {
 						this.openDialog = false;
 						this.invalidate();
+					},
+					options: {
+						centered: true
 					}
 				},
 				[this.getCreationForm()]
