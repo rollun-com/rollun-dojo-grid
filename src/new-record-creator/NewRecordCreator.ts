@@ -1,7 +1,7 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { DataStoreResponseDependent } from '../common/interfaces';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
-import Dialog from '@dojo/widgets/dialog';
+import Dialog from 'rollun-common-widgets/dist/all/Dialog';
 import { w, v } from '@dojo/framework/widget-core/d';
 import RecordCreationForm from './RecordCreationForm';
 import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
@@ -24,18 +24,9 @@ export default class NewRecordCreator extends WidgetBase<RecordCreatorProps> {
 				},
 				['Add new item']),
 			w(Dialog, {
-					extraClasses: {
-						root: `${bootstrap.modalDialog} ${bootstrap.m0}`,
-						main: `${bootstrap.modalContent}`,
-						title: `${bootstrap.modalHeader}`,
-						content: `${bootstrap.modalBody}`,
-						close: `${bootstrap.close}`,
-						underlayVisible: `${bootstrap.modal}`
-					},
 					title: 'Add new item',
-					underlay: true,
-					open: this.openDialog,
-					onRequestClose: () => {
+					isOpen: this.openDialog,
+					onClose: () => {
 						this.openDialog = false;
 						this.invalidate();
 					}

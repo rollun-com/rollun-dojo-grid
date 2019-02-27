@@ -3,9 +3,11 @@
   "version": "0.2.14",
   "dependencies": {
     "@dojo/framework": "^4.0.0",
+    "@dojo/themes": "^4.0.1",
     "@dojo/widgets": "^4.0.1",
     "lodash": "^4.17.11",
-    "rollun-common": "^1.0.0",
+    "rollun-common": "^1.0.1",
+    "rollun-common-widgets": "^1.0.1",
     "rollun-ts-datastore": "^0.2.2",
     "rollun-ts-rql": "^0.2.3",
     "tslib": "~1.8.1"
@@ -16,7 +18,7 @@
     "@types/grunt": "0.4.*",
     "@types/node": "~9.6.5",
     "grunt": "^1.0.1",
-    "grunt-dojo2": "~4.0.0",
+    "grunt-dojo2": "^4.0.2",
     "grunt-tslint": "^5.0.2",
     "load-grunt-tasks": "^3.5.2",
     "pkg-dir": "^3.0.0",
