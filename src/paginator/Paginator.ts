@@ -78,7 +78,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 
 	private goToPage(pageNumber: number) {
 		const currentPageSize = parseInt(this.currentPageSize, 10);
-		if (pageNumber < 1 || this.properties.responseInfo.currentCount <= currentPageSize) {
+		if (pageNumber < 1 || this.properties.responseInfo.totalCount <= currentPageSize) {
 			return;
 		}
 		this.pageNumber = pageNumber;
