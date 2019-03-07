@@ -4,45 +4,52 @@ import { v } from '@dojo/framework/widget-core/d';
 import { ColumnInfo } from '../../common/interfaces';
 import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 
-export interface CellProps {
-	content: string;
-	columnInfo: ColumnInfo;
-}
+namespace RGrid.Widgets.Grid.Cell {
 
-export default class Cell extends WidgetBase<CellProps> {
-	protected render(): DNode {
-
-		return v('div',
-			this.getCellNodeProperties(),
-			[this.getContent()]);
+	export interface CellProps {
+		rowIndex: number;
+		columnIndex: number;
+		content: string;
+		columnInfo: ColumnInfo;
 	}
 
-	private getCellNodeProperties(): VNodeProperties {
-		const cellNodeProps: VNodeProperties = {
-			classes: `${bootstrap.dFlex} ${bootstrap.p1}  ${bootstrap.alignItemsCenter} ${bootstrap.borderLeft}`,
-			styles: {
-				flex: '1 0',
+	export class Cell extends WidgetBase<CellProps> {
+		protected render(): DNode {
+			return v('div',
+				this.getCellNodeProperties(),
+				[
+					this.getContent()
+				]
+			);
+		}
+
+		private getCellNodeProperties(): VNodeProperties {
+			const cellNodeProps: VNodeProperties = {
+				classes: `${bootstrap.dFlex} ${bootstrap.p1} ${bootstrap.alignItemsCenter} ${bootstrap.borderLeft}`,
+				styles: {
+					flex: '1 0',
+				}
+			};
+			const {minWidth, widthWeight} = this.properties.columnInfo;
+			if (minWidth) {
+				// @ts-ignore
+				cellNodeProps.styles.flexBasis = minWidth + 'px';
 			}
-		};
-		const {minWidth, widthWeight} = this.properties.columnInfo;
-		if (minWidth) {
-			// @ts-ignore
-			cellNodeProps.styles.flexBasis = minWidth + 'px';
+			if (widthWeight) {
+				// @ts-ignore
+				cellNodeProps.styles.flexGrow = `${widthWeight}`;
+			}
+			return cellNodeProps;
 		}
-		if (widthWeight) {
-			// @ts-ignore
-			cellNodeProps.styles.flexGrow = `${widthWeight}`;
-		}
-		return cellNodeProps;
-	}
 
-	protected getContent(): DNode {
-		const {content} = this.properties;
-		const {formatter} = this.properties.columnInfo;
-		let processedContent: DNode = content;
-		if (formatter) {
-			processedContent = formatter(processedContent);
+		protected getContent(): DNode {
+			const {content} = this.properties;
+			const {formatter} = this.properties.columnInfo;
+			let processedContent: DNode = content;
+			if (formatter) {
+				processedContent = formatter(processedContent);
+			}
+			return processedContent;
 		}
-		return processedContent;
 	}
 }

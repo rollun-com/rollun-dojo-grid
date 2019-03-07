@@ -1,24 +1,55 @@
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 
-export interface FieldInfo {
-	field: string;
-	label?: string;
+
+namespace RGrid {
+	namespace Interfaces {
+		export interface FieldInfo {
+			name: string;
+			label?: string;
+		}
+
+		export interface CellData {
+			field: FieldInfo;
+			value: string;
+		}
+
+		export interface RowCells {
+			id: (string | number);
+			cells: CellData[];
+		}
+
+		export interface RowRows {
+			rows: RowCells[];
+		}
+
+		export interface RowFields {
+			fieldsInfo: FieldInfo[];
+		}
+
+		export interface GridData {
+			fields: RowFields;
+			rows: RowRows;
+		}
+
+// TODO: redo names in interfaces
+		export interface ColumnInfo {
+			minWidth?: number; // min width in px
+			widthWeight?: number; // works as flex-grow
+			formatter?(value: string): DNode;
+
+			editor?(): DNode;
+		}
+
+		export interface DataStoreResponse {
+			totalItemCount: number;
+			currentItemCount: number;
+			fieldsInfo: RowFields;
+			data: GridData;
+		}
+
+		export interface DataStoreResponseDependent {
+			responseInfo: DataStoreResponse;
+		}
+	}
 }
 
-export interface ColumnInfo extends FieldInfo {
-	minWidth?: number; // min width in px
-	widthWeight?: number; // works as flex-grow
-	formatter?(value: string): DNode;
-	editor?(): DNode;
-}
-
-export interface DataStoreResponseInfo {
-	totalCount: number;
-	currentCount: number;
-	fieldsInfo: FieldInfo[];
-	data: {}[];
-}
-
-export interface DataStoreResponseDependent {
-	responseInfo: DataStoreResponseInfo;
-}

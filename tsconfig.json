@@ -23,7 +23,6 @@
 		"importHelpers": true,
 		"downlevelIteration": true,
 		"sourceMap": true,
-		"strict": true,
 		"target": "es5",
 		"types": [ "intern" ],
 		"noImplicitAny": false
