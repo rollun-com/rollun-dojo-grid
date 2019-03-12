@@ -1,2 +1,6 @@
+/*
 import SearchBar from './SearchBar';
-export default SearchBar;
+
+const Search = {SearchBar};
+export default Search;
+*/

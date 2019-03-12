@@ -1,3 +1,4 @@
+/*
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
@@ -45,3 +46,4 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 		);
 	}
 }
+*/

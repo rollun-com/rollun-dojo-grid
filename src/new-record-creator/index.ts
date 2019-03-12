@@ -1,2 +1,5 @@
+/*
 import NewRecordCreator from './NewRecordCreator';
-export default NewRecordCreator;
+const RecordCreators = {NewRecordCreator};
+export default RecordCreators;
+*/

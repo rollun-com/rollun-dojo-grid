@@ -1,33 +1,20 @@
+import GridContext from './GridContext';
+
 export default class AppContext {
 	private _invalidator: () => void;
-	private _gridValues: {}[];
+	private _grid: GridContext;
 
-	constructor(invalidator: () => void, initialState: { values: string[][] }) {
+	constructor(invalidator: () => void, initialState: { grid: GridContext }) {
 		this._invalidator = invalidator;
-		this._gridValues = initialState.values;
-		console.log('initial grid values', initialState.values);
+		this._grid = initialState.grid;
 	}
 
-	get gridValues(): {}[] {
-		return this._gridValues;
+	get grid(): GridContext {
+		return this._grid;
 	}
 
-	set gridValues(gridValues: {}[]) {
-		this._gridValues = gridValues;
-		this._invalidator();
-	}
-
-	changeValue(rowIndex: number, cellIndex: number, value: string) {
-		if (this._gridValues[rowIndex] !== undefined && this._gridValues[rowIndex][cellIndex] !== undefined) {
-			this._gridValues[rowIndex][cellIndex] = value;
-			this._invalidator();
-		} else {
-			throw new Error(` Value in ${rowIndex} ${cellIndex} doesn't exist`);
-		}
-	}
-
-	addRow(row: string[]) {
-		this._gridValues.push(row);
+	set grid(gridValues: GridContext) {
+		this._grid = gridValues;
 		this._invalidator();
 	}
 }

@@ -1,2 +1,3 @@
 import QueryManager from './QueryManager';
-export default QueryManager;
+const Query = {QueryManager};
+export default Query;

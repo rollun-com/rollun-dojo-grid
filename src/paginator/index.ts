@@ -1,3 +1,5 @@
+/*
 import Paginator from './Paginator';
-
-export default Paginator;
+const Pages = {Paginator};
+export default Pages;
+*/

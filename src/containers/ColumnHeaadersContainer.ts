@@ -1,7 +1,7 @@
 import Container  from '@dojo/framework/widget-core/Container';
 import GridContext from '../context/GridContext';
 // @ts-ignore
-import ColumnHeaders, { ColumnHeadersProps } from '../grid/widgets/ColumnHeaders';
+import { ColumnHeaders, ColumnHeadersProps } from '../grid/widgets/ColumnHeaders';
 // @ts-ignore
 import Cell, { CellProps } from '../grid/widgets/Cell';
 // @ts-ignore
@@ -12,11 +12,10 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 
 function getProperties(inject: GridContext, properties: any) {
 	const {rowIndex} = properties;
-	const columns = inject.columns;
+	const columns = inject.rowFields;
 	return {
 		columns,
 		rowIndex
-
 	};
 }
 

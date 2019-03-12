@@ -1,3 +1,4 @@
+/*
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
@@ -99,3 +100,4 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 		return `Showing items ${startItemNumber}-${endItemNumber} of ${totalCount}`;
 	}
 }
+*/

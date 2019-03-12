@@ -1,6 +1,6 @@
-import Container  from '@dojo/framework/widget-core/Container';
+import Container from '@dojo/framework/widget-core/Container';
 import GridContext from '../context/GridContext';
-import ColumnHeaderCell from '../grid/widgets/ColumnHeaderCell';
+import { ColumnHeaderCell } from '../grid/widgets/ColumnHeaderCell';
 // @ts-ignore
 import Cell, { CellProps } from '../grid/widgets/Cell';
 // @ts-ignore
@@ -9,13 +9,17 @@ import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetPropertie
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 
+function getValueFromGridContext(context: GridContext, columnIndex: number) {
+	const fields = context.rowFields.fieldsInfo;
+	const field = fields[columnIndex];
+	return field.label || field.name;
+}
+
 function getProperties(inject: GridContext, properties: any) {
 	const {rowIndex, columnIndex} = properties;
-	const column = inject.columns[columnIndex];
-	const content = Object.keys(inject.values[0])[columnIndex];
+	const value = getValueFromGridContext(inject, columnIndex);
 	return {
-		content,
-		columnInfo: column,
+		value,
 		rowIndex,
 		columnIndex
 	};

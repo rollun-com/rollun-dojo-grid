@@ -1,6 +1,6 @@
 import GridContext from '../context/GridContext';
 // @ts-ignore
-import Grid, { GridProps } from '../grid/widgets/Grid';
+import { Grid, GridProps } from '../grid/widgets/Grid';
 // @ts-ignore
 import Row, { RowProps } from '../grid/widgets/row/Row';
 import MultiContextContainer from './MultiContextContainer';
@@ -13,20 +13,17 @@ import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetPropertie
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 
-function getPropertiesFromGridContext(inject: GridContext, properties: any) {
-	const {columns} = inject;
+function getPropertiesFromGridContext(inject: GridContext, properties: GridProps): Partial<GridProps> {
 	return {
 		context: inject,
-		columns
 	};
 }
 
-function getPropertiesFromAppContext(inject: AppContext, properties: any) {
-	const values = inject.gridValues;
+function getPropertiesFromAppContext(inject: AppContext, properties: GridProps): Partial<GridProps> {
+	const {rowFields, rowRows} = inject.grid;
 	return {
-		responseInfo: {
-			data: values
-		}
+		fields: rowFields,
+		rows: rowRows
 	};
 }
 

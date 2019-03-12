@@ -1,3 +1,4 @@
+/*
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
@@ -74,3 +75,4 @@ export default class SearchBar extends WidgetBase<SearchBarProps> {
 		this.invalidate();
 	}
 }
+*/

@@ -1,3 +1,4 @@
+/*
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { ColumnInfo } from '../../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
@@ -107,3 +108,4 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		);
 	}
 }
+*/

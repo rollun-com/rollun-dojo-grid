@@ -1,36 +1,40 @@
-import { ColumnInfo, DataRecord } from '../common/interfaces';
+import { RowFields, RowRows } from '../common/interfaces';
 
-namespace RGrid.GridContext {
-	export interface InitialGridState {
-		columns: ColumnInfo[];
+export interface InitialGridState {
+	fields?: RowFields;
+	rows?: RowRows;
+}
+
+export default class GridContext {
+	private _invalidator: () => void;
+	private _rowFields: RowFields;
+	private _rowRows: RowRows;
+
+	constructor(invalidator: () => void, initialState: InitialGridState) {
+		this._invalidator = invalidator;
+		if (initialState.fields) {
+			this._rowFields = initialState.fields;
+		}
+		if (initialState.rows) {
+			this._rowRows = initialState.rows;
+		}
 	}
 
-	export class GridContext {
-		private _invalidator: () => void;
-		private _columns: ColumnInfo[];
-		private _values: DataRecord[] = [];
+	get rowFields(): RowFields {
+		return this._rowFields;
+	}
 
-		constructor(invalidator: () => void, initialState: InitialGridState) {
-			this._columns = initialState.columns;
-			this._invalidator = invalidator;
-		}
+	set rowFields(fields: RowFields) {
+		this._rowFields = fields;
+		this._invalidator();
+	}
 
-		get columns(): ColumnInfo[] {
-			return this._columns;
-		}
+	get rowRows(): RowRows {
+		return this._rowRows;
+	}
 
-		set columns(value: ColumnInfo[]) {
-			this._columns = value;
-			this._invalidator();
-		}
-
-		get values(): {}[] {
-			return this._values;
-		}
-
-		set values(gridValues: {}[]) {
-			this._values = gridValues;
-			this._invalidator();
-		}
+	set rowRows(rows: RowRows) {
+		this._rowRows = rows;
+		this._invalidator();
 	}
 }

@@ -1,3 +1,4 @@
+/*
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { DataStoreResponseDependent } from '../common/interfaces';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
@@ -52,3 +53,4 @@ export default class NewRecordCreator extends WidgetBase<RecordCreatorProps> {
 		});
 	}
 }
+*/
