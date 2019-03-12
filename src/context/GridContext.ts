@@ -1,5 +1,6 @@
 import { RowFields, RowRows } from '../common/interfaces';
 
+
 export interface InitialGridState {
 	fields?: RowFields;
 	rows?: RowRows;
