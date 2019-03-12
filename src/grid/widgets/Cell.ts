@@ -7,6 +7,7 @@ import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 export interface CellProps extends CellData {
 	rowIndex: number;
 	columnIndex: number;
+	key: string;
 }
 
 export class Cell extends WidgetBase<CellProps> {

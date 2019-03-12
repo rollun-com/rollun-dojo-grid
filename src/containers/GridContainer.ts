@@ -4,7 +4,7 @@ import { Grid, GridProps } from '../grid/widgets/Grid';
 // @ts-ignore
 import Row, { RowProps } from '../grid/widgets/row/Row';
 import MultiContextContainer from './MultiContextContainer';
-import AppContext from '../context/AppContext';
+import AppContext, { DataItem } from '../context/AppContext';
 // @ts-ignore
 import Cell, { CellProps } from '../grid/widgets/Cell';
 // @ts-ignore
@@ -20,7 +20,31 @@ function getPropertiesFromGridContext(inject: GridContext, properties: GridProps
 }
 
 function getPropertiesFromAppContext(inject: AppContext, properties: GridProps): Partial<GridProps> {
-	const {rowFields, rowRows} = inject.grid;
+	let rowFields, rowRows;
+	const data = inject.dataFromServer;
+	rowRows = {
+		rows: data.map((item: DataItem) => {
+				return {
+					id: item.id,
+					cells: Object.values(item).map((value: string) => {
+						return {
+							value
+						};
+					})
+				};
+			}
+		)
+	};
+	rowFields = {
+		fieldsInfo: data[0]
+			? Object.keys(data[0]).map((key: string) => {
+					return {
+						name: key
+					};
+				}
+			)
+			: []
+	};
 	return {
 		fields: rowFields,
 		rows: rowRows

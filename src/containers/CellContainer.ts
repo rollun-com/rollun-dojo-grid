@@ -6,24 +6,22 @@ import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetPropertie
 	from '@dojo/framework/widget-core/interfaces';
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { RowCells } from '../common/interfaces';
 
 function getValueFromGridContext(context: GridContext, rowIndex: number, columnIndex: number) {
 	const rows = context.rowRows.rows;
-	const row = rows.find((rowCells: RowCells) => {
-		return rowCells.id === rowIndex;
-	});
+	const row = rows[rowIndex];
 
-	return row.cells[columnIndex].value;
+	return String(row.cells[columnIndex].value);
 }
 
 function getProperties(inject: GridContext, properties: CellProps): CellProps {
-	const {rowIndex, columnIndex} = properties;
+	const {rowIndex, columnIndex, key} = properties;
 	const value = getValueFromGridContext(inject, rowIndex, columnIndex);
 	return {
 		value,
 		rowIndex,
-		columnIndex
+		columnIndex,
+		key
 	};
 }
 

@@ -8,6 +8,7 @@ import { FieldInfo, RowFields } from '../../../common/interfaces';
 export interface RowProps {
 	fields: RowFields;
 	rowIndex: number;
+	key: string;
 }
 
 export class Row extends WidgetBase<RowProps> {
@@ -22,7 +23,7 @@ export class Row extends WidgetBase<RowProps> {
 			'div',
 			this.getRowNodeProperties(),
 			fields.fieldsInfo.map((fieldInfo: FieldInfo, columnIndex: number): DNode => {
-					return w(CellContainer, {rowIndex, columnIndex});
+					return w(CellContainer, {rowIndex, columnIndex, key: `cell-${rowIndex}-${columnIndex}`});
 				}
 			)
 		);

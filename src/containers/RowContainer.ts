@@ -11,11 +11,12 @@ import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetPropertie
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 
 function getProperties(inject: GridContext, properties: RowProps): RowProps {
-	const {rowIndex} = properties;
+	const {rowIndex, key} = properties;
 	const fields = inject.rowFields;
 	return {
 		fields,
-		rowIndex
+		rowIndex,
+		key
 	};
 }
 
