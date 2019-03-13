@@ -1,11 +1,11 @@
 import { Container } from '@dojo/framework/widget-core/Container';
-import GridContext from '../context/GridContext';
-import { Cell, CellProps } from '../grid/widgets/Cell';
 // @ts-ignore
 import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetProperties, WNode }
 	from '@dojo/framework/widget-core/interfaces';
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
+import GridContext from '../context/GridContext';
+import { Cell, CellProps } from '../grid/widgets/Cell';
 
 function getValueFromGridContext(context: GridContext, rowIndex: number, columnIndex: number) {
 	const rows = context.rowRows.rows;

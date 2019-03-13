@@ -1,18 +1,18 @@
-/*
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
-import { DataStoreResponseDependent } from '../common/interfaces';
 import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as ownCss from './paginator.m.css';
 
-export interface PaginatorProps extends DataStoreResponseDependent {
-	setLimitNode(node: Limit): void;
-
+export interface PaginatorProps {
 	pageSizeOptions: string[];
+	currentCount: number;
+	totalCount: number;
+
+	setLimitNode(node: Limit): void;
 }
 
 export default class Paginator extends WidgetBase<PaginatorProps> {
@@ -79,12 +79,13 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 
 	private goToPage(pageNumber: number) {
 		const currentPageSize = parseInt(this.currentPageSize, 10);
-		if (pageNumber < 1 || this.properties.responseInfo.totalCount <= currentPageSize) {
+		if (pageNumber < 1 || this.properties.totalCount <= currentPageSize) {
 			return;
 		}
 		this.pageNumber = pageNumber;
 		const offset = currentPageSize * (this.pageNumber - 1);
 		this.properties.setLimitNode(new Limit(currentPageSize, offset));
+		this.invalidate();
 	}
 
 	private changePageSize(pageSize: string) {
@@ -93,11 +94,10 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 	}
 
 	private getInfo(): string {
-		const {currentCount, totalCount} = this.properties.responseInfo;
+		const {currentCount, totalCount} = this.properties;
 		const currentPageSize = parseInt(this.currentPageSize, 10);
 		const startItemNumber = currentPageSize * (this.pageNumber - 1) + 1; // FIXME: wrong item count when grid is showing 'No data'
 		const endItemNumber = startItemNumber + currentCount - 1;
 		return `Showing items ${startItemNumber}-${endItemNumber} of ${totalCount}`;
 	}
 }
-*/

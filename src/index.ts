@@ -1,4 +1,3 @@
-import Containers from './containers';
 import Common from './common';
 import Context from './context';
 import Query from './query-manager';
@@ -33,7 +32,6 @@ import * as interfaces from './common/interfaces';
 
 const RGridLib = {
 	Common,
-	Containers,
 	Context,
 	RGrid,
 	Query,

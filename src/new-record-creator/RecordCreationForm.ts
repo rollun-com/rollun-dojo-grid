@@ -9,7 +9,7 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 	private state = {};
 
 	protected render(): DNode {
-		const {fieldsInfo} = this.properties.responseInfo;
+		const {fieldsInfo} = this.properties.rowFields;
 		return v('div',
 			{classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`},
 			[
@@ -17,15 +17,15 @@ export default class RecordCreationForm extends WidgetBase<RecordCreatorProps> {
 					return v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.mb1}`}, [
 						v('h5', {
 							classes: ''
-						}, [fieldInfo.label || fieldInfo.field]),
+						}, [fieldInfo.label || fieldInfo.name]),
 						v('input',
 							{
 								type: 'text',
 								classes: `${bootstrap.formControl}`,
-								value: this.state[fieldInfo.field],
+								value: this.state[fieldInfo.name],
 								onchange: (event: Event) => {
 									// @ts-ignore
-									this.state[fieldInfo.field] = event.target.value;
+									this.state[fieldInfo.name] = event.target.value;
 									this.invalidate();
 								}
 							}

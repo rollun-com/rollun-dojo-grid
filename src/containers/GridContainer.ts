@@ -1,5 +1,4 @@
 import GridContext from '../context/GridContext';
-// @ts-ignore
 import { Grid, GridProps } from '../grid/widgets/Grid';
 // @ts-ignore
 import Row, { RowProps } from '../grid/widgets/row/Row';
