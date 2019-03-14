@@ -6,11 +6,13 @@ import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as ownCss from './paginator.m.css';
+import { LoadingStatusEnum } from '../common/interfaces';
 
 export interface PaginatorProps {
 	pageSizeOptions: string[];
 	currentCount: number;
 	totalCount: number;
+	loadingStatus: LoadingStatusEnum;
 
 	setLimitNode(node: Limit): void;
 }
@@ -21,12 +23,18 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 	private pageNumber = 1;
 
 	protected render(): VNode {
-		return v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter}  ${bootstrap.p1} `}, [
+		let isLoading = this.properties.loadingStatus === LoadingStatusEnum.loading;
+		let rootNodeClasses = `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter} ${bootstrap.p1}`;
+		if (isLoading) {
+			rootNodeClasses += ownCss.loading;
+		}
+		return v('div', {classes: rootNodeClasses}, [
 			v('div', {classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter} `}, [
 				v('div',
 					{classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.alignItemsCenter}  ${bootstrap.mr4} `},
 					[
 						v('button', {
+							disabled: isLoading,
 							classes: `${bootstrap.btn}  ${bootstrap.btnSm} ${bootstrap.btnLight} ${bootstrap.border}  ${bootstrap.mx1}`,
 							onclick: () => {
 								this.goToPage(this.pageNumber - 1);
@@ -39,6 +47,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 							},
 							[` ${this.pageNumber} `]),
 						v('button', {
+								disabled: isLoading,
 								classes: `${bootstrap.btn}  ${bootstrap.btnSm} ${bootstrap.btnLight} ${bootstrap.border}  ${bootstrap.mx1}`,
 								onclick: () => {
 									this.goToPage(this.pageNumber + 1);
@@ -59,6 +68,7 @@ export default class Paginator extends WidgetBase<PaginatorProps> {
 							['Page size']),
 						v('select',
 							{
+								disabled: isLoading,
 								classes: `${bootstrap.customSelect}`,
 								onchange: (event: Event) => {
 									// @ts-ignore

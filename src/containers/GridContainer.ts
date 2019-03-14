@@ -7,8 +7,8 @@ import AppContext, { DataItem } from '../context/AppContext';
 // @ts-ignore
 import Cell, { CellProps } from '../grid/widgets/Cell';
 // @ts-ignore
-import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetProperties, WNode
-} from '@dojo/framework/widget-core/interfaces';
+import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetProperties, WNode }
+	from '@dojo/framework/widget-core/interfaces';
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 
@@ -20,9 +20,9 @@ function getPropertiesFromGridContext(inject: GridContext, properties: GridProps
 
 function getPropertiesFromAppContext(inject: AppContext, properties: GridProps): Partial<GridProps> {
 	let rowFields, rowRows;
-	const data = inject.dataFromServer;
+	const {dataFromServer, loadingStatus} = inject;
 	rowRows = {
-		rows: data.map((item: DataItem) => {
+		rows: dataFromServer.map((item: DataItem) => {
 				return {
 					id: item.id,
 					cells: Object.values(item).map((value: string) => {
@@ -35,8 +35,8 @@ function getPropertiesFromAppContext(inject: AppContext, properties: GridProps):
 		)
 	};
 	rowFields = {
-		fieldsInfo: data[0]
-			? Object.keys(data[0]).map((key: string) => {
+		fieldsInfo: dataFromServer[0]
+			? Object.keys(dataFromServer[0]).map((key: string) => {
 					return {
 						name: key
 					};
@@ -46,7 +46,8 @@ function getPropertiesFromAppContext(inject: AppContext, properties: GridProps):
 	};
 	return {
 		fields: rowFields,
-		rows: rowRows
+		rows: rowRows,
+		loadingStatus
 	};
 }
 

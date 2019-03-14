@@ -1,3 +1,7 @@
 .pageSizeLabel {
     min-width: fit-content;
 }
+
+.loading {
+    color: lightgrey;
+}

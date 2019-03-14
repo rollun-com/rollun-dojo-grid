@@ -24,3 +24,9 @@ export interface GridData {
 	fields: RowFields;
 	rows: RowRows;
 }
+
+export enum LoadingStatusEnum {
+	loading = 'loading',
+	loaded = 'loaded',
+	error = 'error'
+}
