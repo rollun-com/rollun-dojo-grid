@@ -6,7 +6,7 @@ import CellContainer from '../../../containers/CellContainer';
 import { FieldInfo, RowFields } from '../../../common/interfaces';
 
 export interface RowProps {
-	fields: RowFields;
+	rowFields: RowFields;
 	rowIndex: number;
 	key: string;
 }
@@ -18,11 +18,11 @@ export class Row extends WidgetBase<RowProps> {
 	}
 
 	private basicRender(): DNode {
-		const {fields, rowIndex} = this.properties;
+		const {rowFields, rowIndex} = this.properties;
 		return v(
 			'div',
 			this.getRowNodeProperties(),
-			fields.fieldsInfo.map((fieldInfo: FieldInfo, columnIndex: number): DNode => {
+			rowFields.fieldsInfo.map((fieldInfo: FieldInfo, columnIndex: number): DNode => {
 					return w(CellContainer, {rowIndex, columnIndex, key: `cell-${rowIndex}-${columnIndex}`});
 				}
 			)

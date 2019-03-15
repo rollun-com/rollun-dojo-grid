@@ -9,6 +9,7 @@ export default class GridContext {
 	private _invalidator: () => void;
 	private _rowFields: RowFields;
 	private _rowRows: RowRows;
+	private _changeDataItem: (rowIndex: number, columnIndex: number, value: string) => void;
 
 	constructor(invalidator: () => void, initialState: InitialGridState) {
 		this._invalidator = invalidator;
@@ -36,5 +37,13 @@ export default class GridContext {
 	set rowRows(rows: RowRows) {
 		this._rowRows = rows;
 		this._invalidator();
+	}
+
+	set changeDataItem(value: (rowIndex: number, columnIndex: number, value: string) => void) {
+		this._changeDataItem = value;
+	}
+
+	changeCellValue(rowIndex: number, columnIndex: number, value: string) {
+		this._changeDataItem(rowIndex, columnIndex, value);
 	}
 }

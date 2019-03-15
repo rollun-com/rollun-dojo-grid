@@ -77,4 +77,8 @@ export default class AppContext {
 		}));
 		this.reloadGridData();
 	}
+
+	changeDataItem(rowIndex: number, columnIndex: number, value: string): void {
+
+	}
 }

@@ -1,6 +1,5 @@
-/*
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
-import { ColumnInfo } from '../../../common/interfaces';
+import { FieldInfo, RowCells } from '../../../common/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import TextInput from '@dojo/widgets/text-input';
@@ -8,16 +7,13 @@ import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as ownCss from './rowEditor.m.css';
+import { RowProps } from '../row/Row';
 
-export interface RowEditorProps {
-	columns: ColumnInfo[];
-	item: {};
-
-	editorRenderer?(column: ColumnInfo, value: string, state: {}): DNode;
-
-	onItemUpdate(item: {}): void;
+export interface RowEditorProps extends RowProps {
+	rowCells: RowCells;
 
 	onUpdateCancel(): void;
+	onItemUpdate(item: {}): void;
 }
 
 export default class RowEditor extends WidgetBase<RowEditorProps> {
@@ -25,9 +21,9 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 	private state = {};
 
 	protected render(): DNode[] {
-		const {columns, item} = this.properties;
+		const {rowFields, rowCells} = this.properties;
 		if (!this.isStarted) {
-			this.state = item;
+			this.state = rowCells;
 			if (document.onkeyup) {// FIXME: implement open editor managing
 				document.onkeyup(new KeyboardEvent('keyup', {code: 'Escape'}));
 			}
@@ -66,8 +62,8 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 					v('i', {classes: `${faSolid.fas} ${fa.faBan}`})
 				]
 			),
-			...columns.map((column) => {
-				return this.renderEditor(column, this.state[column.field]);
+			...rowFields.fieldsInfo.map((fieldInfo) => {
+				return this.renderEditor(fieldInfo, this.state[fieldInfo.name]);
 			})
 		];
 	}
@@ -85,10 +81,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		};
 	}
 
-	private renderEditor(column: ColumnInfo, value: string): DNode {
-		if (this.properties.editorRenderer) {
-			return this.properties.editorRenderer(column, value, this.state);
-		}
+	private renderEditor(fieldInfo: FieldInfo, value: string): DNode {
 		return v('div',
 			{classes: `${bs.dFlex} ${bs.p1}  ${bs.flexGrow1}`},
 			[
@@ -100,7 +93,7 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 					},
 					value,
 					onInput: (value: string): void => {
-						this.state[column.field] = value;
+						this.state[fieldInfo.name] = value;
 						this.invalidate();
 					}
 				})
@@ -108,4 +101,3 @@ export default class RowEditor extends WidgetBase<RowEditorProps> {
 		);
 	}
 }
-*/

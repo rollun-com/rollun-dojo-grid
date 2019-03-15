@@ -20,7 +20,7 @@ function getPropertiesFromGridContext(inject: GridContext, properties: GridProps
 
 function getPropertiesFromAppContext(inject: AppContext, properties: GridProps): Partial<GridProps> {
 	let rowFields, rowRows;
-	const {dataFromServer, loadingStatus} = inject;
+	const {dataFromServer, loadingStatus, changeDataItem} = inject;
 	rowRows = {
 		rows: dataFromServer.map((item: DataItem) => {
 				return {
@@ -47,7 +47,8 @@ function getPropertiesFromAppContext(inject: AppContext, properties: GridProps):
 	return {
 		fields: rowFields,
 		rows: rowRows,
-		loadingStatus
+		loadingStatus,
+		changeCellValue: changeDataItem.bind(inject)
 	};
 }
 

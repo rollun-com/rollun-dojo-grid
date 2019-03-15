@@ -12,9 +12,9 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 
 function getProperties(inject: GridContext, properties: RowProps): RowProps {
 	const {rowIndex, key} = properties;
-	const fields = inject.rowFields;
+	const rowFields = inject.rowFields;
 	return {
-		fields,
+		rowFields,
 		rowIndex,
 		key
 	};

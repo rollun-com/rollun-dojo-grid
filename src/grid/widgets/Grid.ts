@@ -13,6 +13,7 @@ import * as ownCss from './grid.m.css';
 export interface GridProps extends GridData {
 	context: GridContext;
 	loadingStatus: LoadingStatusEnum;
+	changeCellValue: (rowIndex: number, columnIndex: number, value: string) => void;
 }
 
 export class Grid extends WidgetBase<GridProps> {
@@ -25,6 +26,7 @@ export class Grid extends WidgetBase<GridProps> {
 		if (!this.isStarted) {
 			this.isStarted = true;
 			this.properties.context.rowRows = this.properties.rows;
+			this.properties.context.changeCellValue = this.properties.changeCellValue;
 		}
 		if (!lodash.isEqual(this.properties.context.rowFields, this.properties.fields)) {
 			this.properties.context.rowFields = this.properties.fields;
@@ -40,9 +42,9 @@ export class Grid extends WidgetBase<GridProps> {
 		} else {
 			gridComponents.push(w(NoData, {}));
 		}
-let classes = `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.border} `;
+		let classes = `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.border} `;
 		if (this.properties.loadingStatus === LoadingStatusEnum.loading) {
-classes += ownCss.loading;
+			classes += ownCss.loading;
 		}
 		return v('div', {
 			classes,
