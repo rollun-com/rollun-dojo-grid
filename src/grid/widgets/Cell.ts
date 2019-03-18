@@ -16,21 +16,12 @@ export class Cell extends WidgetBase<CellProps> {
 	private isEdited: boolean;
 
 	protected render(): DNode {
-		if (this.isEdited) {
-			const {rowIndex, columnIndex} = this.properties;
-			const onStopEditing = () => {
-				this.isEdited = false;
-				this.invalidate();
-			};
-			return w(CellEditorContainer, {rowIndex, columnIndex, onStopEditing});
-		} else {
-			return v('div',
-				this.getCellNodeProperties(),
-				[
-					this.getValue()
-				]
-			);
-		}
+		return v('div',
+			this.getCellNodeProperties(),
+			[
+				this.getValue()
+			]
+		);
 	}
 
 	private getCellNodeProperties(): VNodeProperties {
@@ -50,6 +41,15 @@ export class Cell extends WidgetBase<CellProps> {
 	}
 
 	protected getValue(): DNode {
-		return this.properties.value;
+		if (this.isEdited) {
+			const {rowIndex, columnIndex} = this.properties;
+			const onStopEditing = () => {
+				this.isEdited = false;
+				this.invalidate();
+			};
+			return w(CellEditorContainer, {rowIndex, columnIndex, onStopEditing});
+		} else {
+			return this.properties.value;
+		}
 	}
 }

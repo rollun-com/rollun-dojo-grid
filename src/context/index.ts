@@ -1,5 +1,4 @@
-import AppContext from './AppContext';
 import GridContext from './GridContext';
 
-const Context = {AppContext, GridContext};
+const Context = {GridContext};
 export default Context;

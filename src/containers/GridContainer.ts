@@ -3,7 +3,7 @@ import { Grid, GridProps } from '../grid/widgets/Grid';
 // @ts-ignore
 import Row, { RowProps } from '../grid/widgets/row/Row';
 import MultiContextContainer from './MultiContextContainer';
-import AppContext, { DataItem } from '../context/AppContext';
+import AppContextInterface, { DataItem } from '../context/AppContextInterface';
 // @ts-ignore
 import Cell, { CellProps } from '../grid/widgets/Cell';
 // @ts-ignore
@@ -18,13 +18,12 @@ function getPropertiesFromGridContext(inject: GridContext, properties: GridProps
 	};
 }
 
-function getPropertiesFromAppContext(inject: AppContext, properties: GridProps): Partial<GridProps> {
-	let rowFields, rowRows;
-	const {dataFromServer, loadingStatus, changeDataItem} = inject;
-	rowRows = {
-		rows: dataFromServer.map((item: DataItem) => {
+function getPropertiesFromAppContext(inject: AppContextInterface, properties: GridProps): Partial<GridProps> {
+	const {datastoreData, loadingStatus, changeDataItem} = inject;
+	const rowRows = {
+		rows: datastoreData.map((item: DataItem, index: number) => {
 				return {
-					id: item.id,
+					id: item.id || inject.idArray[index],
 					cells: Object.values(item).map((value: string) => {
 						return {
 							value
@@ -34,11 +33,12 @@ function getPropertiesFromAppContext(inject: AppContext, properties: GridProps):
 			}
 		)
 	};
-	rowFields = {
-		fieldsInfo: dataFromServer[0]
-			? Object.keys(dataFromServer[0]).map((key: string) => {
+	const rowFields = {
+		fieldsInfo: datastoreData[0]
+			? Object.keys(datastoreData[0]).map((key: string) => {
 					return {
-						name: key
+						name: key,
+						isEditable: true,
 					};
 				}
 			)

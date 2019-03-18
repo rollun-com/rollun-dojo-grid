@@ -2,8 +2,10 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { CellProps } from '../Cell';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import { v } from '@dojo/framework/widget-core/d';
+import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 
 export interface CellEditorProps extends CellProps {
+
 	onCellValueUpdate(rowIndex: number, columnIndex: number, value: string);
 
 	onStopEditing();
@@ -11,6 +13,7 @@ export interface CellEditorProps extends CellProps {
 
 export default class CellEditor extends WidgetBase<CellEditorProps> {
 	protected value: string;
+	private isStarted: boolean;
 
 	protected onAttach(): void {
 		document.onkeyup = (event: KeyboardEvent) => {
@@ -26,23 +29,26 @@ export default class CellEditor extends WidgetBase<CellEditorProps> {
 	}
 
 	protected render(): DNode | DNode[] {
-		return v('div', {}, [
-			v('input',
-				{
-					type: 'text',
-					classes: '',
-					value: this.value,
-					oninput: (event: Event) => {
-						// @ts-ignore
-						this.value = event.target.value;
-						this.invalidate();
-					},
-					onblur: () => {
-						this.finishEditing();
-					}
+		if (!this.isStarted) {
+			this.value = this.properties.value;
+			this.isStarted = true;
+		}
+		return v('input',
+			{
+				type: 'text',
+				classes: `${bs.w100}`,
+				value: this.value,
+				focus: () => true,
+				oninput: (event: Event) => {
+					// @ts-ignore
+					this.value = event.target.value;
+					this.invalidate();
+				},
+				onblur: () => {
+					this.finishEditing();
 				}
-			)
-		]);
+			}
+		);
 	}
 
 	protected finishEditing(): void {
