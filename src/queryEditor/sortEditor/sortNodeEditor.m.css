@@ -1,0 +1,23 @@
+.root {
+}
+
+.sort {
+}
+
+.titleRow {
+    max-height: 30px;
+}
+
+.titleContainer {
+    flex: 3;
+}
+
+.closeBtnContainer {
+    flex: 1;
+}
+
+.activeSortNodes {
+    min-width: fit-content;
+    overflow-y: auto;
+}
+

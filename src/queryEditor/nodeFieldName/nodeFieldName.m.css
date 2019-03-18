@@ -1,0 +1,18 @@
+.root {
+    border: 1px solid darkgrey;
+    border-radius: 3px;
+    background-color: var(--green);
+}
+
+.root:hover {
+    cursor: grab;
+}
+
+.active {
+
+}
+
+.root.active {
+    background-color: var(--teal)
+}
+

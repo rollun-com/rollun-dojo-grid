@@ -1,32 +1,32 @@
 import Common from './common';
 import Context from './context';
-import Query from './query-manager';
+import Query from './queryManager';
 // @ts-ignore
-import { Grid as RGrid } from './grid';
+import { Grid as RGrid } from './gridWidgets/grid';
 // @ts-ignore
 import AppContextInterface from './context/AppContextInterface';
 // @ts-ignore
-import { Cell, CellProps } from './grid/widgets/Cell';
+import { Cell, CellProps } from './gridWidgets/grid/widgets/Cell';
 // @ts-ignore
-import { ColumnHeaderCell } from './grid/widgets/ColumnHeaderCell';
+import { ColumnHeaderCell } from './gridWidgets/grid/widgets/ColumnHeaderCell';
 // @ts-ignore
-import { ColumnHeaders, ColumnHeadersProps } from './grid/widgets/ColumnHeaders';
+import { ColumnHeaders, ColumnHeadersProps } from './gridWidgets/grid/widgets/ColumnHeaders';
 // @ts-ignore
 import { ContextReducers } from './containers/MultiContextContainer';
 // @ts-ignore
 import GridContext from './context/GridContext';
 // @ts-ignore
-import { NoData } from './grid/widgets/NoData';
+import { NoData } from './gridWidgets/grid/widgets/NoData';
 // @ts-ignore
-import QueryManager from './query-manager/QueryManager';
+import QueryManager from './queryManager/QueryManager';
 // @ts-ignore
-import { Row, RowProps } from './grid/widgets/row/Row';
+import { Row, RowProps } from './gridWidgets/grid/widgets/row/Row';
 // @ts-ignore
 import { VNode, WidgetBaseInterface, WidgetProperties, WNode } from '@dojo/framework/widget-core/interfaces';
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 // @ts-ignore
-import { GridProps } from './grid/widgets/Grid';
+import { GridProps } from './gridWidgets/grid/widgets/Grid';
 // @ts-ignore
 import * as interfaces from './common/interfaces';
 

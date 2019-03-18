@@ -1,0 +1,23 @@
+.root {
+}
+
+.controls {
+    height: 30px;
+}
+
+.titleContainer {
+    flex: 3;
+}
+
+.closeBtnContainer {
+    flex: 1;
+}
+
+.activeNodesContainer {
+}
+
+.activeSelectNodes {
+    min-width: fit-content;
+    overflow-y: auto;
+}
+

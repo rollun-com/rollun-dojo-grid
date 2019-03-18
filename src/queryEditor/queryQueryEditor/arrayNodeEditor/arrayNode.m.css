@@ -1,0 +1,17 @@
+.root {
+    border: 1px solid darkgrey;
+    border-radius: 4px;
+}
+
+.removeButton {
+    height: 36px;
+    width: 36px;
+}
+
+.controlsContainer {
+    flex: 11
+}
+
+.closeBtnContainer {
+    flex: 1
+}
