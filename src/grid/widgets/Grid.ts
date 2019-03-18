@@ -4,7 +4,7 @@ import { v, w } from '@dojo/framework/widget-core/d';
 import { ColumnHeaders } from './ColumnHeaders';
 import { DNode, VNode } from '@dojo/framework/widget-core/interfaces';
 import { NoData } from './NoData';
-import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
+import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import RowContainer from '../../containers/RowContainer';
 import * as lodash from 'lodash';
 import GridContext from '../../context/GridContext';
@@ -42,16 +42,16 @@ export class Grid extends WidgetBase<GridProps> {
 		} else {
 			gridComponents.push(w(NoData, {}));
 		}
-		let classes = `${bootstrap.dFlex} ${bootstrap.flexColumn} ${bootstrap.border} `;
+		let classes = `${bs.overflowAuto} ${bs.border} `;
 		if (this.properties.loadingStatus === LoadingStatusEnum.loading) {
 			classes += ownCss.loading;
 		}
-		return v('div', {
+		return v('table', {
 			classes,
 			styles: {
-				minHeight: '450px'
+				minWidth: '500px',
+				minHeight: '250px',
 			}
 		}, gridComponents);
 	}
-
 }

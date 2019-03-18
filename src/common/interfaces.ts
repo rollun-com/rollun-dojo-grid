@@ -2,6 +2,7 @@ export interface FieldInfo {
 	name: string;
 	label?: string;
 	isEditable?: boolean;
+	width?: number;
 }
 
 export interface RowFields { // headers for each column, starting from 1

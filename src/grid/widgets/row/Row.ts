@@ -20,7 +20,7 @@ export class Row extends WidgetBase<RowProps> {
 	private basicRender(): DNode {
 		const {rowFields, rowIndex} = this.properties;
 		return v(
-			'div',
+			'tr',
 			this.getRowNodeProperties(),
 			rowFields.fieldsInfo.map((fieldInfo: FieldInfo, columnIndex: number): DNode => {
 					return w(CellContainer, {rowIndex, columnIndex, key: `cell-${rowIndex}-${columnIndex}`});
@@ -31,7 +31,7 @@ export class Row extends WidgetBase<RowProps> {
 
 	private getRowNodeProperties(): VNodeProperties {
 		const properties: VNodeProperties = {
-			classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.borderBottom}`,
+			classes: `${bootstrap.borderBottom}`,
 		};
 		return properties;
 	}

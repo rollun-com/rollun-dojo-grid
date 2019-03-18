@@ -11,6 +11,7 @@ import { DefaultWidgetBaseInterface, VNode, WidgetBaseInterface, WidgetPropertie
 	from '@dojo/framework/widget-core/interfaces';
 // @ts-ignore
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
+import { FieldInfo } from '../common/interfaces';
 
 function getPropertiesFromGridContext(inject: GridContext, properties: GridProps): Partial<GridProps> {
 	return {
@@ -19,7 +20,7 @@ function getPropertiesFromGridContext(inject: GridContext, properties: GridProps
 }
 
 function getPropertiesFromAppContext(inject: AppContextInterface, properties: GridProps): Partial<GridProps> {
-	const {datastoreData, loadingStatus, changeDataItem} = inject;
+	const {datastoreData, datastoreDataLoadingStatus, changeDataItem} = inject;
 	const rowRows = {
 		rows: datastoreData.map((item: DataItem, index: number) => {
 				return {
@@ -33,13 +34,20 @@ function getPropertiesFromAppContext(inject: AppContextInterface, properties: Gr
 			}
 		)
 	};
+	const fieldsConfig = inject.fieldsConfig;
 	const rowFields = {
 		fieldsInfo: datastoreData[0]
-			? Object.keys(datastoreData[0]).map((key: string) => {
-					return {
-						name: key,
-						isEditable: true,
+			? Object.keys(datastoreData[0]).map((fieldName: string, index: number): FieldInfo => {
+					const configForField = fieldsConfig.find((value: FieldInfo) => value.name === fieldName);
+
+					let finalFieldInfo: FieldInfo = {
+						name: fieldName,
+						isEditable: true
 					};
+					if (configForField) {
+						finalFieldInfo = {...finalFieldInfo, ...configForField};
+					}
+					return finalFieldInfo;
 				}
 			)
 			: []
@@ -47,7 +55,7 @@ function getPropertiesFromAppContext(inject: AppContextInterface, properties: Gr
 	return {
 		fields: rowFields,
 		rows: rowRows,
-		loadingStatus,
+		loadingStatus: datastoreDataLoadingStatus,
 		changeCellValue: changeDataItem.bind(inject)
 	};
 }

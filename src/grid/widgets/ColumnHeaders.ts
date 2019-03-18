@@ -12,10 +12,9 @@ export interface ColumnHeadersProps {
 export class ColumnHeaders extends WidgetBase<ColumnHeadersProps> {
 	protected render(): VNode {
 		const {fields} = this.properties;
-		return v('div', {}, [
-			v('div',
+		return v('tr',
 				{
-					classes: `${bootstrap.dFlex} ${bootstrap.flexRow} ${bootstrap.border}`,
+					classes: `${bootstrap.border}`,
 					styles: {
 						backgroundColor: '#f4f6f7'
 					}
@@ -23,7 +22,6 @@ export class ColumnHeaders extends WidgetBase<ColumnHeadersProps> {
 				fields.fieldsInfo.map((fieldInfo: FieldInfo, columnIndex: number) => {
 					return w(ColumnHeaderCellContainer, {columnIndex, rowIndex: 0});
 				})
-			)
-		]);
+			);
 	}
 }

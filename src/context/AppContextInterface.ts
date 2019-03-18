@@ -1,7 +1,7 @@
 import GridContext from './GridContext';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
-import { LoadingStatusEnum } from '../common/interfaces';
+import { LoadingStatusEnum, FieldInfo } from '../common/interfaces';
 
 export interface DataItem {
 	id: number;
@@ -12,8 +12,11 @@ export interface DataItem {
 export default interface AppContextInterface {
 	grid: GridContext;
 	datastoreData: DataItem[];
-	loadingStatus: LoadingStatusEnum;
+	datastoreDataLoadingStatus: LoadingStatusEnum;
+	countData: number;
+	countDataLoadingStatus: LoadingStatusEnum;
 	idArray: string[];
+	fieldsConfig: FieldInfo[];
 
 	reloadGridData(): void;
 

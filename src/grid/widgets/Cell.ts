@@ -10,13 +10,14 @@ export interface CellProps extends CellData {
 	columnIndex: number;
 	key: string;
 	isEditable?: boolean;
+	width?: number;
 }
 
 export class Cell extends WidgetBase<CellProps> {
 	private isEdited: boolean;
 
 	protected render(): DNode {
-		return v('div',
+		return v('td',
 			this.getCellNodeProperties(),
 			[
 				this.getValue()
@@ -26,11 +27,15 @@ export class Cell extends WidgetBase<CellProps> {
 
 	private getCellNodeProperties(): VNodeProperties {
 		const cellNodeProps: VNodeProperties = {
-			classes: `${bootstrap.dFlex} ${bootstrap.p1} ${bootstrap.alignItemsCenter} ${bootstrap.borderLeft}`,
+			classes: `${bootstrap.p1} ${bootstrap.alignItemsCenter} ${bootstrap.borderLeft}`,
 			styles: {
-				flex: '1 0',
+				minWidth: '100px'
 			}
 		};
+		if (this.properties.width) {
+			// @ts-ignore
+			cellNodeProps.styles.width = this.properties.width + 'px';
+		}
 		if (this.properties.isEditable) {
 			cellNodeProps.ondblclick = () => {
 				this.isEdited = true;

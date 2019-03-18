@@ -5,7 +5,7 @@ import { DNode } from '@dojo/framework/widget-core/interfaces';
 export class ColumnHeaderCell extends Cell {
 	protected getValue(): DNode {
 		const {value} = this.properties;
-		return v('div',
+		return v('td',
 			{},
 			[
 				v('span',
