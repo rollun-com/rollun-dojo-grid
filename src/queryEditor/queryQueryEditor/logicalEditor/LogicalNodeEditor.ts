@@ -78,15 +78,27 @@ export default class LogicalNodeEditor extends WidgetBase<LogicalNodeProps> {
 						switch (true) {
 							case (node instanceof AbstractLogicalNode):
 								castedNode = <AbstractLogicalNode> node;
-								return w(LogicalNodeEditor, {id, node: castedNode, fieldNames, onRemove});
+								return w(LogicalNodeEditor, {
+									id,
+									node: castedNode,
+									fieldNames,
+									onRemove});
 
 							case (node instanceof AbstractScalarNode):
 								castedNode = <AbstractScalarNode> node;
-								return w(ScalarNodeEditor, {id, node: castedNode, fieldNames, onRemove});
+								return w(ScalarNodeEditor, {
+									id,
+									node: castedNode,
+									fieldNames,
+									onRemove});
 
 							case (node instanceof AbstractArrayNode):
 								castedNode = <AbstractArrayNode> node;
-								return w(ArrayNodeEditor, {id, node: castedNode, fieldNames, onRemove});
+								return w(ArrayNodeEditor, {
+									id,
+									node: castedNode,
+									fieldNames,
+									onRemove});
 						}
 					}
 				)),

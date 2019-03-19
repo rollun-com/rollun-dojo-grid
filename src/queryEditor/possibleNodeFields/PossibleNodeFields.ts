@@ -6,11 +6,11 @@ import { VNode } from '@dojo/framework/widget-core/interfaces';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as commonCss from '../common/common.m.css';
 
-export interface PossibleNodeFieldsContainerProps {
+export interface PossibleNodeFieldsProps {
 	fieldNames: string[];
 }
 
-export default class PossibleNodeFields extends WidgetBase<PossibleNodeFieldsContainerProps> {
+export default class PossibleNodeFields extends WidgetBase<PossibleNodeFieldsProps> {
 	private fieldNames: string[] = [];
 	private isStarted = false;
 

@@ -4,8 +4,8 @@ import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import Select from 'rollun-ts-rql/dist/nodes/Select';
 import Sort, { SortOptions } from 'rollun-ts-rql/dist/nodes/Sort';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
-import SelectNodeEditor from '../selectEditor/SelectNodeEditor';
-import SortNodeEditor from '../sortEditor/SortNodeEditor';
+import SelectNodeEditor from '../selectNodeEditor/SelectNodeEditor';
+import SortNodeEditor from '../sortNodeEditor/SortNodeEditor';
 import LimitNodeEditor from '../limitEditor/LimitNodeEditor';
 import Query from 'rollun-ts-rql/dist/Query';
 import DropToRemoveNodeField from '../dropToRemoveNodeField/DropToRemoveNodeField';
@@ -22,18 +22,27 @@ import ArrayNodeEditor from '../queryQueryEditor/arrayNodeEditor/ArrayNodeEditor
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as ownCss from './queryEditor.m.css';
 import Dialog from '../../dialog/Dialog';
+import QueryEditorContext from '../../context/QueryEditorContext';
 
-export interface QueryQueryEditorProps {
+export interface QueryEditorProps {
 	query: Query;
-	fieldNames: string[];
+	context: QueryEditorContext;
 	renderLimitNode?: boolean;
+	fieldNames: string[];
 }
 
-export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
+export default class QueryEditor extends WidgetBase<QueryEditorProps> {
+	private isStarted: boolean;
 	private openQueryCreationDialog = false;
 	private rqlNodeFactory = new RqlNodeFactory();
+	protected context: QueryEditorContext;
 
 	protected render(): VNode {
+		if(!this.isStarted) {
+			this.context = this.properties.context;
+			this.context.query = this.properties.query;
+
+		}
 		const nonQueryEditors: DNode[] = [
 			v('div', {classes: `${bs.colMd4} ${bs.p0}`}, [
 				w(PossibleNodeFields, {fieldNames: this.properties.fieldNames})
@@ -83,8 +92,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 			return w(SelectNodeEditor, {
 				node, onRemove, fieldNames: this.properties.fieldNames, onSelectNodeChange
 			});
-		}
-		else {
+		} else {
 			return v('div', {
 				classes: `${bs.dFlex} ${bs.justifyContentCenter} ${bs.alignItemsCenter} ${bs.h100}`
 			}, [
@@ -111,8 +119,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 				this.removeNode('sort');
 			};
 			return w(SortNodeEditor, {node, onRemove, onSortNodeChange});
-		}
-		else {
+		} else {
 			return v('div', {
 				classes: `${bs.dFlex} ${bs.justifyContentCenter} ${bs.alignItemsCenter} ${bs.h100}`
 			}, [
@@ -135,8 +142,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 				this.removeNode('limit');
 			};
 			return w(LimitNodeEditor, {node, onRemove});
-		}
-		else {
+		} else {
 			return v('button', {
 				classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
 				onclick: () => {
@@ -151,7 +157,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 		if (node) {
 			switch (true) {
 				case node instanceof AbstractLogicalNode:
-					const logicalNode = <AbstractLogicalNode> node;
+					const logicalNode = <AbstractLogicalNode>node;
 					return w(LogicalNodeEditor, {
 						id: 1,
 						onRemove: () => {
@@ -161,7 +167,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 						node: logicalNode
 					});
 				case node instanceof AbstractScalarNode:
-					const scalarNode = <AbstractScalarNode> node;
+					const scalarNode = <AbstractScalarNode>node;
 					return w(ScalarNodeEditor, {
 						id: 1,
 						node: scalarNode,
@@ -171,7 +177,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 						}
 					});
 				case node instanceof AbstractArrayNode:
-					const arrayNode = <AbstractArrayNode> node;
+					const arrayNode = <AbstractArrayNode>node;
 					return w(ArrayNodeEditor, {
 						id: 1,
 						node: arrayNode,
@@ -182,8 +188,7 @@ export default class QueryEditor extends WidgetBase<QueryQueryEditorProps> {
 					});
 			}
 
-		}
-		else {
+		} else {
 			return v('div', {}, [
 				v('button', {
 					classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,

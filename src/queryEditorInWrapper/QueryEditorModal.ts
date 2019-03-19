@@ -14,7 +14,7 @@ export interface EditorModalProps {
 	applyQuery(query: Query): void;
 }
 
-export default class QueryEditorInModal extends WidgetBase<EditorModalProps> {
+export default class QueryEditorModal extends WidgetBase<EditorModalProps> {
 	private openDialog = false;
 	private query = new Query({limit: new Limit(20, 0)});
 	private fieldNames: string[];

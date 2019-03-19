@@ -7,7 +7,7 @@
     "lodash": "^4.17.11",
     "rollun-common": "^1.0.1",
     "rollun-common-widgets": "^1.0.7",
-    "rollun-ts-rql": "^0.2.3",
+    "rollun-ts-rql": "^0.4.1",
     "tslib": "~1.8.1"
   },
   "devDependencies": {

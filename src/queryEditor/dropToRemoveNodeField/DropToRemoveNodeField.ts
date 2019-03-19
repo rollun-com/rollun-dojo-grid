@@ -6,12 +6,13 @@ import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as commonCss from '../common/common.m.css';
+import { QueryNodeNames } from '../../context/QueryEditorContext';
 
-export interface DropToRemoveFieldProps {
-	onNodeFieldRemove(fieldName: string, nodeName: string): void;
+export interface DropToRemoveNodeFieldProps {
+	onNodeFieldRemove(fieldName: string, nodeName: (QueryNodeNames.select | QueryNodeNames.sort)): void;
 }
 
-export default class DropToRemoveField extends WidgetBase<DropToRemoveFieldProps> {
+export default class DropToRemoveNodeField extends WidgetBase<DropToRemoveNodeFieldProps> {
 	private awaitingDrop = false;
 	private validDropTarget = false;
 
@@ -78,12 +79,12 @@ export default class DropToRemoveField extends WidgetBase<DropToRemoveFieldProps
 
 	private removeDroppedNodeFromSelectedNodes(event: DragEvent) {
 		const nodeFieldName = event.dataTransfer.getData('nodefieldname');
+		let nodeType;
 		if (event.dataTransfer.types.indexOf('selectnode') !== -1) {
-			const nodeType = 'selectnode';
-			this.properties.onNodeFieldRemove(nodeFieldName, nodeType);
+			nodeType = QueryNodeNames.select;
 		} else {
-			const nodeType = 'sortnode';
-			this.properties.onNodeFieldRemove(nodeFieldName, nodeType);
+			nodeType = QueryNodeNames.sort;
 		}
+		this.properties.onNodeFieldRemove(nodeFieldName, nodeType);
 	}
 }

@@ -1,21 +1,21 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v } from '@dojo/framework/widget-core/d';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
-import * as ownCss from './arrayNode.m.css';
 import AbstractArrayNode from 'rollun-ts-rql/dist/nodes/arrayNodes/AbstractArrayNode';
+import * as ownCss from './arrayNode.m.css';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 
-export interface ArrayNodeProps {
-	id: number;
+export interface ArrayNodeEditorProps {
+	path: number[];
 	node: AbstractArrayNode;
 	fieldNames: string[];
 
-	onRemove(id: number): void;
+	onRemove(path: number[]): void;
 }
 
-export default class ArrayNodeEditor extends WidgetBase<ArrayNodeProps> {
+export default class ArrayNodeEditor extends WidgetBase<ArrayNodeEditorProps> {
 	protected render(): VNode {
 		const nodeValueEditorText = this.properties.node.values.join();
 		return v('div', {classes: `${bs.dFlex} ${bs.flexRow} ${bs.p2} ${bs.mb1} ${ownCss.root}`},
@@ -56,7 +56,7 @@ export default class ArrayNodeEditor extends WidgetBase<ArrayNodeProps> {
 						v('button', {
 								classes: `${ownCss.removeButton} ${bs.btn} ${bs.btnDanger}`,
 								onclick: () => {
-									this.remove(this.properties.id);
+									this.removeSelf();
 								}
 							},
 							[
@@ -71,8 +71,8 @@ export default class ArrayNodeEditor extends WidgetBase<ArrayNodeProps> {
 		);
 	}
 
-	private remove(id: number) {
-		this.properties.onRemove(id);
+	private removeSelf() {
+		this.properties.onRemove(this.properties.path);
 	}
 
 	private getHumanNodeName(nodeName: string) {

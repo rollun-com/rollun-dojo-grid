@@ -7,15 +7,15 @@ import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 
-export interface ScalarNodeProps {
-	id: number;
-	node: (AbstractScalarNode);
+export interface ScalarNodeEditorProps {
+	path: number[];
+	node: AbstractScalarNode;
 	fieldNames: string[];
 
-	onRemove(id: number): void;
+	onRemove(path: number[]): void;
 }
 
-export default class ScalarNodeEditor extends WidgetBase<ScalarNodeProps> {
+export default class ScalarNodeEditor extends WidgetBase<ScalarNodeEditorProps> {
 	protected render(): VNode {
 		return v('div', {classes: ownCss.root},
 			[
@@ -55,7 +55,7 @@ export default class ScalarNodeEditor extends WidgetBase<ScalarNodeProps> {
 					v('button', {
 							classes: `${ownCss.removeButton} ${bootstrap.btn} ${bootstrap.btnSm} ${bootstrap.btnDanger}`,
 							onclick: () => {
-								this.remove(this.properties.id);
+								this.removeSelf();
 							}
 						},
 						[
@@ -67,8 +67,8 @@ export default class ScalarNodeEditor extends WidgetBase<ScalarNodeProps> {
 		);
 	}
 
-	private remove(id: number) {
-		this.properties.onRemove(id);
+	private removeSelf() {
+		this.properties.onRemove(this.properties.path);
 	}
 
 	private getHumanNodeName(nodeName: string) {

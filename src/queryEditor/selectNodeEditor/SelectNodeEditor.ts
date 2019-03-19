@@ -9,7 +9,7 @@ import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as commonCss from '../common/common.m.css';
 
-export interface SelectNodeProps {
+export interface SelectNodeEditorProps {
 	node: Select;
 	fieldNames: string[];
 
@@ -18,7 +18,7 @@ export interface SelectNodeProps {
 	onRemove(): void;
 }
 
-export default class SelectNodeEditor extends WidgetBase<SelectNodeProps> {
+export default class SelectNodeEditor extends WidgetBase<SelectNodeEditorProps> {
 	private awaitingDrop = false;
 	private validDropTarget = false;
 
