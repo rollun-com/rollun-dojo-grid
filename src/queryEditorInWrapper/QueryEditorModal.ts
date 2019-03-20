@@ -2,10 +2,10 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { DNode } from '@dojo/framework/widget-core/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import Query from 'rollun-ts-rql/dist/Query';
-import QueryEditor from '../queryEditor/queryEditor/QueryEditor';
 import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import Dialog from '../dialog/Dialog';
+import QueryEditorContainerModalContainer from '../containers/queryBuilder/queryEditorContainerModalContainer';
 
 export interface EditorModalProps {
 	query: Query;
@@ -17,8 +17,8 @@ export interface EditorModalProps {
 export default class QueryEditorModal extends WidgetBase<EditorModalProps> {
 	private openDialog = false;
 	private query = new Query({limit: new Limit(20, 0)});
-	private fieldNames: string[];
 	private isStarted = false;
+	private fieldNames: string[];
 
 	protected render(): DNode {
 		const {fieldNames, applyQuery} = this.properties;
@@ -26,7 +26,6 @@ export default class QueryEditorModal extends WidgetBase<EditorModalProps> {
 			this.fieldNames = fieldNames;
 			this.isStarted = true;
 		}
-		const query = this.query;
 		return v('div', {
 				styles: {}
 			},
@@ -48,7 +47,8 @@ export default class QueryEditorModal extends WidgetBase<EditorModalProps> {
 								classes: `${bs.dFlex} ${bs.flexGrow1}`
 							},
 							[
-								w(QueryEditor, {query, fieldNames: this.fieldNames}),
+								// @ts-ignore
+								w(QueryEditorContainerModalContainer, {fieldNames: this.fieldNames}),
 							]
 						),
 						v('btn',

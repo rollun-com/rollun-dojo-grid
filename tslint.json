@@ -1,7 +1,6 @@
 {
 	"rules": {
 		"align": false,
-		"ban": [],
 		"class-name": true,
 		"comment-format": [ true, "check-space" ],
 		"curly": true,
@@ -56,5 +55,14 @@
 		"use-strict": false,
 		"variable-name": [ true, "check-format", "allow-leading-underscore", "ban-keywords", "allow-pascal-case" ],
 		"whitespace": [ true, "check-branch", "check-decl", "check-operator", "check-module", "check-separator", "check-type", "check-typecast" ]
+	},
+	"linterOptions": {
+		"exclude": [
+			"node_modules"
+		],
+		"include": [
+			"./src/**/*.ts",
+			"./tests/**/*.ts"
+		]
 	}
 }

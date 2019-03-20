@@ -29,8 +29,6 @@
 	},
 	"include": [
 		"./src/**/*.ts",
-		"./src/styles/*.d.ts",
-		"./tests/**/*.ts",
-		"node_modules"
+		"./tests/**/*.ts"
 	]
 }

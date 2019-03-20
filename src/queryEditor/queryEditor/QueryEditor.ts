@@ -14,15 +14,15 @@ import { VNode, DNode } from '@dojo/framework/widget-core/interfaces';
 import AbstractLogicalNode from 'rollun-ts-rql/dist/nodes/logicalNodes/AbstractLogicalNode';
 import ChildNodeCreationForm from '../queryQueryEditor/logicalEditor/ChildNodeCreationForm';
 import RqlNodeFactory, { RqlNodeFactoryParams } from '../../rqlNodeFactory/RqlNodeFactory';
-import LogicalNodeEditor from '../queryQueryEditor/logicalEditor/LogicalNodeEditor';
-import ScalarNodeEditor from '../queryQueryEditor/scalarNodeEditor/ScalarNodeEditor';
 import AbstractScalarNode from 'rollun-ts-rql/dist/nodes/scalarNodes/AbstractScalarNode';
 import AbstractArrayNode from 'rollun-ts-rql/dist/nodes/arrayNodes/AbstractArrayNode';
-import ArrayNodeEditor from '../queryQueryEditor/arrayNodeEditor/ArrayNodeEditor';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as ownCss from './queryEditor.m.css';
 import Dialog from '../../dialog/Dialog';
 import QueryEditorContext from '../../context/QueryEditorContext';
+import ArrayNodeEditorContainer from '../../containers/queryBuilder/arrayNodeEditorContainer';
+import ScalarNodeEditorContainer from '../../containers/queryBuilder/scalarNodeEditorContainer';
+import LogicalNodeEditorContainer from '../../containers/queryBuilder/logicalNodeEditorContainer';
 
 export interface QueryEditorProps {
 	query: Query;
@@ -38,7 +38,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 	protected context: QueryEditorContext;
 
 	protected render(): VNode {
-		if(!this.isStarted) {
+		if (!this.isStarted) {
 			this.context = this.properties.context;
 			this.context.query = this.properties.query;
 
@@ -155,36 +155,19 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 
 	private renderQueryNode(node: AbstractQueryNode) {
 		if (node) {
+			const path: number[] = [0];
 			switch (true) {
 				case node instanceof AbstractLogicalNode:
-					const logicalNode = <AbstractLogicalNode>node;
-					return w(LogicalNodeEditor, {
-						id: 1,
-						onRemove: () => {
-							this.removeNode('query');
-						},
-						fieldNames: this.properties.fieldNames,
-						node: logicalNode
+					return w(LogicalNodeEditorContainer, {
+						path,
 					});
 				case node instanceof AbstractScalarNode:
-					const scalarNode = <AbstractScalarNode>node;
-					return w(ScalarNodeEditor, {
-						id: 1,
-						node: scalarNode,
-						fieldNames: this.properties.fieldNames,
-						onRemove: () => {
-							this.removeNode('query');
-						}
+					return w(ScalarNodeEditorContainer, {
+						path,
 					});
 				case node instanceof AbstractArrayNode:
-					const arrayNode = <AbstractArrayNode>node;
-					return w(ArrayNodeEditor, {
-						id: 1,
-						node: arrayNode,
-						fieldNames: this.properties.fieldNames,
-						onRemove: () => {
-							this.removeNode('query');
-						}
+					return w(ArrayNodeEditorContainer, {
+						path,
 					});
 			}
 
@@ -212,7 +195,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 						[
 							w(ChildNodeCreationForm, {
 								onChildNodeCreate: (nodeName: string, params: RqlNodeFactoryParams) => {
-									this.properties.query.queryNode = this.rqlNodeFactory.createNode(nodeName, params);
+									this.context.setQueryNode(this.rqlNodeFactory.createNode(nodeName, params));
 									this.openQueryCreationDialog = false;
 									this.invalidate();
 								},

@@ -3,6 +3,7 @@ import QueryManager from '../queryManager/QueryManager';
 import Select from 'rollun-ts-rql/dist/nodes/Select';
 import Sort from 'rollun-ts-rql/dist/nodes/Sort';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
+import AbstractLogicalNode from 'rollun-ts-rql/dist/nodes/logicalNodes/AbstractLogicalNode';
 
 export enum QueryNodeNames {
 	select = 'select',
@@ -19,6 +20,8 @@ export default class QueryEditorContext {
 
 	constructor(invalidator: () => void) {
 		this._invalidator = invalidator;
+		this._queryManager = new QueryManager;
+		this._fieldNames = [];
 	}
 
 	set onApplyQuery(value: (query: Query) => void) {
@@ -49,9 +52,19 @@ export default class QueryEditorContext {
 		}
 	}
 
-	onApplyQuery(query: Query) {
+	applyQuery(query: Query) {
 		this._onApplyQuery(query);
 	}
+
+	setQueryNode(node: AbstractQueryNode) {
+		const oldQuery = this.query;
+		this._queryManager.setQuery(new Query({
+			select: oldQuery.selectNode,
+			sort: oldQuery.sortNode,
+			limit: oldQuery.limitNode,
+			query: node
+		}));
+		this._invalidator();	}
 
 	setSelectNode(node: Select) {
 		const oldQuery = this.query;
@@ -139,12 +152,38 @@ export default class QueryEditorContext {
 	getNodeForPath(path: number[]): AbstractQueryNode {
 		const query = this.query;
 		let currentNode = query.queryNode;
-		path.forEach((item: number)=> {
-
+		path.forEach((pathFragment: number, index: number) => {
+			if (index === 0) {
+				return;
+			}
+			if (currentNode instanceof AbstractLogicalNode) {
+				currentNode = currentNode.subNodes[pathFragment];
+			} else {
+				throw new Error(`Invalid path: ${path.join(' ')}`);
+			}
 		});
+		return currentNode;
 	}
 
-	removeNodeForPath(path: number[]) {
+	removeNodeForPath(path: number[]): void {
+		const parentNodePath = path.slice(0, path.length - 1);
+		const parentNode = this.getNodeForPath(parentNodePath);
+		if (parentNode instanceof AbstractLogicalNode) {
+			parentNode.removeNode(path[path.length - 1]);
+			this._invalidator();
+		} else {
+			throw new Error(`Node with path ${path.join(' ')} doesnt have children`);
+		}
+	}
 
+	addNodeForPath(node: AbstractQueryNode, path: number[]): void {
+		const parentNodePath = path.slice(0, path.length - 1);
+		const parentNode = this.getNodeForPath(parentNodePath);
+		if (parentNode instanceof AbstractLogicalNode) {
+			parentNode.addNode(node);
+			this._invalidator();
+		} else {
+			throw new Error(`Node with path ${path.join(' ')} can't have children`);
+		}
 	}
 }

@@ -4,8 +4,8 @@ import ArrayNodeEditor, { ArrayNodeEditorProps } from '../../queryEditor/queryQu
 import AbstractArrayNode from 'rollun-ts-rql/dist/nodes/arrayNodes/AbstractArrayNode';
 
 function getProperties(inject: QueryEditorContext, properties: Partial<ArrayNodeEditorProps>): ArrayNodeEditorProps {
-	const {path, fieldNames} = this.properties;
-	const node = <AbstractArrayNode>inject.getNodeForPath(path);
+	const {path, fieldNames} = properties;
+	const node = <AbstractArrayNode> inject.getNodeForPath(path);
 	const onRemove = inject.removeNodeForPath.bind(inject);
 	return {
 		path,

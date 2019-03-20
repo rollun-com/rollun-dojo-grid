@@ -8,12 +8,13 @@ import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as commonCss from '../common/common.m.css';
+import AggregateFunctionNode from 'rollun-ts-rql/dist/nodes/aggregateNodes/AggregateFunctionNode';
 
 export interface SelectNodeEditorProps {
 	node: Select;
 	fieldNames: string[];
 
-	onSelectNodeChange(fields: string[]): void;
+	onSelectNodeChange(fields: (string| AggregateFunctionNode)[]): void;
 
 	onRemove(): void;
 }

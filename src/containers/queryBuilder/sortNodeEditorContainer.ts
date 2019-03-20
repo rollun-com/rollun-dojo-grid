@@ -6,8 +6,8 @@ import Sort, { SortOptions } from 'rollun-ts-rql/dist/nodes/Sort';
 function getProperties(inject: QueryEditorContext, properties: Partial<SortNodeEditorProps>): SortNodeEditorProps {
 	return {
 		node: inject.query.sortNode,
-		onRemove: ()=>{inject.removeNode(QueryNodeNames.sort);},
-		onSortNodeChange: (sortOptions: SortOptions)=> {
+		onRemove: () => {inject.removeNode(QueryNodeNames.sort); },
+		onSortNodeChange: (sortOptions: SortOptions) => {
 			inject.setSortNode(new Sort(sortOptions));
 		}
 	};
