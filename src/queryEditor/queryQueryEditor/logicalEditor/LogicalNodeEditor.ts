@@ -15,13 +15,17 @@ import Dialog from '../../../dialog/Dialog';
 import ScalarNodeEditorContainer from '../../../containers/queryBuilder/scalarNodeEditorContainer';
 import LogicalNodeEditorContainer from '../../../containers/queryBuilder/logicalNodeEditorContainer';
 import ArrayNodeEditorContainer from '../../../containers/queryBuilder/arrayNodeEditorContainer';
+import diffProperty from '@dojo/framework/widget-core/decorators/diffProperty';
+import { undefinedSafeDiffNode } from '../../../common/functions';
 
 export interface LogicalNodeEditorProps {
 	path: number[];
-	node: AbstractLogicalNode;
+	node: AbstractLogicalNode| null;
 	fieldNames: string[];
+	key: string;
 
-	onRemoveSelf(): void;
+	onRemove(path: number[]): void;
+
 	onAddChildNode(node: AbstractQueryNode, index?: number);
 }
 
@@ -35,6 +39,7 @@ export default class LogicalNodeEditor extends WidgetBase<LogicalNodeEditorProps
 		this.nodeFactory = new RqlNodeFactory();
 	}
 
+	@diffProperty('node', undefinedSafeDiffNode)
 	protected render(): DNode {
 		return v('div', {classes: `${bs.dFlex} ${bs.flexColumn} ${css.root}`}, [
 				v('div', {classes: `${bs.dFlex} ${bs.flexRow} ${bs.bgInfo} ${bs.textWhite} ${bs.p1} ${css.controls}`},
@@ -60,7 +65,7 @@ export default class LogicalNodeEditor extends WidgetBase<LogicalNodeEditorProps
 									{
 										classes: `${bs.btn} ${bs.btnDanger} ${bs.btnSm}`,
 										onclick: () => {
-											this.properties.onRemoveSelf();
+											this.properties.onRemove(this.properties.path);
 										}
 									},
 									[
@@ -74,14 +79,23 @@ export default class LogicalNodeEditor extends WidgetBase<LogicalNodeEditorProps
 					this.properties.node.subNodes.map(
 						(node: AbstractQueryNode, index: number) => {
 							const currentChildPath = this.properties.path.concat([index]);
-
+							const key = `query-${currentChildPath.join('-')}`;
 							switch (true) {
 								case (node instanceof AbstractLogicalNode):
-									return w(LogicalNodeEditorContainer, {path: currentChildPath});
+									return w(LogicalNodeEditorContainer, {
+										path: currentChildPath,
+										key,
+									});
 								case (node instanceof AbstractScalarNode):
-									return w(ScalarNodeEditorContainer, {path: currentChildPath});
+									return w(ScalarNodeEditorContainer, {
+										path: currentChildPath,
+										key
+									});
 								case (node instanceof AbstractArrayNode):
-									return w(ArrayNodeEditorContainer, {path: currentChildPath});
+									return w(ArrayNodeEditorContainer, {
+										path: currentChildPath,
+										key
+									});
 							}
 						}
 					)),
@@ -123,8 +137,8 @@ export default class LogicalNodeEditor extends WidgetBase<LogicalNodeEditorProps
 	}
 
 	private createChildNode(nodeName: string, params: RqlNodeFactoryParams) {
-		this.properties.onAddChildNode(this.nodeFactory.createNode(nodeName, params));
 		this.openDialog = false;
+		this.properties.onAddChildNode(this.nodeFactory.createNode(nodeName, params));
 		this.invalidate();
 	}
 }

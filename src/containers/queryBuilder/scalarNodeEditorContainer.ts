@@ -4,14 +4,18 @@ import AbstractScalarNode from 'rollun-ts-rql/dist/nodes/scalarNodes/AbstractSca
 import ScalarNodeEditor, { ScalarNodeEditorProps } from '../../queryEditor/queryQueryEditor/scalarNodeEditor/ScalarNodeEditor';
 
 function getProperties(inject: QueryEditorContext, properties: Partial<ScalarNodeEditorProps>): ScalarNodeEditorProps {
-	const {path, fieldNames} = properties;
-	const node = <AbstractScalarNode> inject.getNodeForPath(path);
+	const {path, key} = properties;
+	const node = inject.hasNodeForPath(path)
+		? <AbstractScalarNode> inject.getNodeForPath(path)
+	: null;
 	const onRemove = inject.removeNodeForPath.bind(inject);
+	const fieldNames = inject.fieldNames;
 	return {
 		path,
 		fieldNames,
 		node,
-		onRemove
+		onRemove,
+		key
 	};
 }
 

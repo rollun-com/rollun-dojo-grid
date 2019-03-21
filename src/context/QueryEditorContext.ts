@@ -1,5 +1,4 @@
 import Query from 'rollun-ts-rql/dist/Query';
-import QueryManager from '../queryManager/QueryManager';
 import Select from 'rollun-ts-rql/dist/nodes/Select';
 import Sort from 'rollun-ts-rql/dist/nodes/Sort';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
@@ -14,13 +13,12 @@ export enum QueryNodeNames {
 
 export default class QueryEditorContext {
 	private _invalidator: () => void;
-	private _queryManager: QueryManager;
 	private _onApplyQuery: (query: Query) => void;
 	private _fieldNames: string[];
+	private _query: Query;
 
 	constructor(invalidator: () => void) {
 		this._invalidator = invalidator;
-		this._queryManager = new QueryManager;
 		this._fieldNames = [];
 	}
 
@@ -33,11 +31,11 @@ export default class QueryEditorContext {
 	}
 
 	get query(): Query {
-		return this._queryManager.getQuery();
+		return this._query;
 	}
 
 	set query(query: Query) {
-		this._queryManager.setQuery(query);
+		this._query = query;
 		this._invalidator();
 	}
 
@@ -58,33 +56,34 @@ export default class QueryEditorContext {
 
 	setQueryNode(node: AbstractQueryNode) {
 		const oldQuery = this.query;
-		this._queryManager.setQuery(new Query({
+		this._query = new Query({
 			select: oldQuery.selectNode,
 			sort: oldQuery.sortNode,
 			limit: oldQuery.limitNode,
 			query: node
-		}));
-		this._invalidator();	}
+		});
+		this._invalidator();
+	}
 
 	setSelectNode(node: Select) {
 		const oldQuery = this.query;
-		this._queryManager.setQuery(new Query({
+		this._query = new Query({
 			select: node,
 			sort: oldQuery.sortNode,
 			limit: oldQuery.limitNode,
 			query: oldQuery.queryNode
-		}));
+		});
 		this._invalidator();
 	}
 
 	setSortNode(node: Sort) {
 		const oldQuery = this.query;
-		this._queryManager.setQuery(new Query({
+		this._query = new Query({
 			select: oldQuery.selectNode,
 			sort: node,
 			limit: oldQuery.limitNode,
 			query: oldQuery.queryNode
-		}));
+		});
 		this._invalidator();
 	}
 
@@ -92,35 +91,35 @@ export default class QueryEditorContext {
 		const oldQuery = this.query;
 		switch (true) {
 			case queryNodeName === QueryNodeNames.select: {
-				this._queryManager.setQuery(new Query({
+				this._query = new Query({
 					sort: oldQuery.sortNode,
 					limit: oldQuery.limitNode,
 					query: oldQuery.queryNode
-				}));
+				});
 				break;
 			}
 			case queryNodeName === QueryNodeNames.sort: {
-				this._queryManager.setQuery(new Query({
+				this._query = new Query({
 					select: oldQuery.selectNode,
 					limit: oldQuery.limitNode,
 					query: oldQuery.queryNode
-				}));
+				});
 				break;
 			}
 			case queryNodeName === QueryNodeNames.limit: {
-				this._queryManager.setQuery(new Query({
+				this._query = new Query({
 					select: oldQuery.selectNode,
 					sort: oldQuery.sortNode,
 					query: oldQuery.queryNode
-				}));
+				});
 				break;
 			}
 			case queryNodeName === QueryNodeNames.query: {
-				this._queryManager.setQuery(new Query({
+				this._query = new Query({
 					select: oldQuery.selectNode,
 					sort: oldQuery.sortNode,
 					limit: oldQuery.limitNode,
-				}));
+				});
 				break;
 			}
 		}
@@ -165,14 +164,27 @@ export default class QueryEditorContext {
 		return currentNode;
 	}
 
+	hasNodeForPath(path: number[]): boolean {
+		try {
+			this.getNodeForPath(path);
+			return true;
+		} catch (error) {
+			return false;
+		}
+	}
+
 	removeNodeForPath(path: number[]): void {
-		const parentNodePath = path.slice(0, path.length - 1);
-		const parentNode = this.getNodeForPath(parentNodePath);
-		if (parentNode instanceof AbstractLogicalNode) {
-			parentNode.removeNode(path[path.length - 1]);
-			this._invalidator();
+		if (path.length === 1 && path[0] === 0) {
+			this.removeNode(QueryNodeNames.query);
 		} else {
-			throw new Error(`Node with path ${path.join(' ')} doesnt have children`);
+			const parentNodePath = path.slice(0, path.length - 1);
+			const parentNode = this.getNodeForPath(parentNodePath);
+			if (parentNode instanceof AbstractLogicalNode) {
+				parentNode.removeNode(path[path.length - 1]);
+				this._invalidator();
+			} else {
+				throw new Error(`Node with path ${path.join(' ')} doesnt have children`);
+			}
 		}
 	}
 

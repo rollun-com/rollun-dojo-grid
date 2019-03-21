@@ -5,19 +5,23 @@ import LogicalNodeEditor, { LogicalNodeEditorProps } from '../../queryEditor/que
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 
 function getProperties(inject: QueryEditorContext, properties: Partial<LogicalNodeEditorProps>): LogicalNodeEditorProps {
-	const {path, fieldNames} = properties;
-	const node = <AbstractLogicalNode> inject.getNodeForPath(path);
-	const onRemoveSelf = () => {inject.removeNodeForPath(path); };
+	const {path, key} = properties;
+	const node = inject.hasNodeForPath(path)
+		? <AbstractLogicalNode> inject.getNodeForPath(path)
+		: null;
+	const onRemove = inject.removeNodeForPath.bind(inject);
 	const onAddChildNode = (node: AbstractQueryNode, index = 0) => {
 		const finalPath = path.concat([index]);
 		inject.addNodeForPath(node, finalPath);
 	};
+	const fieldNames = inject.fieldNames;
 	return {
 		path,
 		fieldNames,
 		node,
-		onRemoveSelf,
-		onAddChildNode
+		onRemove,
+		onAddChildNode,
+		key
 	};
 }
 

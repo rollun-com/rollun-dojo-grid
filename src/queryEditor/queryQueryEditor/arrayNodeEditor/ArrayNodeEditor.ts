@@ -6,16 +6,21 @@ import * as ownCss from './arrayNode.m.css';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
+import diffProperty from '@dojo/framework/widget-core/decorators/diffProperty';
+import { undefinedSafeDiffNode } from '../../../common/functions';
 
 export interface ArrayNodeEditorProps {
 	path: number[];
-	node: AbstractArrayNode;
+	node: AbstractArrayNode | null;
 	fieldNames: string[];
+	key: string;
 
 	onRemove(path: number[]): void;
 }
 
 export default class ArrayNodeEditor extends WidgetBase<ArrayNodeEditorProps> {
+
+	@diffProperty('node', undefinedSafeDiffNode)
 	protected render(): VNode {
 		const nodeValueEditorText = this.properties.node.values.join();
 		return v('div', {classes: `${bs.dFlex} ${bs.flexRow} ${bs.p2} ${bs.mb1} ${ownCss.root}`},

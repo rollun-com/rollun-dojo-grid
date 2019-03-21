@@ -3,7 +3,6 @@ import MultiContextContainer from '../MultiContextContainer';
 import QueryEditorContext from '../../context/QueryEditorContext';
 import Query from 'rollun-ts-rql/dist/Query';
 import QueryEditorContainerModal, { QueryEditorContainerModalProps } from '../../queryEditorInWrapper/QueryEditorContainerModal';
-import { FieldInfo } from '../../common/interfaces';
 
 function getPropertiesFromAppContext(inject: AppContextInterface, properties: Partial<QueryEditorContainerModalProps>): Partial<QueryEditorContainerModalProps> {
 
@@ -13,9 +12,7 @@ function getPropertiesFromAppContext(inject: AppContextInterface, properties: Pa
 			inject.query = query;
 			inject.reloadGridData();
 		},
-		fieldNames: inject.fieldsConfig.map((item: FieldInfo) => {
-			return item.name;
-		})
+		fieldNames: Object.keys(inject.datastoreData[0])
 	};
 }
 

@@ -3,10 +3,8 @@ import { v, w } from '@dojo/framework/widget-core/d';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import Select from 'rollun-ts-rql/dist/nodes/Select';
 import Sort, { SortOptions } from 'rollun-ts-rql/dist/nodes/Sort';
-import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import SelectNodeEditor from '../selectNodeEditor/SelectNodeEditor';
 import SortNodeEditor from '../sortNodeEditor/SortNodeEditor';
-import LimitNodeEditor from '../limitEditor/LimitNodeEditor';
 import Query from 'rollun-ts-rql/dist/Query';
 import DropToRemoveNodeField from '../dropToRemoveNodeField/DropToRemoveNodeField';
 import PossibleNodeFields from '../possibleNodeFields/PossibleNodeFields';
@@ -19,7 +17,7 @@ import AbstractArrayNode from 'rollun-ts-rql/dist/nodes/arrayNodes/AbstractArray
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import * as ownCss from './queryEditor.m.css';
 import Dialog from '../../dialog/Dialog';
-import QueryEditorContext from '../../context/QueryEditorContext';
+import QueryEditorContext, { QueryNodeNames } from '../../context/QueryEditorContext';
 import ArrayNodeEditorContainer from '../../containers/queryBuilder/arrayNodeEditorContainer';
 import ScalarNodeEditorContainer from '../../containers/queryBuilder/scalarNodeEditorContainer';
 import LogicalNodeEditorContainer from '../../containers/queryBuilder/logicalNodeEditorContainer';
@@ -27,7 +25,6 @@ import LogicalNodeEditorContainer from '../../containers/queryBuilder/logicalNod
 export interface QueryEditorProps {
 	query: Query;
 	context: QueryEditorContext;
-	renderLimitNode?: boolean;
 	fieldNames: string[];
 }
 
@@ -41,17 +38,17 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 		if (!this.isStarted) {
 			this.context = this.properties.context;
 			this.context.query = this.properties.query;
-
+			this.isStarted = true;
 		}
 		const nonQueryEditors: DNode[] = [
 			v('div', {classes: `${bs.colMd4} ${bs.p0}`}, [
-				w(PossibleNodeFields, {fieldNames: this.properties.fieldNames})
+				w(PossibleNodeFields, {fieldNames: this.context.fieldNames})
 			]),
 			v('div', {classes: `${bs.colMd3} ${bs.p0}`}, [
-				this.renderSelectNode(this.properties.query.selectNode)
+				this.renderSelectNode(this.context.query.selectNode)
 			]),
 			v('div', {classes: `${bs.colMd3} ${bs.p0}`}, [
-				this.renderSortNode(this.properties.query.sortNode)
+				this.renderSortNode(this.context.query.sortNode)
 			]),
 			v('div', {classes: `${bs.colMd2} ${bs.p0}`}, [
 				w(DropToRemoveNodeField, {
@@ -61,9 +58,6 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				})
 			])
 		];
-		if (this.properties.renderLimitNode) {
-			nonQueryEditors.push(v('div', {}, [this.renderLimitNode(this.properties.query.limitNode)]));
-		}
 		return v('div', {
 			classes: `${bs.dFlex} ${bs.flexColumn} ${bs.mb3} ${bs.w100}`
 		}, [
@@ -75,7 +69,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 			v('div',
 				{},
 				[
-					this.renderQueryNode(this.properties.query.queryNode)
+					this.renderQueryNode(this.context.query.queryNode)
 				])
 		]);
 	}
@@ -86,11 +80,10 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				this.removeNode('select');
 			};
 			const onSelectNodeChange = (fields: string[]) => {
-				this.properties.query.selectNode = new Select(fields);
-				this.invalidate();
+				this.context.setSelectNode(new Select(fields));
 			};
 			return w(SelectNodeEditor, {
-				node, onRemove, fieldNames: this.properties.fieldNames, onSelectNodeChange
+				node, onRemove, fieldNames: this.context.fieldNames, onSelectNodeChange
 			});
 		} else {
 			return v('div', {
@@ -99,8 +92,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				v('button', {
 						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
 						onclick: () => {
-							this.properties.query.selectNode = new Select(['id']);
-							this.invalidate();
+							this.context.setSelectNode(new Select(['id']));
 						}
 					},
 					['Add select node']
@@ -112,7 +104,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 	private renderSortNode(node: Sort) {
 		if (node) {
 			const onSortNodeChange = (sortOptions: SortOptions) => {
-				this.properties.query.sortNode = new Sort(sortOptions);
+				this.context.setSortNode(new Sort(sortOptions));
 				this.invalidate();
 			};
 			const onRemove = () => {
@@ -126,8 +118,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				v('button', {
 						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
 						onclick: () => {
-							this.properties.query.sortNode = new Sort({id: 1});
-							this.invalidate();
+							this.context.setSortNode(new Sort({id: 1}));
 						}
 					},
 					['Add sort node']
@@ -136,38 +127,25 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 		}
 	}
 
-	private renderLimitNode(node: Limit) {
-		if (node) {
-			const onRemove = () => {
-				this.removeNode('limit');
-			};
-			return w(LimitNodeEditor, {node, onRemove});
-		} else {
-			return v('button', {
-				classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
-				onclick: () => {
-					this.properties.query.limitNode = new Limit(20, 0);
-					this.invalidate();
-				}
-			}, ['Add limit node']);
-		}
-	}
-
 	private renderQueryNode(node: AbstractQueryNode) {
 		if (node) {
 			const path: number[] = [0];
+			const key = `query-${path[0]}`;
 			switch (true) {
 				case node instanceof AbstractLogicalNode:
 					return w(LogicalNodeEditorContainer, {
 						path,
+						key
 					});
 				case node instanceof AbstractScalarNode:
 					return w(ScalarNodeEditorContainer, {
 						path,
+						key
 					});
 				case node instanceof AbstractArrayNode:
 					return w(ArrayNodeEditorContainer, {
 						path,
+						key
 					});
 			}
 
@@ -195,9 +173,8 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 						[
 							w(ChildNodeCreationForm, {
 								onChildNodeCreate: (nodeName: string, params: RqlNodeFactoryParams) => {
-									this.context.setQueryNode(this.rqlNodeFactory.createNode(nodeName, params));
 									this.openQueryCreationDialog = false;
-									this.invalidate();
+									this.context.setQueryNode(this.rqlNodeFactory.createNode(nodeName, params));
 								},
 								fieldNames: this.properties.fieldNames
 							})
@@ -211,43 +188,41 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 	private removeNode(queryNodeName: ('select' | 'sort' | 'limit' | 'query')) {
 		switch (true) {
 			case queryNodeName === 'select': {
-				this.properties.query.selectNode = undefined;
+				this.context.removeNode(QueryNodeNames.select);
 				break;
 			}
 			case queryNodeName === 'sort': {
-				this.properties.query.sortNode = undefined;
+				this.context.removeNode(QueryNodeNames.sort);
 				break;
 			}
 			case queryNodeName === 'limit': {
-				this.properties.query.limitNode = undefined;
+				this.context.removeNode(QueryNodeNames.limit);
 				break;
 			}
 			case queryNodeName === 'query': {
-				this.properties.query.queryNode = undefined;
+				this.context.removeNode(QueryNodeNames.query);
 				break;
 			}
 		}
-		this.invalidate();
 	}
 
 	private removeFieldFromNode(fieldName: string, nodeType: string) {
 		switch (nodeType) {
 			case 'selectnode':
-				const fieldNameIndex = this.properties.query.selectNode.fields.indexOf(fieldName);
+				const fieldNameIndex = this.context.query.selectNode.fields.indexOf(fieldName);
 				if (fieldNameIndex !== -1) {
-					this.properties.query.selectNode.fields.splice(fieldNameIndex, 1);
-					const newFields = [...this.properties.query.selectNode.fields];
-					this.properties.query.selectNode = new Select(newFields);
+					this.context.query.selectNode.fields.splice(fieldNameIndex, 1);
+					const newFields = [...this.context.query.selectNode.fields];
+					this.context.setSelectNode(new Select(newFields));
 				}
 				break;
 			case 'sortnode':
-				if (this.properties.query.sortNode.sortOptions.hasOwnProperty(fieldName)) {
-					delete this.properties.query.sortNode.sortOptions[fieldName];
-					const newSortOptions = Object.assign({}, this.properties.query.sortNode.sortOptions);
-					this.properties.query.sortNode = new Sort(newSortOptions);
+				if (this.context.query.sortNode.sortOptions.hasOwnProperty(fieldName)) {
+					delete this.context.query.sortNode.sortOptions[fieldName];
+					const newSortOptions = Object.assign({}, this.context.query.sortNode.sortOptions);
+					this.context.setSortNode(new Sort(newSortOptions));
 				}
 				break;
 		}
-		this.invalidate();
 	}
 }

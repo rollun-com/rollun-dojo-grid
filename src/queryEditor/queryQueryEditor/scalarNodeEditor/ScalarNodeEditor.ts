@@ -6,16 +6,20 @@ import AbstractScalarNode from 'rollun-ts-rql/dist/nodes/scalarNodes/AbstractSca
 import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
+import diffProperty from '@dojo/framework/widget-core/decorators/diffProperty';
+import { undefinedSafeDiffNode } from '../../../common/functions';
 
 export interface ScalarNodeEditorProps {
 	path: number[];
-	node: AbstractScalarNode;
+	node: AbstractScalarNode| null;
 	fieldNames: string[];
-
+key: string;
 	onRemove(path: number[]): void;
 }
 
 export default class ScalarNodeEditor extends WidgetBase<ScalarNodeEditorProps> {
+
+	@diffProperty('node', undefinedSafeDiffNode)
 	protected render(): VNode {
 		return v('div', {classes: ownCss.root},
 			[
