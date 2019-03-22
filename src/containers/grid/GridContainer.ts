@@ -1,6 +1,6 @@
 import GridContext from '../../context/GridContext';
 import { Grid, GridProps } from '../../gridWidgets/grid/widgets/Grid';
-import AppContextInterface, { DataItem } from '../../context/AppContextInterface';
+import QueryAppContextInterface, { DataItem } from '../../context/QueryAppContextInterface';
 import { FieldInfo } from '../../common/interfaces';
 import MultiContextContainer from '../MultiContextContainer';
 
@@ -10,7 +10,7 @@ function getPropertiesFromGridContext(inject: GridContext, properties: GridProps
 	};
 }
 
-function getPropertiesFromAppContext(inject: AppContextInterface, properties: GridProps): Partial<GridProps> {
+function getPropertiesFromAppContext(inject: QueryAppContextInterface, properties: GridProps): Partial<GridProps> {
 	const {datastoreData, datastoreDataLoadingStatus, changeDataItem} = inject;
 	const rowRows = {
 		rows: datastoreData.map((item: DataItem, index: number) => {

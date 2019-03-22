@@ -9,6 +9,7 @@ import RowContainer from '../../../containers/grid/RowContainer';
 import * as lodash from 'lodash';
 import GridContext from '../../../context/GridContext';
 import * as ownCss from './grid.m.css';
+import ContextConfig from '../../../common/ContextConfig';
 
 export interface GridProps extends GridData {
 	context: GridContext;
@@ -17,6 +18,9 @@ export interface GridProps extends GridData {
 }
 
 export class Grid extends WidgetBase<GridProps> {
+
+	static contextConfig = new ContextConfig(GridContext, []);
+
 	private isStarted = false;
 
 	protected render(): VNode {

@@ -1,10 +1,10 @@
-import AppContextInterface from '../../context/AppContextInterface';
+import QueryAppContextInterface from '../../context/QueryAppContextInterface';
 import MultiContextContainer from '../MultiContextContainer';
 import QueryEditorContext from '../../context/QueryEditorContext';
 import Query from 'rollun-ts-rql/dist/Query';
 import QueryEditorContainerModal, { QueryEditorContainerModalProps } from '../../queryEditorInWrapper/QueryEditorContainerModal';
 
-function getPropertiesFromAppContext(inject: AppContextInterface, properties: Partial<QueryEditorContainerModalProps>): Partial<QueryEditorContainerModalProps> {
+function getPropertiesFromAppContext(inject: QueryAppContextInterface, properties: Partial<QueryEditorContainerModalProps>): Partial<QueryEditorContainerModalProps> {
 
 	return {
 		query: inject.query,
@@ -12,7 +12,9 @@ function getPropertiesFromAppContext(inject: AppContextInterface, properties: Pa
 			inject.query = query;
 			inject.reloadGridData();
 		},
-		fieldNames: Object.keys(inject.datastoreData[0])
+		fieldNames: inject.datastoreData[0]
+			? Object.keys(inject.datastoreData[0])
+			: []
 	};
 }
 

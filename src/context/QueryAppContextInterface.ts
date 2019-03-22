@@ -10,7 +10,7 @@ export interface DataItem {
 	isValid: boolean;
 }
 
-export default interface AppContextInterface {
+export default interface QueryAppContextInterface {
 	grid: GridContext;
 	datastoreData: DataItem[];
 	datastoreDataLoadingStatus: LoadingStatusEnum;

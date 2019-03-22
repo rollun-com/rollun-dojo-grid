@@ -21,6 +21,7 @@ import QueryEditorContext, { QueryNodeNames } from '../../context/QueryEditorCon
 import ArrayNodeEditorContainer from '../../containers/queryBuilder/arrayNodeEditorContainer';
 import ScalarNodeEditorContainer from '../../containers/queryBuilder/scalarNodeEditorContainer';
 import LogicalNodeEditorContainer from '../../containers/queryBuilder/logicalNodeEditorContainer';
+import ContextConfig from '../../common/ContextConfig';
 
 export interface QueryEditorProps {
 	query: Query;
@@ -29,6 +30,9 @@ export interface QueryEditorProps {
 }
 
 export default class QueryEditor extends WidgetBase<QueryEditorProps> {
+
+	static contextConfig = new ContextConfig(QueryEditorContext, []);
+
 	private isStarted: boolean;
 	private openQueryCreationDialog = false;
 	private rqlNodeFactory = new RqlNodeFactory();

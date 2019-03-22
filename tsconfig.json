@@ -24,11 +24,14 @@
 		"downlevelIteration": true,
 		"sourceMap": true,
 		"target": "es5",
-		"types": [ "intern" ],
-		"noImplicitAny": false
+		"types": [ "intern" ]
 	},
 	"include": [
 		"./src/**/*.ts",
+		"./src/**/*.tsx",
 		"./tests/**/*.ts"
+	],
+	"exclude": [
+		"dist"
 	]
 }

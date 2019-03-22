@@ -4,7 +4,7 @@ import Query from './queryManager';
 // @ts-ignore
 import { Grid as RGrid } from './gridWidgets/grid';
 // @ts-ignore
-import AppContextInterface from './context/AppContextInterface';
+import QueryAppContextInterface from './context/QueryAppContextInterface';
 // @ts-ignore
 import { Cell, CellProps } from './gridWidgets/grid/widgets/Cell';
 // @ts-ignore
