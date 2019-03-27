@@ -17,19 +17,25 @@ export default class QueryAppWidget extends WidgetBase {
 
 	protected render(): DNode | DNode[] {
 		return (<div id='gridContainer'>
-			<QueryEditorContainerModalContainer>
+			<div class={`${bs.dFlex} ${bs.bgLight} ${bs.px1} ${bs.py2} ${bs.border} ${bs.borderBottom0}`}>
+				<div class={`${bs.dFlex} ${bs.flexRow}`} styles={{flex: '3'}}>
+					<QueryEditorContainerModalContainer>
 
-			</QueryEditorContainerModalContainer>
-			<div classNames={`${bs.dFlex} ${bs.bgLight} ${bs.px1} ${bs.py2} ${bs.border} ${bs.borderBottom0}`}>
-				<SearchBarContainer>
+					</QueryEditorContainerModalContainer>
+					<button class={`${bs.btn} ${bs.btnPrimary} ${bs.mx1} ${bs.btnSm}`}>Btn</button>
+					<button class={`${bs.btn} ${bs.btnPrimary} ${bs.mx1} ${bs.btnSm}`}>Btn</button>
+				</div>
+				<div class={`${bs.dFlex} ${bs.flexRowReverse}`} styles={{flex: '1'}}>
+					<SearchBarContainer>
 
-				</SearchBarContainer>
+					</SearchBarContainer>
+				</div>
+
 			</div>
 			<GridContainer>
 
 			</GridContainer>
-			<div
-				classNames={`${bs.dFlex} ${bs.w100} ${bs.flexRowReverse} ${bs.px1} ${bs.py2} ${bs.bgLight} ${bs.border} ${bs.borderTop0}`}>
+			<div class={`${bs.dFlex} ${bs.w100} ${bs.p1} ${bs.bgLight} ${bs.border} ${bs.borderTop0}`}>
 				<PaginatorContainer>
 
 				</PaginatorContainer>
