@@ -6,7 +6,7 @@ function getProperties(inject: QueryAppContextInterface, properties: PaginatorPr
 	const currentCount = inject.datastoreData.length;
 	const loadingStatus = inject.datastoreDataLoadingStatus;
 	const totalCount = inject.countData;
-	const pageSizeOptions = ['20', '50', '100'];
+	const pageSizeOptions = ['20', '50', '100', '200', '500', '1000', '5000', '100000'];
 	return {
 		loadingStatus,
 		pageSizeOptions,
