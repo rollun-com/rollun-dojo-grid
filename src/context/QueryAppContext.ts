@@ -118,4 +118,10 @@ export default class QueryAppContext implements QueryAppContextInterface {
 			this.reloadGridData();
 		});
 	}
+
+	addNewItem(item: any) {
+		this._datastore.update(item).then(() => {
+			this.reloadGridData();
+		});
+	}
 }

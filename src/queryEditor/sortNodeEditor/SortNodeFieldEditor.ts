@@ -5,6 +5,7 @@ import { VNode } from '@dojo/framework/widget-core/interfaces';
 import * as fa from 'rollun-common/dist/css/fontawesome.m.css';
 import * as faSolid from 'rollun-common/dist/css/solid.m.css';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
+import * as commonCss from '../../common/common.m.css';
 
 export interface SortFieldEditorProps {
 	fieldName: string;
@@ -26,7 +27,7 @@ export default class SortNodeFieldEditor extends WidgetBase<SortFieldEditorProps
 			},
 			[
 				v('div', {
-					classes: `${bs.py1} ${bs.px2} ${bs.w100} ${css.sortFieldName}`
+					classes: `${bs.py1} ${bs.px2} ${bs.w100} ${css.sortFieldName} ${commonCss.headerCellFont}`
 				}, [fieldName]),
 				v('button',
 					{

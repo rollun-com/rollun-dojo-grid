@@ -4,6 +4,7 @@ import * as css from './nodeFieldName.m.css';
 import { VNode } from '@dojo/framework/widget-core/interfaces';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import AggregateFunctionNode from 'rollun-ts-rql/dist/nodes/aggregateNodes/AggregateFunctionNode';
+import * as commonCss from '../../common/common.m.css';
 
 export interface SelectFieldProps {
 	fieldName: (string | AggregateFunctionNode);
@@ -13,7 +14,7 @@ export interface SelectFieldProps {
 
 export default class NodeFieldName extends WidgetBase<SelectFieldProps> {
 	render(): VNode {
-		let classes = `${bs.py1} ${bs.px2} ${bs.mb1} ${css.root} `;
+		let classes = `${bs.py1} ${bs.px2} ${bs.mb1} ${css.root} ${commonCss.headerCellFont}`;
 		if (this.properties.isActive) {
 			classes += ` ${css.active}`;
 		}

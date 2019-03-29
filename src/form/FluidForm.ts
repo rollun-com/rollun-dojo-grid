@@ -2,7 +2,7 @@ import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { Constructor, DNode } from '@dojo/framework/widget-core/interfaces';
 import { v, w } from '@dojo/framework/widget-core/d';
 import TextInput from '@dojo/widgets/text-input';
-import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
+import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 
 export interface EditorProps {
 	value: string;
@@ -30,17 +30,26 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 
 	protected render(): DNode {
 		return v('div',
-			{classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`},
+			{classes: `${bs.dFlex} ${bs.flexColumn}`},
 			[
 				v('div',
-					{classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`},
+					{
+						classes: `${bs.dFlex} ${bs.flexColumn}`
+					},
 					this.properties.formConfig.map((formField) => {
 						return v('div',
 							{
-								classes: `${bootstrap.dFlex} ${bootstrap.flexColumn}`
-							}, [
-								v('div', {
-								}, [formField.label || formField.field]),
+								classes: `${bs.dFlex} ${bs.flexColumn}`
+							},
+							[
+								v('div',
+									{
+										classes: `${bs.mb1}`
+									},
+									[
+										formField.label || formField.field
+									]
+								),
 								this.getEditorForFormField(formField)
 							]
 						);
@@ -48,7 +57,7 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 				),
 				v('button',
 					{
-						classes: `${bootstrap.btn}  ${bootstrap.btnPrimary} ${bootstrap.btnBlock}`,
+						classes: `${bs.btn}  ${bs.btnPrimary} ${bs.btnBlock}`,
 						onclick: () => {
 							this.properties.onFormSubmit(Object.assign({}, this.data));
 							this.data = {};
@@ -76,7 +85,7 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 		} else {
 			return w(TextInput, {
 				extraClasses: {
-					input: `${bootstrap.formControl}`
+					input: `${bs.formControl}`
 				},
 				invalid: this.validRegisrty[formField.field],
 				value: this.data[formField.field],

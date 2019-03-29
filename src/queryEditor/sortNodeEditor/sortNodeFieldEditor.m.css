@@ -11,7 +11,8 @@
 }
 
 .sortFieldName {
-    background-color: var(--cyan);
+    border: 1px solid darkgrey;
+    border-radius: 3px 0 0 3px;
 }
 
 .changeSortDirectionButton {
