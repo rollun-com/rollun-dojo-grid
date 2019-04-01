@@ -20,6 +20,7 @@ export interface FluidFormField {
 
 export interface FluidFormProps {
 	formConfig: FluidFormField[];
+	initialValues?: {[key: string]: string};
 
 	onFormSubmit(formData: {}): void;
 }
@@ -27,8 +28,13 @@ export interface FluidFormProps {
 export default class FluidForm extends WidgetBase<FluidFormProps> {
 	private data = {};
 	private validRegisrty = {};
+	private isStarted: boolean;
 
 	protected render(): DNode {
+		if (!this.isStarted) {
+			this.data = {...this.data, ...this.properties.initialValues};
+			this.isStarted = true;
+		}
 		return v('div',
 			{classes: `${bs.dFlex} ${bs.flexColumn}`},
 			[

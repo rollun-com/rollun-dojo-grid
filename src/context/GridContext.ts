@@ -10,6 +10,7 @@ export default class GridContext {
 	private _rowFields: RowFields;
 	private _rowRows: RowRows;
 	private _changeDataItem: (rowIndex: number, columnIndex: number, value: string) => void;
+	private _selectedRowIndex: number;
 
 	constructor(invalidator: () => void, initialState: InitialGridState) {
 		this._invalidator = invalidator;
@@ -43,7 +44,20 @@ export default class GridContext {
 		this._changeDataItem = value;
 	}
 
+	get selectedRowIndex(): number {
+		return this._selectedRowIndex;
+	}
+
 	changeCellValue(rowIndex: number, columnIndex: number, value: string) {
 		this._changeDataItem(rowIndex, columnIndex, value);
+	}
+
+	selectRow(index: number) {
+		this._selectedRowIndex = index;
+		this._invalidator();
+	}
+
+	updateRow(index: number, item: {[key: string]: string}) {
+
 	}
 }

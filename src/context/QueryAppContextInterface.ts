@@ -28,6 +28,6 @@ export default interface QueryAppContextInterface {
 
 	removeQueryQuery(): void;
 
-	changeDataItem(rowIndex: number, columnIndex: number, value: string): void;
+	changeCellValue(rowIndex: number, columnIndex: number, value: string): void;
 
 }

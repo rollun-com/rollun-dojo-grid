@@ -1,8 +1,8 @@
 import QueryAppContextInterface from '../../context/QueryAppContextInterface';
-import MultiContextContainer from '../MultiContextContainer';
 import QueryEditorContext from '../../context/QueryEditorContext';
 import Query from 'rollun-ts-rql/dist/Query';
 import QueryEditorContainerModal, { QueryEditorContainerModalProps } from '../../queryEditorInWrapper/QueryEditorContainerModal';
+import MultiContextContainer from '../../common/MultiContextContainer';
 
 function getPropertiesFromAppContext(inject: QueryAppContextInterface, properties: Partial<QueryEditorContainerModalProps>): Partial<QueryEditorContainerModalProps> {
 
@@ -25,7 +25,7 @@ function getPropertiesFromQueryEditorContext(inject: QueryEditorContext, propert
 }
 
 const QueryEditorContainerModalContainer: MultiContextContainer<QueryEditorContainerModal> = MultiContextContainer(QueryEditorContainerModal, {
-	'appContext': getPropertiesFromAppContext,
+	'queryAppContext': getPropertiesFromAppContext,
 	'queryEditorContext': getPropertiesFromQueryEditorContext,
 });
 

@@ -16,6 +16,6 @@ function getProperties(inject: QueryAppContextInterface, properties: PaginatorPr
 	};
 }
 
-const PaginatorContainer: Container<Paginator> = Container(Paginator, 'appContext', {getProperties});
+const PaginatorContainer: Container<Paginator> = Container(Paginator, 'queryAppContext', {getProperties});
 
 export default PaginatorContainer;

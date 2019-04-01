@@ -23,6 +23,6 @@ function getProperties(inject: QueryAppContextInterface, properties: SearchBarPr
 	};
 }
 
-const SearchBarContainer: Container<SearchBar> = Container(SearchBar, 'appContext', {getProperties});
+const SearchBarContainer: Container<SearchBar> = Container(SearchBar, 'queryAppContext', {getProperties});
 
 export default SearchBarContainer;

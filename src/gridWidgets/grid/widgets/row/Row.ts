@@ -1,7 +1,7 @@
 import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import { v, w } from '@dojo/framework/widget-core/d';
 import { DNode, VNodeProperties } from '@dojo/framework/widget-core/interfaces';
-import * as bootstrap from 'rollun-common/dist/css/bootstrap.m.css';
+import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import CellContainer from '../../../../containers/grid/CellContainer';
 import { FieldInfo, RowFields } from '../../../../common/interfaces';
 
@@ -9,6 +9,9 @@ export interface RowProps {
 	rowFields: RowFields;
 	rowIndex: number;
 	key: string;
+	isSelected: boolean;
+
+	onSelect(): void;
 }
 
 export class Row extends WidgetBase<RowProps> {
@@ -30,8 +33,14 @@ export class Row extends WidgetBase<RowProps> {
 	}
 
 	private getRowNodeProperties(): VNodeProperties {
+		const {isSelected} = this.properties;
 		const properties: VNodeProperties = {
-			classes: `${bootstrap.borderBottom}`,
+			classes: `${bs.borderBottom} ${isSelected ? bs.bgLight : ''}`,
+			onclick: () => {
+				if (!isSelected) {
+					this.properties.onSelect();
+				}
+			}
 		};
 		return properties;
 	}

@@ -75,6 +75,9 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		return this._fieldsConfig;
 	}
 
+	get selectedGridRowIndex(): number {
+		return this._grid.selectedRowIndex;
+	}
 	reloadGridData() {
 		this._dataStoreDataUpdater.query = this._queryManager.getQuery();
 		this._dataStoreDataUpdater.updateData().then(() => {
@@ -108,8 +111,8 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		this.reloadGridData();
 	}
 
-	changeDataItem(rowIndex: number, columnIndex: number, value: string): void {
-		const itemToUpdate = {
+	changeCellValue(rowIndex: number, columnIndex: number, value: string): void {
+		let itemToUpdate = {
 			id: this._idArray[rowIndex],
 		};
 		const fieldName = Object.keys(this.datastoreData[0])[columnIndex];
@@ -119,8 +122,18 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		});
 	}
 
+	changeRowValue(rowIndex: number, changedItem: any) {
+		let itemToUpdate = {
+			id: this._idArray[rowIndex],
+		};
+		itemToUpdate = {...itemToUpdate, ...changedItem};
+		this._datastore.update(itemToUpdate).then(() => {
+			this.reloadGridData();
+		});
+	}
+
 	addNewItem(item: any) {
-		this._datastore.update(item).then(() => {
+		this._datastore.create(item).then(() => {
 			this.reloadGridData();
 		});
 	}
