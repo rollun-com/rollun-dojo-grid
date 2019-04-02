@@ -69,7 +69,9 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 							this.data = {};
 						}
 					},
-					['Add']
+					[
+						'Confirm'
+					]
 				)
 			]
 		);

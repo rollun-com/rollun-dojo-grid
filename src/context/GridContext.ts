@@ -56,8 +56,4 @@ export default class GridContext {
 		this._selectedRowIndex = index;
 		this._invalidator();
 	}
-
-	updateRow(index: number, item: {[key: string]: string}) {
-
-	}
 }

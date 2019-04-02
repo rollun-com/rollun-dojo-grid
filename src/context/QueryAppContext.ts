@@ -78,6 +78,7 @@ export default class QueryAppContext implements QueryAppContextInterface {
 	get selectedGridRowIndex(): number {
 		return this._grid.selectedRowIndex;
 	}
+
 	reloadGridData() {
 		this._dataStoreDataUpdater.query = this._queryManager.getQuery();
 		this._dataStoreDataUpdater.updateData().then(() => {

@@ -32,6 +32,7 @@ export default class RowEditorDialog extends WidgetBase<RowEditorDialogProps> {
 						this.invalidate();
 					}
 				}
+				disabled={!selectedRowIndex}
 			>
 				Edit selected row
 			</button>

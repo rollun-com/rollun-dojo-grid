@@ -10,6 +10,9 @@ import QueryAppContext from '../context/QueryAppContext';
 import { Grid } from '../gridWidgets/grid/widgets/Grid';
 import QueryEditor from '../queryEditor';
 import { tsx } from '@dojo/framework/widget-core/tsx';
+import CsvDownloaderContainer from '../containers/CsvDownloaderContainer';
+import RowEditorDialogContainer from '../containers/RowEditorDialogContainer';
+import NewItemCreatorDialogContainer from '../containers/NewItemCreatorDialogContainer';
 
 export default class QueryAppWidget extends WidgetBase {
 
@@ -18,14 +21,29 @@ export default class QueryAppWidget extends WidgetBase {
 	protected render(): DNode | DNode[] {
 		return (<div id='gridContainer'>
 			<div class={`${bs.dFlex} ${bs.bgLight} ${bs.px1} ${bs.py2} ${bs.border} ${bs.borderBottom0}`}>
-				<div class={`${bs.dFlex} ${bs.flexRow}`} styles={{flex: '3'}}>
-					<QueryEditorContainerModalContainer>
+				<div class={`${bs.dFlex} ${bs.flexRow} ${bs.alignItemsCenter}`} styles={{flex: '5'}}>
+					<div class={`${bs.mx1}`}>
+						<QueryEditorContainerModalContainer>
 
-					</QueryEditorContainerModalContainer>
-					<button class={`${bs.btn} ${bs.btnPrimary} ${bs.mx1} ${bs.btnSm}`}>Btn</button>
-					<button class={`${bs.btn} ${bs.btnPrimary} ${bs.mx1} ${bs.btnSm}`}>Btn</button>
+						</QueryEditorContainerModalContainer>
+					</div>
+					<div class={`${bs.mx1}`}>
+						<CsvDownloaderContainer>
+
+						</CsvDownloaderContainer>
+					</div>
+					<div class={`${bs.mx1}`}>
+						<RowEditorDialogContainer>
+
+						</RowEditorDialogContainer>
+					</div>
+					<div class={`${bs.mx1}`}>
+						<NewItemCreatorDialogContainer>
+
+						</NewItemCreatorDialogContainer>
+					</div>
 				</div>
-				<div class={`${bs.dFlex} ${bs.flexRowReverse}`} styles={{flex: '1'}}>
+				<div class={`${bs.dFlex} ${bs.flexRowReverse}`} styles={{flex: '2'}}>
 					<SearchBarContainer>
 
 					</SearchBarContainer>
