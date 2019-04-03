@@ -13,38 +13,92 @@ or add
 ```
 to the dependencies section of your package.json
 
-## Basic usage
-#### Render an array of data
+## Usage
+### Basic usage
 ```typescript
 import renderer from '@dojo/framework/widget-core/vdom';
 import { w } from '@dojo/framework/widget-core/d';
-import Grid from "rollun-ts-grid/dist/all/grid";
+import { Registry } from '@dojo/framework/widget-core/Registry';
+import GridContext from 'rollun-ts-grid/dist/all/context/GridContext';
+import Grid from 'rollun-ts-grid/dist/all/gridWidgets/grid';
+import { RowRows, RowFields } from 'rollun-ts-grid/dist/all/common/interfaces';
 
-const columns = [
-	{id: 1, name: 'Bob', age: 21},
-	{id: 2, name: 'Alex', age: 25},
-	{id: 3, name: 'Veronica', age: 20},
-];
-
-const items = [
-	{field: 'id', label: 'Identifier'}, //if label is specified, it will be shown in column header
-	{field: 'name'},
-	{field: 'age'},
-];
-
-
-const r = renderer(() => w(Grid, {columns, items}));
-r.mount();
+const rowRows: RowRows = {
+	rows: [
+		{
+			id: 0,
+			cells: [
+				{value: '1'},
+				{value: '2'},
+				{value: '3'},
+				{value: '4'},
+			]
+		},
+		{
+			id: 1,
+			cells: [
+				{value: '1'},
+				{value: '2'},
+				{value: '3'},
+				{value: '4'},
+			]
+		},
+		{
+			id: 2,
+			cells: [
+				{value: '1'},
+				{value: '2'},
+				{value: '3'},
+				{value: '4'},
+			]
+		},
+		{
+			id: 3,
+			cells: [
+				{value: '1'},
+				{value: '2'},
+				{value: '3'},
+				{value: '4'},
+			]
+		},
+		{
+			id: 4,
+			cells: [
+				{value: '1'},
+				{value: '2'},
+				{value: '3'},
+				{value: '4'},
+			]
+		},
+	]
+};
+const rowFields: RowFields = {
+	fieldsInfo: [
+		{name: 'A'},
+		{name: 'B'},
+		{name: 'C'},
+		{name: 'D'},
+	]
+};
+let gridContext: GridContext;
+const registry = new Registry();
+registry.defineInjector('gridContext',
+	(invalidator: () => void) => {
+		gridContext = new GridContext(invalidator, {
+			rows: rowRows,
+			fields: rowFields
+		});
+		return () => gridContext;
+	}
+);
+const r = renderer(() => w(Grid, {context: gridContext}));
+r.mount({
+	registry
+});
 ```
-#### Render datastore contents
-```
-import renderer from '@dojo/framework/widget-core/vdom';
-import { w } from '@dojo/framework/widget-core/d';
-import HttpDatastore from "rollun-ts-datastore/dist/HttpDatastore";
-import GridComposite from "rollun-ts-grid/dist/all/grid-composite/Composite";
+Code above renders a 4x4 grid
 
-const store = new HttpDatastore('my/users/datastore');
+### Render QueryApp
+```typescript
 
-const r = renderer(() => w(GridComposite, {store}));
-r.mount();
 ```

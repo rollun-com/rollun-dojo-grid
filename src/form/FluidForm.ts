@@ -20,14 +20,14 @@ export interface FluidFormField {
 
 export interface FluidFormProps {
 	formConfig: FluidFormField[];
-	initialValues?: {[key: string]: string};
+	initialValues?: { [key: string]: string };
 
 	onFormSubmit(formData: {}): void;
 }
 
 export default class FluidForm extends WidgetBase<FluidFormProps> {
 	private data = {};
-	private validRegisrty = {};
+	private validRegistry = {};
 	private isStarted: boolean;
 
 	protected render(): DNode {
@@ -61,18 +61,25 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 						);
 					})
 				),
-				v('button',
+				v('div',
 					{
-						classes: `${bs.btn}  ${bs.btnPrimary} ${bs.btnBlock}`,
-						onclick: () => {
-							this.properties.onFormSubmit(Object.assign({}, this.data));
-							this.data = {};
-						}
+						classes: `${bs.p3} ${bs.borderTop}`
 					},
 					[
-						'Confirm'
-					]
-				)
+						v('button',
+							{
+								classes: `${bs.btn}  ${bs.btnPrimary} ${bs.btnBlock}`,
+								onclick: () => {
+									this.properties.onFormSubmit(Object.assign({}, this.data));
+									this.data = {};
+								}
+							},
+							[
+								'Confirm'
+							]
+						)
+					])
+
 			]
 		);
 	}
@@ -83,9 +90,9 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 				value: this.data[formField.field], onChange: (value: string) => {
 					this.data[formField.field] = value;
 					if (formField.validator) {
-						this.validRegisrty[formField.field] = formField.validator(value);
+						this.validRegistry[formField.field] = formField.validator(value);
 					} else {
-						this.validRegisrty[formField.field] = true;
+						this.validRegistry[formField.field] = true;
 					}
 					this.invalidate();
 				}
@@ -95,14 +102,14 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 				extraClasses: {
 					input: `${bs.formControl}`
 				},
-				invalid: this.validRegisrty[formField.field],
+				invalid: this.validRegistry[formField.field],
 				value: this.data[formField.field],
 				onChange: (value: string) => {
 					this.data[formField.field] = value;
 					if (formField.validator) {
-						this.validRegisrty[formField.field] = formField.validator(value);
+						this.validRegistry[formField.field] = formField.validator(value);
 					} else {
-						this.validRegisrty[formField.field] = false;
+						this.validRegistry[formField.field] = false;
 					}
 					this.invalidate();
 				}

@@ -9,6 +9,7 @@ export interface RowEditorDialogProps {
 	item: any;
 	selectedRowIndex: number;
 	formConfig?: FluidFormField[];
+	title?: string;
 
 	onFormSubmit(rowIndex: number, data: {}): void;
 }
@@ -17,7 +18,7 @@ export default class RowEditorDialog extends WidgetBase<RowEditorDialogProps> {
 	private openDialog = false;
 
 	protected render(): DNode | DNode[] {
-		const {formConfig, item, selectedRowIndex} = this.properties;
+		const {formConfig, item, selectedRowIndex, title} = this.properties;
 		const onFormSubmit = (data: {}) => {
 			this.properties.onFormSubmit(selectedRowIndex, data);
 			this.openDialog = false;
@@ -37,6 +38,7 @@ export default class RowEditorDialog extends WidgetBase<RowEditorDialogProps> {
 				Edit selected row
 			</button>
 			<Dialog isOpen={this.openDialog}
+					title={title}
 					onClose={
 						() => {
 							this.openDialog = false;
