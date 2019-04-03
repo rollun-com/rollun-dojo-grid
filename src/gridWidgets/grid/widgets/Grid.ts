@@ -13,8 +13,8 @@ import ContextConfig from '../../../common/ContextConfig';
 
 export interface GridProps extends GridData {
 	context: GridContext;
-	loadingStatus: LoadingStatusEnum;
-	changeCellValue: (rowIndex: number, columnIndex: number, value: string) => void;
+	loadingStatus?: LoadingStatusEnum;
+	changeCellValue?: (rowIndex: number, columnIndex: number, value: string) => void;
 }
 
 export class Grid extends WidgetBase<GridProps> {
@@ -32,13 +32,13 @@ export class Grid extends WidgetBase<GridProps> {
 			this.properties.context.rowRows = this.properties.rows;
 			this.properties.context.changeCellValue = this.properties.changeCellValue;
 		}
-		if (!lodash.isEqual(this.properties.context.rowFields, this.properties.fields)) {
+		if (!lodash.isEqual(this.properties.context.rowFields, this.properties.fields)) {// ensure consistency between app data and grid data
 			this.properties.context.rowFields = this.properties.fields;
 		}
-		if (!lodash.isEqual(this.properties.context.rowRows, this.properties.rows)) {
+		if (!lodash.isEqual(this.properties.context.rowRows, this.properties.rows)) {// ensure consistency between app data and grid data
 			this.properties.context.rowRows = this.properties.rows;
 		}
-		if (rows.rows && rows.rows.length > 0 && fields.fieldsInfo && fields.fieldsInfo.length > 0) {
+		if (rows.rows && rows.rows.length > 0 && fields.fieldsInfo && fields.fieldsInfo.length > 0) {// if data is loaded
 			gridComponents.push(w(ColumnHeaders, {rowFields: fields}));
 			rows.rows.forEach((item: {}, rowIndex: number) => {
 				gridComponents.push(w(RowContainer, {rowIndex, key: `row-${rowIndex}`}));
@@ -46,16 +46,20 @@ export class Grid extends WidgetBase<GridProps> {
 		} else {
 			gridComponents.push(w(NoData, {}));
 		}
-		let classes = `${bs.overflowAuto} ${bs.border} `;
+		let classes = `${bs.border} `;
 		if (this.properties.loadingStatus === LoadingStatusEnum.loading) {
 			classes += ownCss.loading;
 		}
-		return v('table', {
-			classes,
-			styles: {
-				minWidth: '500px',
-				minHeight: '250px',
-			}
-		}, gridComponents);
+		return v('div',
+			{classes: `${bs.mw100} ${bs.overflowAuto}`},
+			[
+			v('table', {
+				classes,
+				styles: {
+					minWidth: '500px',
+					minHeight: '250px',
+				}
+			}, gridComponents)
+		]);
 	}
 }

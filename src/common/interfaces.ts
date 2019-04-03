@@ -33,3 +33,8 @@ export enum LoadingStatusEnum {
 	loaded = 'loaded',
 	error = 'error'
 }
+
+export enum FluidWidgetNames {
+	addNewItemForm = 'addNewItemForm',
+	editSelectedRowForm = 'editSelectedRowForm',
+}

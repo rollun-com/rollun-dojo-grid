@@ -1,13 +1,15 @@
 import Container from '@dojo/framework/widget-core/Container';
 import QueryAppContext from '../context/QueryAppContext';
-import NewItemCreatorDialog, { NewItemCreatorProps } from '../dialog/NewItemCreatorDialog';
+import NewItemCreatorDialog, { NewItemCreatorDialogProps } from '../dialog/NewItemCreatorDialog';
 
-function getProperties(inject: QueryAppContext, properties: Partial<NewItemCreatorProps>): NewItemCreatorProps {
-	const fieldNames = inject.datastoreData[0]
-		? Object.keys(inject.datastoreData[0])
+function getProperties(inject: QueryAppContext, properties: Partial<NewItemCreatorDialogProps>): NewItemCreatorDialogProps {
+	const formConfig = inject.datastoreData[0]
+		? Object.keys(inject.datastoreData[0]).map(fieldName => {
+			return {field: fieldName};
+		})
 		: [];
 	return {
-		fieldNames,
+		formConfig,
 		onFormSubmit: inject.addNewItem.bind(inject)
 	};
 }

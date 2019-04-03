@@ -5,19 +5,17 @@ import { tsx } from '@dojo/framework/widget-core/tsx';
 import FluidForm, { FluidFormField } from '../form/FluidForm';
 import Dialog from './Dialog';
 
-export interface NewItemCreatorProps {
-	fieldNames: string[];
+export interface NewItemCreatorDialogProps {
+	formConfig: FluidFormField[];
 
 	onFormSubmit(data: {}): void;
 }
 
-export default class NewItemCreatorDialog extends WidgetBase<NewItemCreatorProps> {
+export default class NewItemCreatorDialog extends WidgetBase<NewItemCreatorDialogProps> {
 	private openDialog = false;
 
 	protected render(): DNode | DNode[] {
-		const formConfig: FluidFormField[] = this.properties.fieldNames.map((value) => {
-			return {field: value};
-		});
+		const formConfig: FluidFormField[] = this.properties.formConfig;
 		const onFormSubmit = (data: {}) => {
 			this.properties.onFormSubmit(data);
 			this.openDialog = false;

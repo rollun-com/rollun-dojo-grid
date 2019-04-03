@@ -71,7 +71,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				nonQueryEditors
 			),
 			v('div',
-				{},
+				{classes: `${bs.justifyContentCenter}`},
 				[
 					this.renderQueryNode(this.context.query.queryNode)
 				])

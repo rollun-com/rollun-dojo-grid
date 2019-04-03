@@ -38,19 +38,19 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 		return v('div',
 			{classes: `${bs.dFlex} ${bs.flexColumn}`},
 			[
-				v('div',
+				v('form',
 					{
-						classes: `${bs.dFlex} ${bs.flexColumn}`
+						classes: `${bs.mb3}`
 					},
 					this.properties.formConfig.map((formField) => {
 						return v('div',
 							{
-								classes: `${bs.dFlex} ${bs.flexColumn}`
+								classes: `${bs.formGroup}`
 							},
 							[
 								v('div',
 									{
-										classes: `${bs.mb1}`
+										classes: `${bs.colFormLabel}`
 									},
 									[
 										formField.label || formField.field

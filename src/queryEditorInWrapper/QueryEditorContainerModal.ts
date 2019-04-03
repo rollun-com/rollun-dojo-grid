@@ -59,7 +59,7 @@ export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerM
 						),
 						v('btn',
 							{
-								classes: `${bs.btn} ${bs.btnPrimary} ${bs.btnSm}`,
+								classes: `${bs.btn} ${bs.btnPrimary} ${bs.btnSm} ${bs.justifyContentCenter}`,
 								onclick: () => {
 									applyQuery(this.context.query);
 									this.openDialog = false;
