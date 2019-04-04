@@ -8,6 +8,9 @@ import Dialog from './Dialog';
 export interface RowEditorDialogProps {
 	item: any;
 	selectedRowIndex: number;
+	isOpen: boolean;
+	openDialog(): void;
+	closeDialog(): void;
 	formConfig?: FluidFormField[];
 	title?: string;
 
@@ -15,34 +18,29 @@ export interface RowEditorDialogProps {
 }
 
 export default class RowEditorDialog extends WidgetBase<RowEditorDialogProps> {
-	private openDialog = false;
 
 	protected render(): DNode | DNode[] {
-		const {formConfig, item, selectedRowIndex, title} = this.properties;
+		const {formConfig, item, selectedRowIndex, title, isOpen} = this.properties;
 		const onFormSubmit = (data: {}) => {
 			this.properties.onFormSubmit(selectedRowIndex, data);
-			this.openDialog = false;
-			this.invalidate();
 		};
 		return (<div>
 			<button
 				class={`${bs.btn} ${bs.btnPrimary} ${bs.btnSm}`}
 				onclick={
 					() => {
-						this.openDialog = true;
-						this.invalidate();
+						this.properties.openDialog();
 					}
 				}
 				disabled={!selectedRowIndex}
 			>
 				Edit selected row
 			</button>
-			<Dialog isOpen={this.openDialog}
+			<Dialog isOpen={isOpen}
 					title={title}
 					onClose={
 						() => {
-							this.openDialog = false;
-							this.invalidate();
+							this.properties.closeDialog();
 						}
 					}
 					options={{

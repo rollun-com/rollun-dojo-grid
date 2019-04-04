@@ -12,14 +12,14 @@ function getValueFromGridContext(context: GridContext, rowIndex: number, columnI
 function getProperties(inject: GridContext, properties: CellProps): CellProps {
 	const {rowIndex, columnIndex, key} = properties;
 	const value = getValueFromGridContext(inject, rowIndex, columnIndex);
-	const {isEditable, width} = inject.rowFields.fieldsInfo[columnIndex];
+	const {isEditable, minWidth} = inject.rowFields.fieldsInfo[columnIndex];
 	return {
 		value,
 		rowIndex,
 		columnIndex,
 		key,
 		isEditable,
-		width
+		minWidth
 	};
 }
 

@@ -10,14 +10,15 @@ import QueryEditor from '../queryEditor/queryEditor/QueryEditor';
 export interface QueryEditorContainerModalProps {
 	query: Query;
 	fieldNames: string[];
-
+	isOpen: boolean;
+	openDialog();
+	closeDialog();
 	applyQuery(query: Query): void;
 
 	context: QueryEditorContext;
 }
 
 export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerModalProps> {
-	private openDialog = false;
 	private context: QueryEditorContext;
 	private isStarted: boolean;
 
@@ -27,7 +28,7 @@ export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerM
 			this.context.query = this.properties.query;
 			this.isStarted = true;
 		}
-		const {applyQuery} = this.properties;
+		const {applyQuery, isOpen, openDialog, closeDialog} = this.properties;
 		this.context.fieldNames = this.properties.fieldNames;
 		return v('div', {
 				styles: {}
@@ -35,10 +36,9 @@ export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerM
 			[
 				w(Dialog, {
 						title: 'Edit query',
-						isOpen: this.openDialog,
+						isOpen,
 						onClose: () => {
-							this.openDialog = false;
-							this.invalidate();
+							closeDialog();
 						},
 						options: {
 							size: 3,
@@ -62,8 +62,7 @@ export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerM
 								classes: `${bs.btn} ${bs.btnPrimary} ${bs.btnSm} ${bs.justifyContentCenter}`,
 								onclick: () => {
 									applyQuery(this.context.query);
-									this.openDialog = false;
-									this.invalidate();
+									closeDialog();
 								}
 							},
 							['Apply query']
@@ -74,8 +73,7 @@ export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerM
 					{
 						classes: `${bs.btn} ${bs.btnPrimary} ${bs.btnSm}`,
 						onclick: () => {
-							this.openDialog = true;
-							this.invalidate();
+							openDialog();
 						}
 					},
 					['Edit query']

@@ -7,39 +7,37 @@ import Dialog from './Dialog';
 
 export interface NewItemCreatorDialogProps {
 	formConfig: FluidFormField[];
+	isOpen: boolean;
+	openDialog(): void;
+	closeDialog(): void;
 	title?: string;
 
 	onFormSubmit(data: {}): void;
 }
 
 export default class NewItemCreatorDialog extends WidgetBase<NewItemCreatorDialogProps> {
-	private openDialog = false;
 
 	protected render(): DNode | DNode[] {
-		const {formConfig, title} = this.properties;
+		const {formConfig, title, isOpen} = this.properties;
 		const onFormSubmit = (data: {}) => {
 			this.properties.onFormSubmit(data);
-			this.openDialog = false;
-			this.invalidate();
 		};
 		return (<div>
 			<button
 				class={`${bs.btn} ${bs.btnPrimary} ${bs.btnSm}`}
 				onclick={
 					() => {
-						this.openDialog = true;
-						this.invalidate();
+						this.properties.openDialog();
 					}
 				}
 			>
 				Add new item
 			</button>
-			<Dialog isOpen={this.openDialog}
+			<Dialog isOpen={isOpen}
 					title={title}
 					onClose={
 						() => {
-							this.openDialog = false;
-							this.invalidate();
+							this.properties.closeDialog();
 						}
 					}
 					options={{

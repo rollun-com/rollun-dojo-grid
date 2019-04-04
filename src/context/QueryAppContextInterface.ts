@@ -3,6 +3,7 @@ import Limit from 'rollun-ts-rql/dist/nodes/Limit';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import { LoadingStatusEnum, FieldInfo } from '../common/interfaces';
 import Query from 'rollun-ts-rql/dist/Query';
+import DialogController from './DialogController';
 
 export interface DataItem {
 	id: number;
@@ -19,6 +20,7 @@ export default interface QueryAppContextInterface {
 	idArray: string[];
 	fieldsConfig: FieldInfo[];
 	query: Query;
+	dialogs: DialogController;
 
 	reloadGridData(): void;
 

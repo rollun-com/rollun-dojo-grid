@@ -8,11 +8,18 @@ import QueryManager from '../queryManager/QueryManager';
 import GridContext from './GridContext';
 import { FieldInfo, LoadingStatusEnum } from '../common/interfaces';
 import HttpDatastore from 'rollun-ts-datastore/dist/HttpDatastore';
+import DialogController from './DialogController';
 
 export interface DataItem {
 	id: number;
 	value: string;
 	isValid: boolean;
+}
+
+export enum QueryAppDialogNames {
+	addNewItemDialog = 'addNewItemDialog',
+	editSelectedRowDialog = 'editSelectedRowDialog',
+	editQueryDialog = 'editQueryDialog',
 }
 
 export default class QueryAppContext implements QueryAppContextInterface {
@@ -25,6 +32,7 @@ export default class QueryAppContext implements QueryAppContextInterface {
 	private _datastore: HttpDatastore;
 	private _idArray: string[];
 	private _fieldsConfig: FieldInfo[];
+	private _dialogs: DialogController;
 
 	constructor(invalidator: () => void, initialState: { datastoreUrl: string, grid: GridContext, fieldsConfig: FieldInfo[] }) {
 		this._invalidator = invalidator;
@@ -35,7 +43,17 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		this._dataStoreDataUpdater = new DatastoreDataUpdater<DataItem>(this._datastore);
 		this._countDataUpdater = new DatastoreCountUpdater(this._datastore);
 		this._fieldsConfig = initialState.fieldsConfig || [];
-		setTimeout(() => {this.reloadGridData(); }, 1);
+		const addNewItemDialogId = QueryAppDialogNames.addNewItemDialog; // FIXME: why can`t i properly use enums in dialogController constructor params?
+		const editSelectedRowDialogId = QueryAppDialogNames.editSelectedRowDialog;
+		const editQueryDialogId = QueryAppDialogNames.editQueryDialog;
+		const initialStatus = {};
+		initialStatus[addNewItemDialogId] = {shown: false};
+		initialStatus[editSelectedRowDialogId] = {shown: false};
+		initialStatus[editQueryDialogId] = {shown: false};
+		this._dialogs = new DialogController(invalidator, initialStatus);
+		setTimeout(() => {
+			this.reloadGridData();
+		}, 1);
 	}
 
 	get query(): Query {
@@ -77,6 +95,10 @@ export default class QueryAppContext implements QueryAppContextInterface {
 
 	get selectedGridRowIndex(): number {
 		return this._grid.selectedRowIndex;
+	}
+
+	get dialogs() {
+		return this._dialogs;
 	}
 
 	reloadGridData() {

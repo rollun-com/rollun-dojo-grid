@@ -1,4 +1,4 @@
-import QueryAppContext from '../context/QueryAppContext';
+import QueryAppContext, { QueryAppDialogNames } from '../context/QueryAppContext';
 import RowEditorDialog, { RowEditorDialogProps } from '../dialog/RowEditorDialog';
 import MultiContextContainer from '../common/MultiContextContainer';
 import GridContext from '../context/GridContext';
@@ -11,10 +11,16 @@ function getPropertiesFromQueryAppContext(inject: QueryAppContext, properties: P
 	const item = inject.datastoreData[0] ?
 		inject.datastoreData[inject.selectedGridRowIndex]
 		: {};
+	const isOpen = inject.dialogs.get(QueryAppDialogNames.editSelectedRowDialog).shown;
+	const openDialog = () => {inject.dialogs.show(QueryAppDialogNames.editSelectedRowDialog); };
+	const closeDialog = () => {inject.dialogs.hide(QueryAppDialogNames.editSelectedRowDialog); };
 	return {
 		formConfig,
 		onFormSubmit: inject.changeRowValue.bind(inject),
-		item
+		item,
+		isOpen,
+		openDialog,
+		closeDialog
 	};
 }
 

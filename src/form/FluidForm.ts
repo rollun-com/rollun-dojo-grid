@@ -63,7 +63,8 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 				),
 				v('div',
 					{
-						classes: `${bs.p3} ${bs.borderTop}`
+						classes: `${bs.p3} ${bs.borderTop}`,
+						styles: {margin: '-1rem'}
 					},
 					[
 						v('button',

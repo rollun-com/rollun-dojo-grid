@@ -10,7 +10,7 @@ export interface CellProps extends CellData {
 	columnIndex: number;
 	key: string;
 	isEditable?: boolean;
-	width?: number;
+	minWidth?: number;
 }
 
 export class Cell extends WidgetBase<CellProps> {
@@ -32,9 +32,8 @@ export class Cell extends WidgetBase<CellProps> {
 				minWidth: '100px'
 			}
 		};
-		if (this.properties.width) {
-			// @ts-ignore
-			cellNodeProps.styles.width = this.properties.width + 'px';
+		if (this.properties.minWidth) {
+			cellNodeProps.styles.minWidth = this.properties.minWidth + 'px';
 		}
 		if (this.properties.isEditable) {
 			cellNodeProps.ondblclick = () => {

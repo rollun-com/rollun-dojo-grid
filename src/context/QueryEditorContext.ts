@@ -3,6 +3,7 @@ import Select from 'rollun-ts-rql/dist/nodes/Select';
 import Sort from 'rollun-ts-rql/dist/nodes/Sort';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
 import AbstractLogicalNode from 'rollun-ts-rql/dist/nodes/logicalNodes/AbstractLogicalNode';
+import DialogController from './DialogController';
 
 export enum QueryNodeNames {
 	select = 'select',
@@ -11,15 +12,23 @@ export enum QueryNodeNames {
 	query = 'query'
 }
 
+export enum QueryEditorDialogNames {
+	addNewNodeDialog = 'addNewNodeDialog'
+}
+
 export default class QueryEditorContext {
 	private _invalidator: () => void;
 	private _onApplyQuery: (query: Query) => void;
 	private _fieldNames: string[];
 	private _query: Query;
+	private _dialogs: DialogController;
 
 	constructor(invalidator: () => void) {
 		this._invalidator = invalidator;
 		this._fieldNames = [];
+		const initialStatus = {};
+		initialStatus[QueryEditorDialogNames.addNewNodeDialog] = {shown: false};
+		this._dialogs = new DialogController(invalidator, initialStatus);
 	}
 
 	set onApplyQuery(value: (query: Query) => void) {
@@ -48,6 +57,10 @@ export default class QueryEditorContext {
 			this._fieldNames = value;
 			this._invalidator();
 		}
+	}
+
+	get dialogs() {
+		return this._dialogs;
 	}
 
 	applyQuery(query: Query) {
