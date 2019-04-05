@@ -15,7 +15,7 @@ export interface FluidFormField {
 	label?: string;
 	editor?: Constructor<WidgetBase<EditorProps>>;
 
-	validator?(value: string): boolean;
+	validator?(value: string): { valid: boolean, message?: string };
 }
 
 export interface FluidFormProps {
@@ -25,9 +25,14 @@ export interface FluidFormProps {
 	onFormSubmit(formData: {}): void;
 }
 
+export interface FormFieldMetadata {
+	valid: boolean;
+	message?: string;
+}
+
 export default class FluidForm extends WidgetBase<FluidFormProps> {
 	private data = {};
-	private validRegistry = {};
+	private metadata: { [key: string]: FormFieldMetadata } = {};
 	private isStarted: boolean;
 
 	protected render(): DNode {
@@ -56,7 +61,8 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 										formField.label || formField.field
 									]
 								),
-								this.getEditorForFormField(formField)
+								this.getEditorForFormField(formField),
+								this.getMessageForFormField(formField),
 							]
 						);
 					})
@@ -91,9 +97,9 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 				value: this.data[formField.field], onChange: (value: string) => {
 					this.data[formField.field] = value;
 					if (formField.validator) {
-						this.validRegistry[formField.field] = formField.validator(value);
+						this.metadata[formField.field] = {...this.metadata[formField.field], ...formField.validator(value)};
 					} else {
-						this.validRegistry[formField.field] = true;
+						this.metadata[formField.field] = {valid: true};
 					}
 					this.invalidate();
 				}
@@ -103,18 +109,31 @@ export default class FluidForm extends WidgetBase<FluidFormProps> {
 				extraClasses: {
 					input: `${bs.formControl}`
 				},
-				invalid: this.validRegistry[formField.field],
+				invalid: (this.metadata[formField.field] && this.metadata[formField.field].valid === false),
 				value: this.data[formField.field],
 				onChange: (value: string) => {
 					this.data[formField.field] = value;
 					if (formField.validator) {
-						this.validRegistry[formField.field] = formField.validator(value);
+						this.metadata[formField.field] = {...this.metadata[formField.field], ...formField.validator(value)};
 					} else {
-						this.validRegistry[formField.field] = false;
+						this.metadata[formField.field] = {valid: true};
 					}
 					this.invalidate();
 				}
 			});
 		}
+	}
+
+	protected getMessageForFormField(formField): DNode {
+		if (this.metadata[formField.field] && this.metadata[formField.field].message) {
+			return v('div', {
+					classes: `${bs.p1} ${this.metadata[formField.field].valid ? '' : bs.textDanger}`
+				},
+				[
+					this.metadata[formField.field].message
+				]
+			);
+		}
+		return null;
 	}
 }
