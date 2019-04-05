@@ -1,5 +1,5 @@
 import Container from '@dojo/framework/widget-core/Container';
-import QueryEditorContext from '../../context/QueryEditorContext';
+import QueryEditorContext, { QueryEditorDialogNames } from '../../context/QueryEditorContext';
 import AbstractLogicalNode from 'rollun-ts-rql/dist/nodes/logicalNodes/AbstractLogicalNode';
 import LogicalNodeEditor, { LogicalNodeEditorProps } from '../../queryEditor/queryQueryEditor/logicalEditor/LogicalNodeEditor';
 import AbstractQueryNode from 'rollun-ts-rql/dist/nodes/AbstractQueryNode';
@@ -15,13 +15,16 @@ function getProperties(inject: QueryEditorContext, properties: Partial<LogicalNo
 		inject.addNodeForPath(node, finalPath);
 	};
 	const fieldNames = inject.fieldNames;
+const openDialog = () => {inject.dialogs.show(QueryEditorDialogNames.addNewNodeDialog); };
+
 	return {
 		path,
 		fieldNames,
 		node,
 		onRemove,
 		onAddChildNode,
-		key
+		key,
+		openDialog
 	};
 }
 
