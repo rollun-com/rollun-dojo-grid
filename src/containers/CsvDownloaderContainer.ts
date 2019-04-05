@@ -9,6 +9,6 @@ function getProperties(inject: QueryAppContext, properties: Partial<CsvDownloade
 	};
 }
 
-const CsvDownloaderContainer: Container<CsvDownloader> = Container(CsvDownloader, 'appContext', {getProperties});
+const CsvDownloaderContainer: Container<CsvDownloader> = Container(CsvDownloader, 'queryAppContext', {getProperties});
 
 export default CsvDownloaderContainer;

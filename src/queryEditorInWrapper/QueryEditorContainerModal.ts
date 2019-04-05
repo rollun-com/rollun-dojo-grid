@@ -57,16 +57,22 @@ export default class QueryEditorInModal extends WidgetBase<QueryEditorContainerM
 								}),
 							]
 						),
-						v('btn',
-							{
-								classes: `${bs.btn} ${bs.btnPrimary} ${bs.btnSm} ${bs.justifyContentCenter}`,
-								onclick: () => {
-									applyQuery(this.context.query);
-									closeDialog();
-								}
-							},
-							['Apply query']
-						)
+						v('div',
+							{classes: `${bs.w100}`},
+							[
+								v('btn',
+									{
+										classes: `${bs.btn} ${bs.btnPrimary} ${bs.btnSm} ${bs.justifyContentCenter}`,
+										styles: {'width': '200px'},
+										onclick: () => {
+											applyQuery(this.context.query);
+											closeDialog();
+										}
+									},
+									['Apply query']
+								)
+							]
+						),
 					]
 				),
 				v('button',

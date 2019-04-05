@@ -60,6 +60,10 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		return this._queryManager.getQuery();
 	}
 
+	set query(query: Query) {
+		this._queryManager.setQuery(query);
+	}
+
 	get grid(): GridContext {
 		return this._grid;
 	}

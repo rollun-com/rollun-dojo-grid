@@ -147,7 +147,8 @@ export default class ChildNodeCreationForm extends WidgetBase<ChildNodeCreationF
 				extraClasses: {
 					title: '',
 					root: `${bs.overflowHidden}`,
-					titleButton: `${bs.btn} ${bs.btnLight} ${bs.w100} ${bs.dropdownToggle} ${bs.positionRelative}`
+					titleButton: `${bs.btn} ${bs.btnLight} ${bs.w100} ${bs.positionRelative}`,
+					arrow: `${bs.pr1}`
 				},
 				title: 'Array Nodes',
 				key: '3'
