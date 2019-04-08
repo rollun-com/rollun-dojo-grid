@@ -32,31 +32,31 @@ export default class QueryAppWidget extends WidgetBase {
 					[
 						v('div',
 							{
-								classes: `${bs.dFlex} ${bs.flexRow} ${bs.alignItemsCenter}`, styles: {
+								classes: `${bs.dFlex} ${bs.flexRow} ${bs.alignItemsCenter} ${bs.flexWrap}`, styles: {
 									flex: '5'
 								}
 							},
 							[
 								v('div',
-									{classes: `${bs.mx1}`},
+									{classes: `${bs.mx1} ${bs.mb1} ${bs.mbLg0}`},
 									[
 										w(QueryEditorContainerModalContainer, {})
 									]
 								),
 								v('div',
-									{classes: `${bs.mx1}`},
+									{classes: `${bs.mx1} ${bs.mb1} ${bs.mbLg0}`},
 									[
 										w(CsvDownloaderContainer, {})
 									]
 								),
 								v('div',
-									{classes: `${bs.mx1}`},
+									{classes: `${bs.mx1} ${bs.mb1} ${bs.mbLg0}`},
 									[
 										w(FluidWidgetNames.addNewItemForm, {}) || w(NewItemCreatorDialogContainer, {})
 									]
 								),
 								v('div',
-									{classes: `${bs.mx1}`},
+									{classes: `${bs.mx1} ${bs.mb1} ${bs.mbLg0}`},
 									[
 										w(FluidWidgetNames.editSelectedRowForm, {}) || w(RowEditorDialogContainer, {})
 									]

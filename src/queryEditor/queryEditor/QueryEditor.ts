@@ -71,10 +71,9 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				nonQueryEditors
 			),
 			v('div',
-				{classes: `${bs.justifyContentCenter}`},
-				[
-					this.renderQueryNode(this.context.query.queryNode)
-				])
+				{classes: `${bs.dFlex} ${bs.justifyContentCenter} ${bs.mb1}`},
+				this.renderQueryNode(this.context.query.queryNode)
+			)
 		]);
 	}
 
@@ -94,7 +93,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				classes: `${bs.dFlex} ${bs.justifyContentCenter} ${bs.alignItemsCenter} ${bs.h100}`
 			}, [
 				v('button', {
-						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
+						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight} ${bs.mb1}`,
 						onclick: () => {
 							this.context.setSelectNode(new Select(['id']));
 						}
@@ -120,7 +119,7 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 				classes: `${bs.dFlex} ${bs.justifyContentCenter} ${bs.alignItemsCenter} ${bs.h100}`
 			}, [
 				v('button', {
-						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
+						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}  ${bs.mb1}`,
 						onclick: () => {
 							this.context.setSortNode(new Sort({id: 1}));
 						}
@@ -131,61 +130,67 @@ export default class QueryEditor extends WidgetBase<QueryEditorProps> {
 		}
 	}
 
-	private renderQueryNode(node: AbstractQueryNode) {
+	private renderQueryNode(node: AbstractQueryNode): DNode[] {
 		if (node) {
 			const path: number[] = [0];
 			const key = `query-${path[0]}`;
 			switch (true) {
 				case node instanceof AbstractLogicalNode:
-					return w(LogicalNodeEditorContainer, {
-						path,
-						key
-					});
+					return [
+						w(LogicalNodeEditorContainer, {
+							path,
+							key
+						})];
 				case node instanceof AbstractScalarNode:
-					return w(ScalarNodeEditorContainer, {
-						path,
-						key
-					});
+					return [
+						w(ScalarNodeEditorContainer, {
+							path,
+							key
+						})];
 				case node instanceof AbstractArrayNode:
-					return w(ArrayNodeEditorContainer, {
-						path,
-						key
-					});
+					return [
+						w(ArrayNodeEditorContainer, {
+							path,
+							key
+						})
+					];
 			}
 
 		} else {
-			return v('div', {}, [
-				v('button', {
-					classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
-					onclick: () => {
-						this.openQueryCreationDialog = true;
-						this.invalidate();
-					}
-				}, ['Add query node']),
-				w(Dialog, {
-					title: 'Create new node',
-					isOpen: this.openQueryCreationDialog,
-					onClose: () => {
-						this.openQueryCreationDialog = false;
-						this.invalidate();
+			return [
+				v('button',
+					{
+						classes: `${bs.btn} ${bs.btnLg} ${bs.btnLight}`,
+						onclick: () => {
+							this.openQueryCreationDialog = true;
+							this.invalidate();
+						}
 					},
-					options: {
-						centered: true
-					}
-				}, [
-					v('div', {},
-						[
-							w(ChildNodeCreationForm, {
+					['Add query node']
+				),
+				w(Dialog, {
+						title: 'Create new node',
+						isOpen: this.openQueryCreationDialog,
+						onClose: () => {
+							this.openQueryCreationDialog = false;
+							this.invalidate();
+						},
+						options: {
+							centered: true
+						}
+					},
+					[
+						w(ChildNodeCreationForm, {
 								onChildNodeCreate: (nodeName: string, params: RqlNodeFactoryParams) => {
 									this.openQueryCreationDialog = false;
 									this.context.setQueryNode(this.rqlNodeFactory.createNode(nodeName, params));
 								},
 								fieldNames: this.properties.fieldNames
-							})
-						]
-					)
-				])
-			]);
+							}
+						)
+					]
+				)
+			];
 		}
 	}
 
