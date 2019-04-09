@@ -41,7 +41,7 @@ export class Grid extends WidgetBase<GridProps> {
 		if (rows.rows && rows.rows.length > 0 && fields.fieldsInfo && fields.fieldsInfo.length > 0) {// if data is loaded
 			gridComponents.push(w(ColumnHeaders, {rowFields: fields}));
 			rows.rows.forEach((item: {}, rowIndex: number) => {
-				gridComponents.push(w(RowContainer, {rowIndex, key: `row-${rowIndex}`}));
+				gridComponents.push(w(RowContainer, {rowIndex, key: `row-${rowIndex}-${Math.ceil(Math.random() * 1000)}`}));
 			});
 		} else {
 			gridComponents.push(w(NoData, {}));

@@ -9,6 +9,7 @@ import GridContext from './GridContext';
 import { FieldInfo, LoadingStatusEnum } from '../common/interfaces';
 import HttpDatastore from 'rollun-ts-datastore/dist/HttpDatastore';
 import DialogController from './DialogController';
+import FilterEditorAppContext from './FilterEditorAppContext';
 
 export interface DataItem {
 	id: number;
@@ -22,6 +23,13 @@ export enum QueryAppDialogNames {
 	editQueryDialog = 'editQueryDialog',
 }
 
+export interface QueryAppContextInitialState {
+	datastoreUrl: string;
+	grid: GridContext;
+	filterEditorContext?: FilterEditorAppContext;
+	fieldsConfig?: FieldInfo[];
+}
+
 export default class QueryAppContext implements QueryAppContextInterface {
 
 	private _invalidator: () => void;
@@ -33,8 +41,10 @@ export default class QueryAppContext implements QueryAppContextInterface {
 	private _idArray: string[];
 	private _fieldsConfig: FieldInfo[];
 	private _dialogs: DialogController;
+	private _filterEditor: FilterEditorAppContext;
+	private _isEditingFilters: boolean;
 
-	constructor(invalidator: () => void, initialState: { datastoreUrl: string, grid: GridContext, fieldsConfig: FieldInfo[] }) {
+	constructor(invalidator: () => void, initialState: QueryAppContextInitialState) {
 		this._invalidator = invalidator;
 		this._grid = initialState.grid;
 		this._queryManager = new QueryManager();
@@ -43,6 +53,10 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		this._dataStoreDataUpdater = new DatastoreDataUpdater<DataItem>(this._datastore);
 		this._countDataUpdater = new DatastoreCountUpdater(this._datastore);
 		this._fieldsConfig = initialState.fieldsConfig || [];
+		if (initialState.filterEditorContext) {
+			this._filterEditor = initialState.filterEditorContext;
+		}
+		this._isEditingFilters = false;
 		const addNewItemDialogId = QueryAppDialogNames.addNewItemDialog; // FIXME: why can`t i properly use enums in dialogController constructor params?
 		const editSelectedRowDialogId = QueryAppDialogNames.editSelectedRowDialog;
 		const editQueryDialogId = QueryAppDialogNames.editQueryDialog;
@@ -105,6 +119,14 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		return this._dialogs;
 	}
 
+	get isEditingFilters(): boolean {
+		return this._isEditingFilters;
+	}
+
+	set isEditingFilters(value: boolean) {
+		this._isEditingFilters = value;
+	}
+
 	reloadGridData() {
 		this._dataStoreDataUpdater.query = this._queryManager.getQuery();
 		this._dataStoreDataUpdater.updateData().then(() => {
@@ -163,5 +185,13 @@ export default class QueryAppContext implements QueryAppContextInterface {
 		this._datastore.create(item).then(() => {
 			this.reloadGridData();
 		});
+	}
+
+	applyQueryFromFilterEditor() {
+		const filterRow: any = this._filterEditor.datastoreData[this._filterEditor.grid.selectedRowIndex];
+		const query = filterRow.query;
+		console.log(query);
+		this._isEditingFilters = false;
+		this._invalidator();
 	}
 }
