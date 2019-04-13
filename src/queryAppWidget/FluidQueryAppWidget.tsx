@@ -7,20 +7,74 @@ import PaginatorContainer from '../containers/grid/PaginatorContainer';
 import * as bs from 'rollun-common/dist/css/bootstrap.m.css';
 import ContextConfig from '../common/ContextConfig';
 import QueryAppContext from '../context/QueryAppContext';
-import { Grid } from '../gridWidgets/grid/widgets/Grid';
+import { Grid, GridProps } from '../gridWidgets/grid/widgets/Grid';
 import QueryEditor from '../queryEditor';
 import CsvDownloaderContainer from '../containers/CsvDownloaderContainer';
 import RowEditorDialogContainer from '../containers/RowEditorDialogContainer';
 import NewItemCreatorDialogContainer from '../containers/NewItemCreatorDialogContainer';
 import { v, w } from '@dojo/framework/widget-core/d';
-import { FluidWidgetNames } from '../common/interfaces';
+import { FieldInfo, FluidWidgetNames } from '../common/interfaces';
 import FilterEditorAppWidgetContainer from '../containers/filterEditor/filterEditorAppWidgetContainer';
+import GridContext from '../context/GridContext';
+import QueryAppContextInterface, { DataItem } from '../context/QueryAppContextInterface';
 
 export interface FluidQueryAppWidgetProps {
 	isEditingFilters: boolean;
 
 	setEditingFilters(value: boolean): void;
 }
+
+export function getPropertiesFromGridContext(inject: GridContext, properties: GridProps): Partial<GridProps> {
+	return {
+		context: inject,
+	};
+}
+
+export function getPropertiesFromAppContext(inject: QueryAppContextInterface, properties: GridProps): Partial<GridProps> {
+	const {datastoreData, datastoreDataLoadingStatus, changeCellValue} = inject;
+	const rowRows = {
+		rows: datastoreData.map((item: DataItem, index: number) => {
+				return {
+					id: item.id || inject.idArray[index],
+					cells: Object.values(item).map((value: string) => {
+						return {
+							value
+						};
+					})
+				};
+			}
+		)
+	};
+	const fieldsConfig = inject.fieldsConfig;
+	const rowFields = {
+		fieldsInfo: datastoreData[0]
+			? Object.keys(datastoreData[0]).map((fieldName: string, index: number): FieldInfo => {
+					const configForField = fieldsConfig.find((value: FieldInfo) => value.name === fieldName);
+
+					let finalFieldInfo: FieldInfo = {
+						name: fieldName,
+						isEditable: true
+					};
+					if (configForField) {
+						finalFieldInfo = {...finalFieldInfo, ...configForField};
+					}
+					return finalFieldInfo;
+				}
+			)
+			: []
+	};
+	return {
+		fields: rowFields,
+		rows: rowRows,
+		loadingStatus: datastoreDataLoadingStatus,
+		changeCellValue: changeCellValue.bind(inject)
+	};
+}
+
+export const contextReducers = {
+	'gridContext': getPropertiesFromGridContext,
+	'queryAppContext': getPropertiesFromAppContext
+};
 
 export default class FluidQueryAppWidget extends WidgetBase<FluidQueryAppWidgetProps> {
 
@@ -101,7 +155,10 @@ export default class FluidQueryAppWidget extends WidgetBase<FluidQueryAppWidgetP
 					)
 				],
 			),
-				w(GridContainer, {}),
+				w(GridContainer, {contextReducers: {
+						'gridContext': getPropertiesFromGridContext,
+						'queryAppContext': getPropertiesFromAppContext
+					}}),
 				v('div',
 					{classes: `${bs.dFlex} ${bs.w100} ${bs.p1} ${bs.bgLight} ${bs.border} ${bs.borderTop0}`},
 					[

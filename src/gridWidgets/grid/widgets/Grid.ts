@@ -24,9 +24,10 @@ export class Grid extends WidgetBase<GridProps> {
 	private isStarted = false;
 
 	protected render(): VNode {
-		const {fields} = this.properties;
-		const {rows} = this.properties;
+		const {fields, rows} = this.properties;
+		const contextName = this.properties.context.name;
 		const gridComponents: DNode[] = [];
+
 		if (!this.isStarted) {
 			this.isStarted = true;
 			this.properties.context.rowRows = this.properties.rows;
@@ -39,9 +40,13 @@ export class Grid extends WidgetBase<GridProps> {
 			this.properties.context.rowRows = this.properties.rows;
 		}
 		if (rows.rows && rows.rows.length > 0 && fields.fieldsInfo && fields.fieldsInfo.length > 0) {// if data is loaded
-			gridComponents.push(w(ColumnHeaders, {rowFields: fields}));
+			gridComponents.push(w(ColumnHeaders, {contextName, rowFields: fields}));
 			rows.rows.forEach((item: {}, rowIndex: number) => {
-				gridComponents.push(w(RowContainer, {rowIndex, key: `row-${rowIndex}-${Math.ceil(Math.random() * 1000)}`}));
+				gridComponents.push(w(RowContainer, {
+					contextName,
+					rowIndex,
+					key: `row-${rowIndex}-${Math.ceil(Math.random() * 1000)}`
+				}));
 			});
 		} else {
 			gridComponents.push(w(NoData, {}));
@@ -53,13 +58,13 @@ export class Grid extends WidgetBase<GridProps> {
 		return v('div',
 			{classes: `${bs.mw100} ${bs.overflowAuto}`},
 			[
-			v('table', {
-				classes,
-				styles: {
-					minWidth: '500px',
-					minHeight: '250px',
-				}
-			}, gridComponents)
-		]);
+				v('table', {
+					classes,
+					styles: {
+						minWidth: '500px',
+						minHeight: '250px',
+					}
+				}, gridComponents)
+			]);
 	}
 }

@@ -31,6 +31,7 @@ export interface QueryAppContextInitialState {
 }
 
 export default class QueryAppContext implements QueryAppContextInterface {
+	readonly name: string;
 
 	private _invalidator: () => void;
 	private _grid: GridContext;
@@ -44,8 +45,9 @@ export default class QueryAppContext implements QueryAppContextInterface {
 	private _filterEditor: FilterEditorAppContext;
 	private _isEditingFilters: boolean;
 
-	constructor(invalidator: () => void, initialState: QueryAppContextInitialState) {
+	constructor(invalidator: () => void, name: string, initialState: QueryAppContextInitialState) {
 		this._invalidator = invalidator;
+		this.name = name;
 		this._grid = initialState.grid;
 		this._queryManager = new QueryManager();
 		this._queryManager.setQuery(new Query({limit: new Limit(20, 0)}));

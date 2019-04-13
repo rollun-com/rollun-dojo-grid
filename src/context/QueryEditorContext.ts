@@ -17,14 +17,17 @@ export enum QueryEditorDialogNames {
 }
 
 export default class QueryEditorContext {
+	readonly name: string;
+
 	private _invalidator: () => void;
 	private _onApplyQuery: (query: Query) => void;
 	private _fieldNames: string[];
 	private _query: Query;
 	private _dialogs: DialogController;
 
-	constructor(invalidator: () => void) {
+	constructor(invalidator: () => void, name: string, ) {
 		this._invalidator = invalidator;
+		this.name = name;
 		this._fieldNames = [];
 		const initialStatus = {};
 		initialStatus[QueryEditorDialogNames.addNewNodeDialog] = {shown: false};

@@ -1,7 +1,7 @@
-import Container from '@dojo/framework/widget-core/Container';
 import GridContext from '../../context/GridContext';
 import { ColumnHeaderCell } from '../../gridWidgets/grid/widgets/ColumnHeaderCell';
 import { CellProps } from '../../gridWidgets/grid/widgets/Cell';
+import RuntimeContextContainer from '../../common/RuntimeContextContainer';
 
 function getValueFromGridContext(context: GridContext, columnIndex: number) {
 	const fields = context.rowFields.fieldsInfo;
@@ -19,6 +19,6 @@ function getProperties(inject: GridContext, properties: CellProps) {
 	};
 }
 
-const ColumnHeaderCellContainer: Container<ColumnHeaderCell> = Container(ColumnHeaderCell, 'gridContext', {getProperties});
+const ColumnHeaderCellContainer: RuntimeContextContainer<ColumnHeaderCell> = RuntimeContextContainer(ColumnHeaderCell, {getProperties});
 
 export default ColumnHeaderCellContainer;

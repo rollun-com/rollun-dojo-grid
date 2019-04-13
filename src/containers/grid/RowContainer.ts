@@ -1,9 +1,9 @@
-import Container from '@dojo/framework/widget-core/Container';
 import GridContext from '../../context/GridContext';
 import { RowProps, Row } from '../../gridWidgets/grid/widgets/row/Row';
+import RuntimeContextContainer from '../../common/RuntimeContextContainer';
 
 function getProperties(inject: GridContext, properties: RowProps): RowProps {
-	const {rowIndex, key} = properties;
+	const {rowIndex, key, contextName} = properties;
 	const rowFields = inject.rowFields;
 	const onSelect = () => {
 		inject.selectRow(rowIndex);
@@ -14,10 +14,11 @@ function getProperties(inject: GridContext, properties: RowProps): RowProps {
 		rowIndex,
 		key,
 		onSelect,
-		isSelected
+		isSelected,
+		contextName
 	};
 }
 
-const RowContainer: Container<Row> = Container(Row, 'gridContext', {getProperties});
+const RowContainer: RuntimeContextContainer<Row> = RuntimeContextContainer(Row, {getProperties});
 
 export default RowContainer;

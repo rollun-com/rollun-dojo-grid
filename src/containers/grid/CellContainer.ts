@@ -1,6 +1,6 @@
-import { Container } from '@dojo/framework/widget-core/Container';
 import GridContext from '../../context/GridContext';
 import { Cell, CellProps } from '../../gridWidgets/grid/widgets/Cell';
+import RuntimeContextContainer from '../../common/RuntimeContextContainer';
 
 function getValueFromGridContext(context: GridContext, rowIndex: number, columnIndex: number) {
 	const rows = context.rowRows.rows;
@@ -10,7 +10,7 @@ function getValueFromGridContext(context: GridContext, rowIndex: number, columnI
 }
 
 function getProperties(inject: GridContext, properties: CellProps): CellProps {
-	const {rowIndex, columnIndex, key} = properties;
+	const {rowIndex, columnIndex, key, contextName} = properties;
 	const value = getValueFromGridContext(inject, rowIndex, columnIndex);
 	const {isEditable, minWidth} = inject.rowFields.fieldsInfo[columnIndex];
 	return {
@@ -19,10 +19,11 @@ function getProperties(inject: GridContext, properties: CellProps): CellProps {
 		columnIndex,
 		key,
 		isEditable,
-		minWidth
+		minWidth,
+		contextName
 	};
 }
 
-const CellContainer: Container<Cell> = Container(Cell, 'gridContext', {getProperties});
+const CellContainer: RuntimeContextContainer<Cell> = RuntimeContextContainer(Cell, {getProperties});
 
 export default CellContainer;

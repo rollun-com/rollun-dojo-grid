@@ -11,6 +11,7 @@ export interface CellProps extends CellData {
 	key: string;
 	isEditable?: boolean;
 	minWidth?: number;
+	contextName: string;
 }
 
 export class Cell extends WidgetBase<CellProps> {
@@ -46,12 +47,12 @@ export class Cell extends WidgetBase<CellProps> {
 
 	protected getValue(): DNode {
 		if (this.isEdited) {
-			const {rowIndex, columnIndex} = this.properties;
+			const {rowIndex, columnIndex, contextName} = this.properties;
 			const onStopEditing = () => {
 				this.isEdited = false;
 				this.invalidate();
 			};
-			return w(CellEditorContainer, {rowIndex, columnIndex, onStopEditing});
+			return w(CellEditorContainer, {contextName, rowIndex, columnIndex, onStopEditing});
 		} else {
 			return this.properties.value;
 		}

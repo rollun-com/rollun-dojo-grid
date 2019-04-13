@@ -6,13 +6,15 @@ export interface InitialGridState {
 }
 
 export default class GridContext {
+	readonly name: string;
+
 	private _invalidator: () => void;
 	private _rowFields: RowFields;
 	private _rowRows: RowRows;
 	private _changeDataItem: (rowIndex: number, columnIndex: number, value: string) => void;
 	private _selectedRowIndex: number;
 
-	constructor(invalidator: () => void, initialState: InitialGridState) {
+	constructor(invalidator: () => void, name: string, initialState: InitialGridState) {
 		this._invalidator = invalidator;
 		if (initialState.fields) {
 			this._rowFields = initialState.fields;
@@ -20,6 +22,7 @@ export default class GridContext {
 		if (initialState.rows) {
 			this._rowRows = initialState.rows;
 		}
+		this.name = name;
 	}
 
 	get rowFields(): RowFields {
