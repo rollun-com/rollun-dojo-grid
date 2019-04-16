@@ -22,12 +22,12 @@ export class Row extends WidgetBase<RowProps> {
 	}
 
 	private basicRender(): DNode {
-		const {rowFields, rowIndex, contextName} = this.properties;
+		const {rowFields, rowIndex, contextName, isSelected} = this.properties;
 		return v(
 			'tr',
 			this.getRowNodeProperties(),
 			rowFields.fieldsInfo.map((fieldInfo: FieldInfo, columnIndex: number): DNode => {
-					return w(CellContainer, {contextName, rowIndex, columnIndex, key: `cell-${rowIndex}-${columnIndex}`});
+					return w(CellContainer, {contextName, rowIndex, columnIndex, isSelected, key: `cell-${rowIndex}-${columnIndex}`});
 				}
 			)
 		);

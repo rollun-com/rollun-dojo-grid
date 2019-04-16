@@ -119,25 +119,37 @@ export default class FluidQueryAppWidget extends WidgetBase<FluidQueryAppWidgetP
 						},
 						[
 							v('div',
-								{classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`},
+								{
+									id: 'queryEditorBtnContainer',
+									classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`
+								},
 								[
 									w(QueryEditorContainerModalContainer, {})
 								]
 							),
 							v('div',
-								{classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`},
+								{
+									id: 'csvDownloaderBtnContainer',
+									classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`
+								},
 								[
 									w(CsvDownloaderContainer, {})
 								]
 							),
 							v('div',
-								{classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`},
+								{
+									id: 'newItemBtnContainer',
+									classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`
+								},
 								[
 									w(FluidWidgetNames.addNewItemForm, {}) || w(NewItemCreatorDialogContainer, {})
 								]
 							),
 							v('div',
-								{classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`},
+								{
+									id: 'editRowBtnContainer',
+									classes: `${bs.mx1} ${bs.mb1} ${bs.mbMd0}`
+								},
 								[
 									w(FluidWidgetNames.editSelectedRowForm, {}) || w(RowEditorDialogContainer, {})
 								]
@@ -155,10 +167,12 @@ export default class FluidQueryAppWidget extends WidgetBase<FluidQueryAppWidgetP
 					)
 				],
 			),
-				w(GridContainer, {contextReducers: {
+				w(GridContainer, {
+					contextReducers: {
 						'gridContext': getPropertiesFromGridContext,
 						'queryAppContext': getPropertiesFromAppContext
-					}}),
+					}
+				}),
 				v('div',
 					{classes: `${bs.dFlex} ${bs.w100} ${bs.p1} ${bs.bgLight} ${bs.border} ${bs.borderTop0}`},
 					[

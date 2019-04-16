@@ -127,6 +127,7 @@ export default class QueryAppContext implements QueryAppContextInterface {
 
 	set isEditingFilters(value: boolean) {
 		this._isEditingFilters = value;
+		this._invalidator();
 	}
 
 	reloadGridData() {

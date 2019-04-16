@@ -1,6 +1,6 @@
 import { Grid } from '../../gridWidgets/grid/widgets/Grid';
-import MultiContextRenderInjectionContainer from '../../common/MultiContextRenderInjectionContainer';
+import MultiContextRuntimeContextContainer from '../../common/MultiContextRuntimeContextContainer';
 
-const GridContainer: MultiContextRenderInjectionContainer<Grid> = MultiContextRenderInjectionContainer(Grid);
+const GridContainer: MultiContextRuntimeContextContainer<Grid> = MultiContextRuntimeContextContainer(Grid);
 
 export default GridContainer;

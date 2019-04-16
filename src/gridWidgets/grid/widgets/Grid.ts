@@ -25,8 +25,6 @@ export class Grid extends WidgetBase<GridProps> {
 
 	protected render(): VNode {
 		const {fields, rows} = this.properties;
-		const contextName = this.properties.context.name;
-		const gridComponents: DNode[] = [];
 
 		if (!this.isStarted) {
 			this.isStarted = true;
@@ -39,32 +37,46 @@ export class Grid extends WidgetBase<GridProps> {
 		if (!lodash.isEqual(this.properties.context.rowRows, this.properties.rows)) {// ensure consistency between app data and grid data
 			this.properties.context.rowRows = this.properties.rows;
 		}
-		if (rows.rows && rows.rows.length > 0 && fields.fieldsInfo && fields.fieldsInfo.length > 0) {// if data is loaded
-			gridComponents.push(w(ColumnHeaders, {contextName, rowFields: fields}));
-			rows.rows.forEach((item: {}, rowIndex: number) => {
-				gridComponents.push(w(RowContainer, {
+		const isDataLoaded = rows.rows && rows.rows.length > 0 && fields.fieldsInfo && fields.fieldsInfo.length > 0;
+		return v('div',
+			{
+				classes: `${bs.dFlex} ${bs.mw100} ${bs.border}`,
+				styles: {
+					minWidth: '500px',
+					minHeight: '250px',
+					overflow: 'auto hidden'
+				}
+			},
+			isDataLoaded
+				? [this.renderGrid()]
+				: [this.renderNoDataBanner()]
+		);
+	}
+
+	protected renderGrid(): DNode {
+		const {rows, fields, loadingStatus} = this.properties;
+		const contextName = this.properties.context.name;
+		const gridComponents: DNode[] = [w(ColumnHeaders, {contextName, rowFields: fields})];
+		rows.rows.forEach((item: {}, rowIndex: number) => {
+			gridComponents.push(
+				w(RowContainer, {
 					contextName,
 					rowIndex,
 					key: `row-${rowIndex}-${Math.ceil(Math.random() * 1000)}`
 				}));
-			});
-		} else {
-			gridComponents.push(w(NoData, {}));
-		}
-		let classes = `${bs.border} `;
-		if (this.properties.loadingStatus === LoadingStatusEnum.loading) {
+		});
+		let classes = ` `;
+		if (loadingStatus === LoadingStatusEnum.loading) {
 			classes += ownCss.loading;
 		}
-		return v('div',
-			{classes: `${bs.mw100} ${bs.overflowAuto}`},
-			[
-				v('table', {
-					classes,
-					styles: {
-						minWidth: '500px',
-						minHeight: '250px',
-					}
-				}, gridComponents)
-			]);
+		return v('table',
+			{
+				classes,
+			},
+			gridComponents);
+	}
+
+	protected renderNoDataBanner(): DNode {
+		return w(NoData, {});
 	}
 }

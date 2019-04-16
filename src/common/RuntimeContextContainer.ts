@@ -5,9 +5,9 @@ import { w } from '@dojo/framework/widget-core/d';
 import beforeProperties from '@dojo/framework/widget-core/decorators/beforeProperties';
 
 export type RuntimeContextContainer<T extends WidgetBase> =
-	Constructor<WidgetBase<Partial<T['properties']> & RuntimeNamedContextContainerProps>>;
+	Constructor<WidgetBase<Partial<T['properties']> & RuntimeContextContainerProps>>;
 
-export interface RuntimeNamedContextContainerProps {
+export interface RuntimeContextContainerProps {
 	contextName: RegistryLabel;
 }
 
@@ -15,7 +15,7 @@ export function RuntimeContextContainer<W extends WidgetBase>(
 	component: Constructor<W> | RegistryLabel,
 	{getProperties}: { getProperties: GetProperties }
 ): RuntimeContextContainer<W> {
-	class InjectProviderWidget extends WidgetBase<Partial<W['properties']> & RuntimeNamedContextContainerProps> {
+	class InjectProviderWidget extends WidgetBase<Partial<W['properties']> & RuntimeContextContainerProps> {
 		protected render(): DNode {
 			const {contextName} = this.properties;
 

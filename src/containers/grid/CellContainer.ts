@@ -10,9 +10,9 @@ function getValueFromGridContext(context: GridContext, rowIndex: number, columnI
 }
 
 function getProperties(inject: GridContext, properties: CellProps): CellProps {
-	const {rowIndex, columnIndex, key, contextName} = properties;
+	const {rowIndex, columnIndex, key, contextName, isSelected} = properties;
 	const value = getValueFromGridContext(inject, rowIndex, columnIndex);
-	const {isEditable, minWidth} = inject.rowFields.fieldsInfo[columnIndex];
+	const {isEditable, minWidth, renderer} = inject.rowFields.fieldsInfo[columnIndex];
 	return {
 		value,
 		rowIndex,
@@ -20,7 +20,9 @@ function getProperties(inject: GridContext, properties: CellProps): CellProps {
 		key,
 		isEditable,
 		minWidth,
-		contextName
+		contextName,
+		renderer,
+		isSelected
 	};
 }
 
