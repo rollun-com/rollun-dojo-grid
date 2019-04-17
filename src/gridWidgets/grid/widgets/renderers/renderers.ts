@@ -2,7 +2,8 @@ import { DNode } from '@dojo/framework/widget-core/interfaces';
 import { v } from '@dojo/framework/widget-core/d';
 
 export function dateTimeToHumanFriendlyNameRenderer(value: string): DNode {
-	return (new Date(value)).toUTCString();
+	const miliseconds = parseInt(value, 10) * 1000;
+	return (new Date(miliseconds)).toUTCString();
 }
 
 export function linkToImageRenderer(link: string): DNode {

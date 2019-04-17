@@ -11,7 +11,7 @@ export interface FieldInfo {
 	editor?: GridCellEditor;
 }
 
-export type GridCellEditor =  Constructor<WidgetBase<CellEditorProps>>;
+export type GridCellEditor =  Constructor<WidgetBase<Partial<CellEditorProps>>>;
 
 export interface RowFields { // headers for each column, starting from 1
 	fieldsInfo: FieldInfo[]; // [0] corresponds to first column

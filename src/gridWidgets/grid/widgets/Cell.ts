@@ -23,13 +23,12 @@ export class Cell extends WidgetBase<CellProps> {
 	private isEdited: boolean;
 
 	protected render(): DNode {
-		const value = this.getValue();
 		return v('td',
 			this.getCellNodeProperties(),
 			[
-				this.properties.isSelected
-					? this.addTooltip(value)
-					: value
+				this.properties.isSelected && !this.isEdited
+					? this.addTooltipToValue()
+					: this.getProcessedValue()
 			]
 		);
 	}
@@ -53,9 +52,9 @@ export class Cell extends WidgetBase<CellProps> {
 		return cellNodeProps;
 	}
 
-	protected getValue(): DNode {
+	protected getProcessedValue(): DNode {
+		const {rowIndex, columnIndex, contextName, editor, value} = this.properties;
 		if (this.isEdited) {
-			const {rowIndex, columnIndex, contextName, editor} = this.properties;
 			const onStopEditing = () => {
 				this.isEdited = false;
 				this.invalidate();
@@ -63,17 +62,18 @@ export class Cell extends WidgetBase<CellProps> {
 			return w(editor ? editor : CellEditorContainer, {contextName, rowIndex, columnIndex, onStopEditing});
 		} else {
 			return this.properties.renderer
-				? this.properties.renderer(this.properties.value)
-				: this.properties.value;
+				? this.properties.renderer(value)
+				: value;
 
 		}
 	}
 
-	protected addTooltip(value: DNode): DNode {
+	protected addTooltipToValue(): DNode {
+		const {value} = this.properties;
 		return v('div',
 			{classes: `${ownCss.tooltip}`},
 			[
-				value,
+				this.getProcessedValue(),
 				v('span',
 					{classes: `${ownCss.tooltipText}`},
 					[

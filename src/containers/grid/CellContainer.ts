@@ -12,7 +12,7 @@ function getValueFromGridContext(context: GridContext, rowIndex: number, columnI
 function getProperties(inject: GridContext, properties: CellProps): CellProps {
 	const {rowIndex, columnIndex, key, contextName, isSelected} = properties;
 	const value = getValueFromGridContext(inject, rowIndex, columnIndex);
-	const {isEditable, minWidth, renderer} = inject.rowFields.fieldsInfo[columnIndex];
+	const {isEditable, minWidth, renderer, editor} = inject.rowFields.fieldsInfo[columnIndex];
 	return {
 		value,
 		rowIndex,
@@ -22,7 +22,8 @@ function getProperties(inject: GridContext, properties: CellProps): CellProps {
 		minWidth,
 		contextName,
 		renderer,
-		isSelected
+		isSelected,
+		editor
 	};
 }
 
